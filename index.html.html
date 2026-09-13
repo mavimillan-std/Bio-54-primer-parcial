@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BioCore Academy: Operación Unidades 1 y 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bio: { 50: '#ecfdf5', 100: '#d1fae5', 400: '#34d399', 500: '#10b981', 600: '#059669', 800: '#065f46', 900: '#022c22' },
+            dna: { cyan: '#06b6d4', purple: '#8b5cf6', amber: '#f59e0b', crimson: '#ef4444' }
+          },
+          fontFamily: { mono: ['Courier New', 'Courier', 'monospace'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.35); } 50% { box-shadow: 0 0 25px rgba(6, 182, 212, 0.6); } }
+    @keyframes medalShine { 0% { transform: scale(0.85) rotate(-5deg); filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.3)); } 50% { transform: scale(1.08) rotate(3deg); filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.9)); } 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.5)); } }
+    .bio-glow { animation: pulseGlow 3s infinite ease-in-out; }
+    .medal-award-anim { animation: medalShine 1.2s ease-out forwards; }
+    .custom-scroll::-webkit-scrollbar { width: 6px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background-color: #059669; border-radius: 9999px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #0f172a; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-900 custom-scroll">
+
+  <header class="border-b border-emerald-900/60 bg-slate-900/90 backdrop-blur sticky top-0 z-40 px-4 py-3">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="window.game.showHome()">
+        <div class="w-10 h-10 rounded-lg bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-400 font-bold text-xl bio-glow">🧬</div>
+        <div>
+          <h1 class="text-lg font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">BIOCORE // PRE-PARCIAL INTEGRAL</h1>
+          <div class="flex items-center space-x-2">
+            <p class="text-xs text-slate-400 tracking-wider font-mono">UNIDADES 1 Y 2 • 23 NIVELES</p>
+            <span class="hidden sm:inline text-slate-600">•</span>
+            <div id="save-status-indicator" class="hidden sm:flex items-center space-x-1.5 text-[10px] font-mono text-emerald-400">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span id="save-status-text">Guardado local activo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2 sm:space-x-3 text-sm font-mono">
+        <div class="flex items-center space-x-1 bg-slate-800/80 px-2.5 sm:px-3 py-1.5 rounded-full border border-slate-700" title="Vidas disponibles">
+          <span id="hearts-display" class="text-red-500 tracking-widest text-sm sm:text-base">❤️❤️❤️</span>
+        </div>
+        <button onclick="window.game.showShowcase()" class="flex items-center space-x-1.5 bg-gradient-to-r from-amber-500/10 to-amber-400/20 hover:from-amber-500/20 hover:to-amber-400/30 border border-amber-500/40 px-2.5 sm:px-3 py-1.5 rounded-full transition group" title="Ver Vitrina de Insignias">
+          <span class="text-amber-400 group-hover:scale-110 transition">🏅</span>
+          <span id="medals-count-display" class="text-amber-300 font-bold text-xs">0/23</span>
+        </button>
+        <div class="hidden md:flex items-center space-x-2 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700">
+          <span class="text-amber-400">⚡</span>
+          <span id="score-display" class="text-emerald-300 font-bold">0 pts</span>
+        </div>
+        <button id="sound-btn" onclick="window.sound.toggle()" class="p-2 bg-slate-800 hover:bg-slate-700 rounded-full border border-slate-700 text-slate-300 transition" title="Activar/Silenciar sonido">🔊</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="app" class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center"></main>
+
+  <div id="custom-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl animate-fade-in">
+      <div id="modal-icon" class="text-3xl mb-2">ℹ️</div>
+      <h3 id="modal-title" class="text-lg font-bold text-white mb-2 font-mono">Mensaje</h3>
+      <p id="modal-message" class="text-sm text-slate-300 leading-relaxed mb-6"></p>
+      <div id="modal-actions" class="flex justify-end gap-3 font-mono text-xs font-bold"></div>
+    </div>
+  </div>
+
+   <!-- Footer original -->
+  <footer class="border-t border-slate-900 bg-slate-950 py-3 text-center text-xs text-slate-500 font-mono">
+    Biología Celular & Molecular • Persistencia local automática
+  </footer>
+
+  <!-- Sección de contacto y apoyo -->
+  <section class="border-t border-slate-900 bg-slate-950/80 px-4 py-6">
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+      
+      <!-- Tarjeta Instagram -->
+      <a href="https://www.instagram.com/lourmv.mi/" target="_blank" rel="noopener noreferrer"
+         class="group flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-amber-500/10 border border-pink-500/30 hover:border-pink-400/60 hover:from-pink-500/20 hover:to-amber-500/20 transition shadow-lg">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-500 to-amber-400 flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-110 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+            <path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.3-.6.7-.8 1.2-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.3.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.3.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.3-.4-.7-.6-1.2-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.1a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4zm5.3-2.9a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <p class="text-xs font-mono text-pink-400 uppercase tracking-widest font-bold">Dudas, consultas, sugerencias</p>
+          <p class="text-sm font-bold text-white mt-0.5">@lourmv.mi</p>
+          <p class="text-[11px] text-slate-400 font-mono mt-0.5">Seguime en Instagram →</p>
+        </div>
+      </a>
+
+      <!-- Tarjeta Cafecito -->
+      <a href="https://cafecito.app/lourmv_biotec" target="_blank" rel="noopener noreferrer"
+         class="group flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 border border-amber-500/30 hover:border-amber-400/60 hover:from-amber-500/20 hover:to-yellow-500/20 transition shadow-lg">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-110 transition">
+          ☕
+        </div>
+        <div class="flex-1">
+          <p class="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">Apoyá el proyecto</p>
+          <p class="text-sm font-bold text-white mt-0.5">Invitame un cafecito</p>
+          <p class="text-[11px] text-slate-400 font-mono mt-0.5 leading-snug">Si te gustó / ayudó a estudiar o zafar del primer parcial, podés ayudarme a sostenerlo y seguir ampliando para el siguiente parcial / final o para crear otra materia →</p>
+        </div>
+      </a>
+
+    </div>
+    <p class="text-center text-[10px] text-slate-600 font-mono mt-4">Hecho con 💚 para estudiantes de medicina y ciencias de la salud</p>
+  </section>
+
+  <script>
+    // ============================================
+    // SISTEMA DE SONIDO
+    // ============================================
+    const sound = {
+      enabled: true, ctx: null,
+      init() { if (!this.ctx) { const AC = window.AudioContext || window.webkitAudioContext; this.ctx = new AC(); } },
+      toggle() { this.enabled = !this.enabled; document.getElementById('sound-btn').innerText = this.enabled ? '🔊' : '🔇'; },
+      playTone(freq, type = 'sine', duration = 0.15, delay = 0) {
+        if (!this.enabled) return; this.init();
+        setTimeout(() => {
+          try {
+            const osc = this.ctx.createOscillator(); const gain = this.ctx.createGain();
+            osc.type = type; osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+            osc.connect(gain); gain.connect(this.ctx.destination);
+            osc.start(); osc.stop(this.ctx.currentTime + duration);
+          } catch(e) {}
+        }, delay * 1000);
+      },
+      correct() { this.playTone(523.25, 'triangle', 0.1, 0); this.playTone(659.25, 'triangle', 0.15, 0.08); this.playTone(783.99, 'triangle', 0.25, 0.16); },
+      wrong() { this.playTone(220, 'sawtooth', 0.15, 0); this.playTone(196, 'sawtooth', 0.25, 0.12); },
+      fanfare() { [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => this.playTone(f, 'triangle', 0.25, i * 0.12)); setTimeout(() => this.playTone(1046.50, 'square', 0.5, 0.48), 50); }
+    };
+    window.sound = sound;
+
+    // ============================================
+    // BASE DE DATOS DE NIVELES (23 NIVELES)
+    // ============================================
+    const LEVELS = [
+      // ================= UNIDAD 1 =================
+      {
+        id: 1, unit: 1,
+        title: "NIVEL 1: Biología, Salud y Evolución Química",
+        subtitle: "Atmósfera reductora primitiva, Miller-Urey y Mundo de ARN",
+        badge: "🧪",
+        medal: { id: "m1", name: "Chispa Primordial", icon: "⚡", color: "from-amber-400 to-yellow-600", border: "border-amber-400", desc: "Demostró maestría en síntesis prebiótica (Oparin-Haldane), experiencia de Miller-Urey (1953) y catálisis con ribozimas." },
+        summary: "La Tierra primitiva (~4.600 Ma) carecía de O₂ libre y poseía gases reductores (CH₄, NH₃, H₂, H₂O vapor). La energía de rayos UV, volcanes y relámpagos formó una 'sopa orgánica'. Miller y Urey (1953) sintetizaron aminoácidos abióticamente. Oparin propuso los coacervados y Fox las microesferas proteinoides. La hipótesis del Mundo de ARN postula que el ARN fue la primera molécula capaz de almacenar información y catalizar reacciones químicas (ribozima).",
+        questions: [
+          { type: "mc", prompt: "¿Cuál de las siguientes mezclas gaseosas fue empleada en el aparato hermético de Miller y Urey para simular la atmósfera reductora?", options: ["Metano (CH₄), amoníaco (NH₃), hidrógeno (H₂) y vapor de agua (H₂O)", "Dióxido de carbono (CO₂), oxígeno libre (O₂), nitrógeno molecular (N₂) y vapor de agua", "Ozono (O₃), monóxido de carbono (CO), helio y metano", "Ácido clorhídrico, metano, oxígeno diatómico y azufre gaseoso"], correct: 0, feedback: "Miller y Urey simularon una atmósfera reductora sin oxígeno libre utilizando CH₄, NH₃, H₂ y H₂O gaseoso." },
+          { type: "tf", prompt: "La hipótesis del 'Mundo de ARN' resuelve el dilema evolutivo de qué surgió primero (ADN o proteínas) porque el ARN puede almacenar genoma y actuar como enzima (ribozima).", correct: true, feedback: "Verdadero. Al plegarse tridimensionalmente, el ARN actúa como catalizador biológico con actividad de ribozima sin requerir proteínas previas." },
+          { type: "cloze", prompt: "Las gotas microscópicas delimitadas por una membrana rudimentaria formadas espontáneamente en solución coloidal propuestas por Oparin se denominan ____________.", accepted: ["coacervados", "coacervado"], hint: "Comienza con 'C' y describe agregados prebióticos de macromoléculas.", feedback: "Aleksandr Oparin las denominó coacervados, modelos clave para explicar los primeros protobiontes." },
+          { type: "mc", prompt: "En medicina y ciencias de la salud, ¿cuál es el principio biológico que explica la acción terapéutica de los fármacos antibióticos y anestésicos?", options: ["La interacción fisicoquímica específica con dianas moleculares celulares (receptores, enzimas o lípidos)", "La mutación espontánea inducida en el genoma del hospedador eucariota", "La creación de nuevas barreras de aislamiento reproductivo en el paciente", "La transformación abiótica de aminoácidos en microesferas proteinoides"], correct: 0, feedback: "La farmacología molecular se sustenta en que los fármacos actúan uniéndose a dianas biológicas celulares precisas para restaurar la homeostasis." },
+          { type: "tf", prompt: "Sidney Fox obtuvo coacervados calentando mezclas acuosas de lípidos y glucosa bajo radiación ultravioleta continua.", correct: false, feedback: "Falso. Sidney Fox obtuvo 'microesferas proteinoides' al calentar mezclas secas de aminoácidos y luego disolver los polímeros en agua templada." },
+          { type: "cloze", prompt: "Los monómeros orgánicos fundamentales que forman las proteínas y que fueron obtenidos espontáneamente en el experimento de Miller-Urey son los ____________.", accepted: ["aminoacidos", "aminoácidos", "aminoacido", "aminoácido"], hint: "Tienen un grupo amino y un carboxilo.", feedback: "Miller y Urey obtuvieron aminoácidos como glicina y alanina, probando la síntesis abiótica de los bloques esenciales." }
+        ]
+      },
+      {
+        id: 2, unit: 1,
+        title: "NIVEL 2: Origen Celular y Teoría Endosimbiótica",
+        subtitle: "Lynn Margulis, mitocondrias, cloroplastos y Teoría Celular",
+        badge: "🦠",
+        medal: { id: "m2", name: "Simbionte Eucariota", icon: "🔬", color: "from-emerald-400 to-teal-600", border: "border-emerald-400", desc: "Dominó el origen procariota de las organelas de doble membrana y los cuatro postulados universales de la Teoría Celular." },
+        summary: "Lynn Margulis postuló la Teoría Endosimbiótica: eucariotas surgieron por fagocitosis de bacterias aeróbicas (futuras mitocondrias) y cianobacterias fotosintéticas (cloroplastos). Evidencias: ADN propio circular desnudo, ribosomas 70S bacterianos, fisión binaria independiente y doble membrana. La Teoría Celular (Schleiden, Schwann y Virchow) dicta: unidad anatómica, funcional, de origen ('Omnis cellula e cellula') y genética.",
+        questions: [
+          { type: "mc", prompt: "¿Cuál de las siguientes características moleculares y estructurales NO corresponde a las mitocondrias humanas según la teoría endosimbiótica?", options: ["Poseen ribosomas 80S típicos de las células eucariotas animales", "Poseen su propio cromosoma de ADN circular, bicatenario y desnudo (sin histonas)", "Se dividen dentro del citoplasma por un proceso de fisión binaria idéntico al bacteriano", "Presentan una doble membrana donde la interna contiene lípidos de origen procariota"], correct: 0, feedback: "Las mitocondrias tienen ribosomas 70S (procariotas), no 80S. Esta es una prueba fundamental de su ancestro bacteriano." },
+          { type: "tf", prompt: "El postulado 'Omnis cellula e cellula' de Rudolf Virchow establece que toda célula proviene de la división de otra célula preexistente.", correct: true, feedback: "Verdadero. Virchow consolidó el tercer postulado de la Teoría Celular descartando la generación espontánea." },
+          { type: "cloze", prompt: "El tipo de ribosomas de coeficiente de sedimentación bacteriano que conservan tanto mitocondrias como cloroplastos es el ribosoma ____________.", accepted: ["70s", "70 s"], hint: "Valor numérico seguido de la letra S (en procariotas).", feedback: "Tienen ribosomas 70S, lo que les permite sintetizar parte de sus proteínas de forma independiente al núcleo." },
+          { type: "mc", prompt: "Según la secuenciación filogenética del ARN ribosomal (ARNr), las mitocondrias descienden evolutivamente de:", options: ["Proteobacterias aeróbicas", "Cianobacterias fotosintéticas", "Levaduras unicelulares saprobias", "Arqueas termófilas metanógenas"], correct: 0, feedback: "Las mitocondrias descienden de proteobacterias aeróbicas, mientras que los cloroplastos provienen de cianobacterias." },
+          { type: "cloze", prompt: "La investigadora bióloga que formuló y defendió la Teoría de la Endosimbiosis Seriada es Lynn ____________.", accepted: ["margulis"], hint: "Apellido de la científica estadounidense más influyente en biología celular.", feedback: "Lynn Margulis propuso y sustentó este modelo revolucionario para el origen de la célula eucariota." },
+          { type: "tf", prompt: "Las mitocondrias se replican en sincronía estricta y exclusiva únicamente durante la fase de mitosis nuclear de la célula eucariota.", correct: false, feedback: "Falso. Las mitocondrias se replican de forma autónoma por fisión binaria en el citosol según los requerimientos metabólicos celulares." }
+        ]
+      },
+      {
+        id: 3, unit: 1,
+        title: "NIVEL 3: Los Seres Vivos y Niveles de Organización",
+        subtitle: "Propiedades emergentes, autopoyesis, homeostasis y jerarquía de la materia",
+        badge: "🧬",
+        medal: { id: "m3", name: "Arquitecto Biótico", icon: "🌐", color: "from-blue-400 to-indigo-600", border: "border-blue-400", desc: "Comprendió las propiedades de la vida (autopoyesis, homeostasis) y el orden jerárquico emergente desde subatómico hasta la biosfera." },
+        summary: "Características de los seres vivos: Autopoyesis (capacidad de autogenerarse y mantener sus componentes), Homeostasis (mantener constante su medio interno), Metabolismo (anabolismo y catabolismo), Irritabilidad, Reproducción, Adaptación y Organización celular. La materia se organiza jerárquicamente: subatómico → atómico → molecular → subcelular (organelas) → celular → tisular → órganos → sistemas de órganos → organismo → población → comunidad → ecosistema → biosfera. En cada nivel surgen 'propiedades emergentes'.",
+        questions: [
+          { type: "cloze", prompt: "La propiedad de los sistemas vivos de mantener en equilibrio dinámico y constante su medio físico y químico interno (como temperatura y pH) se denomina ____________.", accepted: ["homeostasis", "homeostasia"], hint: "Concepto fisiológico clave acuñado por Claude Bernard y Walter Cannon.", feedback: "La homeostasis asegura que las condiciones físico-químicas del medio interno celular se mantengan estables para permitir la vida." },
+          { type: "mc", prompt: "¿Cuál de los siguientes pares representa adecuadamente el concepto de 'propiedad emergente' en la transición del nivel molecular al nivel celular?", options: ["La capacidad de llevar a cabo vida independiente y autopoyesis, inexistente en las biomoléculas aisladas", "La presencia de enlaces covalentes entre átomos de carbono e hidrógeno", "El incremento de la masa atómica total de los elementos químicos", "La descomposición espontánea de glucosa en dióxido de carbono y agua"], correct: 0, feedback: "La vida independiente, el metabolismo coordinado y la autopoyesis emergen solo a nivel celular, no en las moléculas aisladas." },
+          { type: "tf", prompt: "Una población se define como el conjunto de organismos de distintas especies que coexisten e interactúan en un mismo hábitat.", correct: false, feedback: "Falso. La población reúne a organismos de la MISMA especie. El conjunto de distintas especies interactuando conforma una 'comunidad'." },
+          { type: "cloze", prompt: "La cualidad única de los seres vivos de fabricar y renovar continuamente sus propios componentes moleculares a partir de energía externa se llama ____________.", accepted: ["autopoyesis", "autopoiesis"], hint: "Término formulado por Maturana y Varela.", feedback: "La autopoyesis (auto-creación) define estructural y operacionalmente a un ser vivo según la biología contemporánea." },
+          { type: "mc", prompt: "¿Cuál de los siguientes ejemplos corresponde estrictamente al nivel de organización SUB-CELULAR (organelas)?", options: ["Mitocondrias, ribosomas y aparato de Golgi", "Una neurona piramidal de la corteza cerebral", "Tejido epitelial estratificado queratinizado", "Una molécula de hemoglobina unida a oxígeno"], correct: 0, feedback: "Las organelas macromoleculares como mitocondrias y ribosomas integran el nivel subcelular, mientras que la neurona es celular y la hemoglobina es molecular." },
+          { type: "tf", prompt: "Un ecosistema engloba tanto a los factores bióticos (la comunidad biológica) como a los factores abióticos (el entorno físico inerte).", correct: true, feedback: "Verdadero. El ecosistema resulta de la interacción dinámica entre la biocenosis (comunidad) y el biotopo (medio abiótico)." }
+        ]
+      },
+      {
+        id: 4, unit: 1,
+        title: "NIVEL 4: Taxonomía y los Reinos de la Naturaleza",
+        subtitle: "Los 3 Dominios de Woese y la clasificación en Cinco Reinos",
+        badge: "🌿",
+        medal: { id: "m4", name: "Taxónomo Maestro", icon: "👑", color: "from-green-400 to-emerald-700", border: "border-green-400", desc: "Identificó los 3 Dominios (Bacteria, Archaea, Eukarya) y distinguió Monera, Protista, Fungi, Plantae y Animalia." },
+        summary: "Carl Woese estableció 3 Dominios: Bacteria, Archaea (procariotas extremófilos) y Eukarya. Los 5 Reinos tradicionales: Monera (procariotas unicelulares, pared peptidoglicano, nutrición diversa; ej. E. coli, cianobacterias), Protista (eucariotas uni o pluricelulares simples sin tejidos; ej. Amoeba, Euglena, algas unicelulares), Fungi (heterótrofos por absorción extracelular, saprobios, pared de QUITINA; ej. levaduras, mohos), Plantae (autótrofos fotosintéticos, pluricelulares con tejidos, pared de CELULOSA; ej. musgos, angiospermas), Animalia (heterótrofos por ingestión activa, sin pared celular; ej. esponjas, mamíferos).",
+        questions: [
+          { type: "mc", prompt: "Un hongo filamentoso como el moho negro del pan (Rhizopus) y una levadura (Saccharomyces) se clasifican en el reino Fungi porque:", options: ["Son eucariotas heterótrofos por absorción extracelular y poseen pared celular de quitina", "Son procariotas autótrofos fotosintéticos con pared de peptidoglicano", "Son organismos pluricelulares que realizan ingestión fagocítica interna sin pared celular", "Son eucariotas autótrofos que acumulan almidón y poseen pared de celulosa"], correct: 0, feedback: "Los hongos son heterótrofos absortivos (saprobios o parásitos) y su pared está compuesta por quitina." },
+          { type: "tf", prompt: "Las cianobacterias se clasifican en el reino Plantae debido a que realizan fotosíntesis oxigénica mediante cloroplastos delimitados.", correct: false, feedback: "Falso. Las cianobacterias carecen de núcleo y organelas membranosas; son procariotas pertenecientes al reino Monera (Dominio Bacteria)." },
+          { type: "cloze", prompt: "El dominio propuesto por Carl Woese que agrupa a procariotas adaptados a condiciones ambientales extremas (metanógenos, halófilos) es ____________.", accepted: ["archaea", "arqueas", "arquea"], hint: "Uno de los tres dominios, etimológicamente vinculado a lo 'antiguo'.", feedback: "El Dominio Archaea reúne a procariotas con lípidos de membrana y maquinaria transcripcional distintiva adaptados a hábitats extremos." },
+          { type: "mc", prompt: "¿Cuál de los siguientes organismos pertenece al reino Protista?", options: ["Amoeba proteus y Paramecium caudatum", "Escherichia coli y Streptococcus pneumoniae", "Saccharomyces cerevisiae y Agaricus bisporus", "Homo sapiens y Canis lupus familiaris"], correct: 0, feedback: "Amebas y paramecios son organismos eucariotas unicelulares heterótrofos agrupados en el reino Protista." },
+          { type: "cloze", prompt: "El principal polisacárido que integra la pared celular de los organismos del reino Plantae es la ____________.", accepted: ["celulosa"], hint: "Polímero insoluble de glucosa con enlaces beta(1-4).", feedback: "La celulosa forma microfibrillas rígidas que protegen y dan sostén a las células vegetales." },
+          { type: "tf", prompt: "Las células de los organismos del reino Animalia carecen por completo de pared celular rígida exterior.", correct: true, feedback: "Verdadero. Las células animales no tienen pared celular, lo que les permite mayor plasticidad y movilidad tisular." }
+        ]
+      },
+      {
+        id: 5, unit: 1,
+        title: "NIVEL 5: Fisicoquímica Celular: Carbono, Agua y Minerales",
+        subtitle: "Tetravalencia, dipolos hídricos, amortiguadores térmicos y buffers iónicos",
+        badge: "💧",
+        medal: { id: "m5", name: "Puente de Hidrógeno", icon: "❄️", color: "from-cyan-400 to-blue-600", border: "border-cyan-400", desc: "Dominó la termorregulación por calor de vaporización, la densidad anómala a 4°C y la acción de los amortiguadores de pH celular." },
+        summary: "Carbono (Z=6): 4 electrones de valencia, geometría tetraédrica, enlaces estables consigo mismo y bioelementos (H, O, N, P, S). Agua (H₂O): 70-80% peso celular, dipolo asimétrico que forma puentes de hidrógeno dinámicos. Propiedades biológicas: disolvente universal de sustancias polares/iónicas; alto calor específico (amortiguador térmico); alto calor de vaporización (termorregulación por transpiración); densidad anómala (máxima a 4°C, hielo flota como aislante térmico); reactivo en hidrólisis. Iones: Na+/K+ (potencial de membrana y volumen), Ca2+ (segundo mensajero y contracción), Mg2+ (cofactor de polimerasas), fosfatos y bicarbonatos (buffers fisiológicos).",
+        questions: [
+          { type: "mc", prompt: "¿Por qué el agua líquida es capaz de amortiguar variaciones bruscas de temperatura dentro de la célula frente al calor metabólico?", options: ["Porque posee un elevado calor específico que requiere absorber gran cantidad de calor para romper su red de puentes de hidrógeno", "Porque reacciona covalentemente con los lípidos de membrana absorbiendo energía mecánica", "Porque se disocia instantáneamente en protones H⁺ y oxhidrilos OH⁻ neutralizando el entorno", "Debido a su baja constante dieléctrica que acelera la precipitación de sales"], correct: 0, feedback: "Su elevado calor específico le permite absorber o liberar mucho calor modificando muy poco su propia temperatura, protegiendo las enzimas." },
+          { type: "cloze", prompt: "El número atómico del carbono es Z=6 y posee ____________ electrones en su capa de valencia que le confieren tetravalencia.", accepted: ["4", "cuatro"], hint: "Cantidad de enlaces covalentes que puede formar simultáneamente.", feedback: "El carbono posee 4 electrones en su última capa, formando 4 enlaces covalentes fuertes con disposición tetraédrica." },
+          { type: "tf", prompt: "A 0 °C, el hielo es más denso que el agua líquida a 4 °C, por lo que se hunde al fondo de los lagos facilitando la congelación total del ecosistema.", correct: false, feedback: "Falso. El hielo es MENOS denso porque los puentes de H forman una red cristalina abierta; flota en la superficie y actúa como aislante térmico." },
+          { type: "mc", prompt: "En la contracción del miocito cardíaco y en la exocitosis de neurotransmisores, ¿qué ion actúa como segundo mensajero clave?", options: ["Calcio (Ca²⁺)", "Sodio (Na⁺)", "Cloruro (Cl⁻)", "Potasio (K⁺)"], correct: 0, feedback: "El ion Ca²⁺ es el transductor y segundo mensajero intracelular por excelencia en la contracción muscular y secreción vesicular." },
+          { type: "cloze", prompt: "Los sistemas químicos que estabilizan el pH intracelular y sanguíneo captando o liberando H⁺ (como el bicarbonato y fosfato) se denominan amortiguadores o ____________.", accepted: ["buffers", "tampones", "buffer", "tampon", "tampón"], hint: "Concepto químico de regulación ácidobase.", feedback: "Los buffers amortiguan cambios bruscos de pH que de otro modo desnaturalizarían las proteínas celulares." },
+          { type: "tf", prompt: "En las reacciones celulares de hidrólisis, el agua interviene de forma directa como reactivo para romper enlaces covalentes.", correct: true, feedback: "Verdadero. La hidrólisis rompe uniones macromoleculares mediante la incorporación de una molécula de agua (H y OH)." }
+        ]
+      },
+      {
+        id: 6, unit: 1,
+        title: "NIVEL 6: Ácidos Nucleicos: ADN, ARN y Código Genético",
+        subtitle: "Monómeros, enlace fosfodiéster 3'->5' y reglas cuantitativas de Chargaff",
+        badge: "🧬",
+        medal: { id: "m6", name: "Arquitecto Genómico", icon: "🔬", color: "from-purple-400 to-indigo-600", border: "border-purple-400", desc: "Dominó el apareamiento antiparalelo, los 3 puentes H entre Guanina-Citosina y el enlace fosfodiéster direccional." },
+        summary: "Nucleótido: Pentosa (ribosa en ARN con 2'-OH; desoxirribosa en ADN con 2'-H), Base nitrogenada en C1' (Purinas: A, G; Pirimidinas: C, T en ADN, U en ARN) y Grupo fosfato en C5'. Enlace fosfodiéster 3'→5': une el fosfato en C5' con el OH en C3' previo, dando polaridad con extremos 5'-fosfato y 3'-OH libres. ADN: doble hélice antiparalela, muy estable, porta la información hereditaria a largo plazo. ARN: monocatenario flexible, expresión génica (ARNm, ARNt, ARNr). Reglas de Chargaff: A=T (2 puentes de H), G=C (3 puentes de H, mayor estabilidad térmica).",
+        questions: [
+          { type: "mc", prompt: "Si un fragmento de ADN bicatenario contiene un 28% de bases de Timina, ¿cuál es el porcentaje exacto de Guanina en dicha molécula?", options: ["22%", "28%", "44%", "14%"], correct: 0, feedback: "Por Chargaff: T=28%, luego A=28% (A+T=56%). El restante 44% corresponde a G+C en partes iguales: G=22% y C=22%." },
+          { type: "cloze", prompt: "El enlace covalente que une nucleótidos sucesivos conectando el extremo 5'-fosfato con el grupo 3'-OH precedente es el enlace ____________.", accepted: ["fosfodiester", "fosfodiéster"], hint: "Unión que forma el esqueleto azúcar-fosfato de los ácidos nucleicos.", feedback: "El enlace fosfodiéster polimeriza los nucleótidos otorgando direccionalidad 5' → 3'." },
+          { type: "tf", prompt: "El par de bases Guanina-Citosina se une mediante dos puentes de hidrógeno, por lo que desnaturaliza a menor temperatura que el par Adenina-Timina.", correct: false, feedback: "Falso. G-C se une mediante TRES puentes de hidrógeno, lo que le otorga mayor estabilidad mecánica y termo-resistencia que A-T (que solo tiene dos)." },
+          { type: "mc", prompt: "¿Cuál es la diferencia química estructural entre la pentosa del ARN y la del ADN?", options: ["El ARN posee ribosa con un grupo hidroxilo (-OH) en el carbono 2', mientras la desoxirribosa del ADN tiene un hidrógeno (-H)", "El ADN tiene una hexosa de 6 carbonos y el ARN una triosa lineal", "El ARN posee una base nitrogenada en el carbono 5' y el ADN en el carbono 3'", "La desoxirribosa posee dos grupos fosfatos unidos al carbono anomérico"], correct: 0, feedback: "La ribosa posee -OH en C2', haciéndola más reactiva y lábil; la desoxirribosa carece de ese oxígeno (-H), otorgando estabilidad química al genoma." },
+          { type: "cloze", prompt: "La base nitrogenada pirimidínica exclusiva presente en el ARN que reemplaza a la timina del ADN es el ____________.", accepted: ["uracilo"], hint: "Comienza con la letra U.", feedback: "El uracilo es la pirimidina del ARN que se aparea de manera complementaria con la adenina." },
+          { type: "tf", prompt: "La síntesis y elongación enzimática de las cadenas de ácidos nucleicos ocurre indefectiblemente en dirección 5' a 3'.", correct: true, feedback: "Verdadero. Las polimerasas añaden nuevos nucleótidos exclusivamente sobre el extremo 3'-OH libre de la cadena en crecimiento." }
+        ]
+      },
+      {
+        id: 7, unit: 1,
+        title: "NIVEL 7: Hidratos de Carbono: Combustible y Estructura",
+        subtitle: "Monosacáridos, anómeros alfa/beta, enlace glicosídico, glucógeno y celulosa",
+        badge: "🍞",
+        medal: { id: "m7", name: "Dinamo Glucídico", icon: "⚡", color: "from-amber-400 to-orange-600", border: "border-amber-400", desc: "Diferenció los enlaces alfa hidrolizables del glucógeno/almidón de los enlaces beta estructurales de la celulosa vegetal." },
+        summary: "Glúcidos (CH₂O)n: combustible primario de oxidación inmediata para transferir energía al ATP. Monosacáridos: aldosas (grupo aldehído en C1; ej. glucosa, galactosa) o cetosas (grupo cetona en C2; ej. fructosa). Ciclación en agua: anómero α (hidroxilo anomérico hacia abajo) y anómero β (hacia arriba). Disacáridos: condensación con enlace O-glicosídico liberando H₂O (Maltosa: α1→4; Lactosa: β1→4; Sacarosa: α1→2). Polisacáridos de reserva (enlaces α fácilmente degradables): almidón en vegetales (amilosa lineal α1→4 y amilopectina ramificada α1→6) y glucógeno en animales (hígado y músculo, muy ramificado cada 8-12 residuos sin alterar la presión osmótica). Polisacáridos estructurales (enlaces β resistentes): celulosa en plantas (cadenas lineales β1→4 unidas por puentes de H) y quitina en hongos/artrópodos.",
+        questions: [
+          { type: "mc", prompt: "¿Por qué el glucógeno y el almidón son polímeros de reserva de fácil movilización en comparación con la celulosa estructural?", options: ["Poseen enlaces glicosídicos de tipo alfa (α) que son hidrolizados con rapidez por las enzimas amilasas del metabolismo", "Carecen de átomos de carbono e hidrógeno en su esqueleto", "Se encuentran unidos covalentemente a los fosfolípidos de la bicapa", "Están formados exclusivamente por monómeros de ribosa monocatenarios"], correct: 0, feedback: "Los enlaces α(1→4) y α(1→6) son fácilmente hidrolizables, permitiendo liberar glucosa inmediata. La celulosa tiene enlaces β(1→4) que resisten nuestras amilasas." },
+          { type: "cloze", prompt: "El disacárido de la leche formado por la unión de beta-D-galactosa y D-glucosa mediante enlace beta(1->4) es la ____________.", accepted: ["lactosa"], hint: "Azúcar cuya digestión requiere de la enzima lactasa en el intestino.", feedback: "La lactosa está constituida por galactosa y glucosa unidas por enlace β(1→4)." },
+          { type: "tf", prompt: "La fructosa es clasificada químicamente como una aldosa debido a que posee su grupo funcional carbonilo en el carbono 1.", correct: false, feedback: "Falso. La fructosa es una cetosa (presenta un grupo cetona en el carbono 2). La glucosa y galactosa sí son aldosas." },
+          { type: "cloze", prompt: "El polisacárido de reserva altamente ramificado que acumula glucosa en hepatocitos y fibras musculares es el ____________.", accepted: ["glucogeno", "glucógeno"], hint: "Equivalente animal del almidón vegetal.", feedback: "El glucógeno permite almacenar miles de glucosas sin crear una hiperosmolaridad citoplasmática que lisaría a la célula." },
+          { type: "mc", prompt: "Cuando una hexosa como la glucosa se cicla en disolución acuosa y su grupo -OH anomérico queda orientado hacia abajo del plano del anillo, se define el estereoisómero:", options: ["Anómero alfa (α)", "Anómero beta (β)", "Isómero levógiro forzado", "Enantiómero anfipático"], correct: 0, feedback: "En la conformación ciclada, si el hidroxilo del carbono anomérico (C1) apunta hacia abajo del plano del anillo es la forma α; hacia arriba es la forma β." },
+          { type: "tf", prompt: "La quitina es un polisacárido estructural constituido por monómeros de N-acetilglucosamina presente en la pared de hongos y exoesqueleto de artrópodos.", correct: true, feedback: "Verdadero. La quitina aporta resistencia mecánica mediante enlaces β(1→4) en el exoesqueleto animal de artrópodos y en hongos." }
+        ]
+      },
+      {
+        id: 8, unit: 1,
+        title: "NIVEL 8: Lípidos: Triglicéridos, Fosfolípidos y Membranas",
+        subtitle: "Reserva anhidra, carácter anfipático, bicapa lipídica y colesterol",
+        badge: "🧫",
+        medal: { id: "m8", name: "Bicapa Anfipática", icon: "🛡️", color: "from-blue-400 to-cyan-700", border: "border-cyan-400", desc: "Explicó la naturaleza anfipática de los fosfolípidos, el efecto hidrofóbico en bicapas y la modulación de fluidez por colesterol." },
+        summary: "Triglicéridos (triacilgliceroles): 1 glicerol unido por enlaces éster a 3 ácidos grasos. Función: reserva de energía a largo plazo (altamente reducidos y sin agua de hidratación / anhidros, rinden más del doble de kcal/g que glúcidos). Fosfolípidos: glicerol + 2 ácidos grasos + grupo fosfato con cabeza polar (R). Son anfipáticos (cabeza polar hidrofílica y dos colas apolares hidrofóbicas). En agua se autoensamblan espontáneamente en bicapas lipídicas (barrera semipermeable celular). Esteroides: 4 anillos hidrocarbonados fusionados. Colesterol: esteroide clave en células animales intercalado en la bicapa para modular la fluidez frente a cambios de temperatura.",
+        questions: [
+          { type: "mc", prompt: "¿Por qué los triglicéridos son notablemente más eficientes para almacenar energía metabólica a largo plazo que el glucógeno?", options: ["Están altamente reducidos químicamente y son hidrofóbicos (se almacenan anhidros sin arrastrar agua)", "Poseen enlaces peptídicos de alta energía fácilmente rompibles en el citosol", "Se transportan disueltos en el plasma sanguíneo libremente sin necesidad de proteínas", "Contienen tres grupos fosfatos de alta reactividad en su extremo 3'"], correct: 0, feedback: "Los lípidos apolares no arrastran peso en agua de hidratación y tienen más electrones en enlaces C-H para oxidar, rindiendo 9 kcal/g frente a 4 kcal/g de glúcidos." },
+          { type: "cloze", prompt: "La propiedad de los fosfolípidos de poseer una región hidrofílica polar y una región hidrofóbica apolar en la misma molécula se denomina carácter ____________.", accepted: ["anfipatico", "anfipático"], hint: "Término que deriva de 'ambos lados' con afinidades opuestas hacia el agua.", feedback: "El carácter anfipático es el motor fisicoquímico que obliga a los fosfolípidos a formar bicapas estables en agua." },
+          { type: "tf", prompt: "El colesterol es un esteroide de cuatro anillos presente en células vegetales que actúa como principal fuente de ATP de degradación rápida.", correct: false, feedback: "Falso. El colesterol es exclusivo de células animales (los vegetales tienen fitoesteroles) y no rinde ATP rápido, sino que modula la fluidez de membrana." },
+          { type: "mc", prompt: "¿Qué ocurre físicamente con las colas apolares de los fosfolípidos al organizarse espontáneamente en una bicapa en medio acuoso?", options: ["Se orientan hacia el interior de la membrana para excluirse mutuamente del contacto con el agua (efecto hidrofóbico)", "Forman puentes de hidrógeno directos con las moléculas de agua extracelulares", "Se condensan liberando iones calcio y sodio hacia el citoplasma", "Se polimerizan mediante enlaces glucosídicos insolubles"], correct: 0, feedback: "El efecto hidrofóbico minimiza el contacto desfavorable con el agua orientando las colas hidrocarbonadas hacia el núcleo interno de la bicapa." },
+          { type: "cloze", prompt: "Los ácidos grasos que carecen de dobles enlaces carbono-carbono y poseen cadenas rectilíneas sólidas a temperatura ambiente se llaman ácidos grasos ____________.", accepted: ["saturados", "saturado"], hint: "Poseen la cantidad máxima posible de hidrógenos.", feedback: "Los ácidos grasos saturados se empaquetan rígidamente por fuerzas de Van der Waals, formando sebos sólidos a temperatura corporal." },
+          { type: "tf", prompt: "Los dobles enlaces en configuración geométrica 'cis' introducen acodamientos rígidos en los ácidos grasos insaturados impidiendo su empaquetamiento.", correct: true, feedback: "Verdadero. Los quiebres de la configuración cis aumentan el espacio entre lípidos, disminuyendo el punto de fusión (aceites fluidos)." }
+        ]
+      },
+      {
+        id: 9, unit: 1,
+        title: "NIVEL 9: Lípidos Complejos: Esfingolípidos y Ceras",
+        subtitle: "Esfingosina, vaina de mielina axonal, glucolípidos y cubiertas impermeables",
+        badge: "🧠",
+        medal: { id: "m9", name: "Guardián de Mielina", icon: "⚡", color: "from-cyan-400 to-teal-700", border: "border-cyan-400", desc: "Reconoció la esfingosina, el aislamiento neuronal por esfingomielina y el rol de reconocimiento de los glucolípidos en el glicocáliz." },
+        summary: "Esfingolípidos: esqueleto de aminoalcohol esfingosina (en lugar de glicerol). Esfingosina + ácido graso = Ceramida. Ceramida + fosfocolina = Esfingomielina (componente fundamental de la vaina aislante de mielina que recubre los axones para conducción saltatoria nerviosa). Glucolípidos (cerebrósidos y gangliósidos): ceramida unida a monosacárido u oligosacáridos, orientados exclusivamente hacia la cara externa de la membrana plasmática celular formando el glicocáliz para reconocimiento celular, dianas de patógenos y especificidad de grupos sanguíneos. Ceras: ésteres de ácido graso de cadena muy larga con alcohol monohidroxílico graso, altamente hidrofóbicas, protegen e impermeabilizan hojas, plumas y piel contra la deshidratación.",
+        questions: [
+          { type: "mc", prompt: "La esfingomielina, lípido crucial para el aislamiento dieléctrico y la velocidad de conducción saltatoria del axón neuronal, se estructura químicamente a partir de:", options: ["Una ceramida unida a un grupo fosfocolina", "Un glicerol esterificado con tres ácidos grasos saturados", "Cuatro anillos de ciclopentanoperhidrofenantreno y glucosa", "Un polímero lineal de glucosa con enlace beta(1-4)"], correct: 0, feedback: "La esfingomielina consta de esfingosina + ácido graso (ceramida) unida a fosfocolina, estructurando la membrana de mielina de células de Schwann y oligodendrocitos." },
+          { type: "cloze", prompt: "La unión covalente de la molécula de aminoalcohol esfingosina con un ácido graso en su grupo amino forma el intermediario lipídico denominado ____________.", accepted: ["ceramida"], hint: "Unidad precursora fundamental de todos los esfingolípidos.", feedback: "La ceramida es la molécula base sobre la cual se acoplan fosfocolina o carbohidratos." },
+          { type: "tf", prompt: "Los glucolípidos de membrana (cerebrósidos y gangliósidos) se localizan orientados preferentemente hacia la cara citoplasmática interna de la membrana plasmática.", correct: false, feedback: "Falso. Se localizan EXCLUSIVAMENTE orientados hacia la cara extracelular, participando en el reconocimiento celular y receptores del glicocáliz." },
+          { type: "mc", prompt: "¿Cuál es la función biológica primordial de las ceras en vegetales (cutícula de hojas y frutos) y en animales (glándula uropígea de aves o cerumen)?", options: ["Formar cubiertas biológicas altamente insolubles que impiden la pérdida de agua por evaporación o la mojabilidad", "Actuar como catalizadores enzimáticos para la síntesis de glucógeno", "Almacenar nucleótidos trifosfatados para la división por mitosis", "Generar gradientes quimiosmóticos de protones transmembrana"], correct: 0, feedback: "Las ceras son ésteres apolares de cadena larga cuya extrema hidrofobicidad provee impermeabilización frente al agua y desecación." },
+          { type: "cloze", prompt: "Los esfingolípidos que contienen cadenas de oligosacáridos con uno o más residuos de ácido siálico (ácido N-acetilneuramínico) se denominan ____________.", accepted: ["gangliosidos", "gangliósidos", "gangliosido", "gangliósido"], hint: "Abundantes en tejido nervioso y receptores de membrana.", feedback: "Los gangliósidos son glucolípidos complejos determinantes para el reconocimiento y transducción de señales en membranas celulares." },
+          { type: "tf", prompt: "La desmielinización en patologías humanas (como la esclerosis múltiple) es una alteración en la arquitectura de esfingolípidos que colapsa la transmisión del impulso nervioso.", correct: true, feedback: "Verdadero. La pérdida de esfingomielina en la vaina axonal destruye la resistencia de membrana e interrumpe la conducción del potencial de acción." }
+        ]
+      },
+      {
+        id: 10, unit: 1,
+        title: "NIVEL 10: Proteínas: Aminoácidos y Enlace Peptídico",
+        subtitle: "Carbono alfa quiral, zwitterión fisiológico y enlace amida plano por resonancia",
+        badge: "🥩",
+        medal: { id: "m10", name: "Enlace Peptídico", icon: "⛓️", color: "from-rose-400 to-pink-600", border: "border-pink-400", desc: "Comprendió el estado dipolar zwitterión a pH 7.4 y el carácter parcial de doble enlace C-N que restringe la rotación." },
+        summary: "Aminoácidos: carbono central (C-alfa) quiral asimétrico (excepto glicina) unido a un grupo amino (-NH₂), un grupo carboxilo (-COOH), un hidrógeno (-H) y una cadena lateral R variable. A pH fisiológico (~7.4) existen como iones dipolares o zwitteriones (-COO⁻ y -NH₃⁺). Enlace peptídico: unión covalente tipo amida entre el -COOH de un aminoácido y el -NH₂ del siguiente, con liberación de H₂O. Por resonancia electrónica, el enlace C-N tiene carácter parcial de doble enlace, lo que restringe la rotación y mantiene los 6 átomos del grupo peptídico en un plano rígido. Las proteínas conjugadas (heteroproteínas) requieren de un grupo prostético no proteico (hemo, lípidos, glúcidos) para su actividad.",
+        questions: [
+          { type: "mc", prompt: "¿Cuál es el nivel estructural proteico en el cual se adquiere la conformación tridimensional final y la actividad funcional biológica específica (como el sitio activo enzimático)?", options: ["Estructura terciaria", "Estructura primaria", "Estructura secundaria", "Estructura cuaternaria"], correct: 0, feedback: "La estructura terciaria representa el plegamiento tridimensional nativo donde se forman los centros de catálisis o reconocimiento celular." },
+          { type: "cloze", prompt: "El único aminoácido que puede formar enlaces covalentes 'puentes disulfuro' para fijar la estructura terciaria es la ____________.", accepted: ["cisteina", "cisteína"], hint: "Contiene un grupo sulfhidrilo (-SH) en su cadena lateral.", feedback: "Los grupos -SH de dos cisteínas se oxidan formando un enlace disulfuro covalente muy resistente." },
+          { type: "tf", prompt: "A un valor de pH exactamente igual a su punto isoeléctrico (pI), una proteína presenta carga neta cero y su solubilidad en solución acuosa alcanza su valor máximo.", correct: false, feedback: "Falso. Al tener carga neta cero, no existen repulsiones electrostáticas entre las moléculas, por lo que su solubilidad cae al mínimo y tiende a precipitar." },
+          { type: "mc", prompt: "¿Qué característica fisicoquímica particular presenta el enlace peptídico (-CO-NH-)?", options: ["Posee carácter parcial de doble enlace por resonancia que impide la libre rotación", "Es un enlace electrostático débil que se rompe espontáneamente a temperatura ambiente", "Es un enlace de tipo éster formado por el azufre de la metionina", "Permite la rotación completa de 360 grados sobre el enlace carbono-nitrógeno"], correct: 0, feedback: "La resonancia electrónica entre el C carbonílico y el N amídico restringe la rotación, obligando a los 6 átomos a permanecer en un plano rígido." },
+          { type: "cloze", prompt: "Las proteínas compuestas formadas por una cadena polipeptídica unida a una porción no proteica llamada grupo prostético se denominan proteínas ____________.", accepted: ["conjugadas", "conjugada"], hint: "Como la hemoglobina con su grupo hemo o las glicoproteínas.", feedback: "Las proteínas conjugadas (o heteroproteínas) requieren de su grupo prostético para cumplir su actividad biológica." },
+          { type: "tf", prompt: "La desnaturalización proteica por calor destruye los enlaces peptídicos de la estructura primaria, fragmentando la cadena en aminoácidos libres.", correct: false, feedback: "Falso. La desnaturalización rompe las interacciones no covalentes (puentes de H, iónicas, hidrofóbicas) y puentes disulfuro, pero los enlaces peptídicos de la estructura primaria se mantienen intactos." }
+        ]
+      },
+      {
+        id: 11, unit: 1,
+        title: "NIVEL 11: Proteínas: Arquitectura 3D y Desnaturalización",
+        subtitle: "Niveles 1° a 4°, puentes disulfuro, pH y punto isoeléctrico (pI)",
+        badge: "🧩",
+        medal: { id: "m11", name: "Plegamiento Nativo", icon: "🧬", color: "from-purple-400 to-rose-600", border: "border-purple-400", desc: "Dominó el plegamiento terciario nativo, el punto isoeléctrico (pI) y los factores de desnaturalización irreversible." },
+        summary: "Estructura primaria: secuencia lineal de aminoácidos dictada por el ADN (su alteración mutacional colapsa la función). Secundaria: plegamiento local (hélice α y hoja plegada β) por puentes de H del esqueleto. Terciaria: plegamiento global 3D estabilizado por interacciones entre cadenas R (puentes disulfuro, hidrofóbicas, iónicas, H). Cuaternaria: asociación de subunidades. Punto isoeléctrico (pI): pH al que la carga neta es cero; la solubilidad es mínima y precipita. Desnaturalización: pérdida de estructura 3D por calor, pH extremo, urea o detergentes; la estructura primaria se conserva.",
+        questions: [
+          { type: "mc", prompt: "¿Qué sucede con una proteína plasmática cuando el pH del medio alcanza exactamente el valor de su punto isoeléctrico (pI)?", options: ["Su carga eléctrica neta es cero, las fuerzas de repulsión electrostática se anulan y su solubilidad cae al mínimo, tendiendo a precipitar", "Adquiere una carga positiva máxima que incrementa violentamente su velocidad de migración electroforética", "Se hidrolizan espontáneamente todos sus enlaces peptídicos liberando aminoácidos libres", "Se duplica la afinidad de su sitio activo por el sustrato celular"], correct: 0, feedback: "Al pI, la carga neta es cero. Al no haber repulsión electrostática entre moléculas, tienden a agregarse y precipitar en solución." },
+          { type: "cloze", prompt: "El único aminoácido capaz de formar enlaces covalentes denominados puentes disulfuro mediante la oxidación de sus grupos sulfhidrilo (-SH) es la ____________.", accepted: ["cisteina", "cisteína"], hint: "Aminoácido azufrado clave para la estabilidad de la estructura terciaria.", feedback: "Dos residuos de cisteína se oxidan formando cistina unida por un puente disulfuro (-S-S-), clave para fijar el plegamiento." },
+          { type: "tf", prompt: "La desnaturalización proteica provocada por temperaturas elevadas implica la ruptura de los enlaces peptídicos de la estructura primaria.", correct: false, feedback: "Falso. La desnaturalización rompe las interacciones no covalentes y puentes disulfuro (2ria, 3ria, 4ria), pero la estructura primaria unida por enlaces peptídicos se mantiene intacta." },
+          { type: "mc", prompt: "¿Cuál de las siguientes fuerzas fisicoquímicas es el motor principal que impulsa el plegamiento tridimensional de una proteína globular soluble en agua?", options: ["Las interacciones hidrofóbicas (las cadenas R no polares se agrupan en el interior excluidas del agua)", "La formación de enlaces éster entre los fosfolípidos y las cadenas R", "La repulsión electrostática continua entre residuos de lisina y arginina", "El apareamiento antiparalelo por complementariedad de bases nitrogenadas"], correct: 0, feedback: "El efecto hidrofóbico es la fuerza impulsora: las cadenas apolares se ocultan del agua en el núcleo de la proteína y las polares se exponen en la superficie." },
+          { type: "cloze", prompt: "Una proteína compuesta que requiere asociarse a una fracción no proteica (como el grupo hemo con hierro en la hemoglobina) se denomina proteína ____________.", accepted: ["conjugada", "conjugadas", "heteroproteina", "heteroproteína"], hint: "Opuesto a proteína simple u holoproteína.", feedback: "Las proteínas conjugadas requieren de su grupo prostético para ejercer su actividad biológica." },
+          { type: "tf", prompt: "La estructura cuaternaria de una proteína se estabiliza exclusivamente mediante enlaces peptídicos entre las subunidades que la componen.", correct: false, feedback: "Falso. La estructura cuaternaria se mantiene por interacciones no covalentes (hidrofóbicas, iónicas, puentes de H) entre las subunidades, no por enlaces peptídicos." }
+        ]
+      },
+      {
+        id: 12, unit: 1,
+        title: "NIVEL 12: Evolución, Genética Poblacional y Especiación",
+        subtitle: "Neodarwinismo, deriva génica, modos de selección y equilibrios puntuados",
+        badge: "🦎",
+        medal: { id: "m12", name: "Selección Adaptativa", icon: "🧬", color: "from-amber-400 to-red-600", border: "border-amber-400", desc: "Teoría sintética, cuello de botella, modos de selección y macroevolución." },
+        summary: "Teoría Sintética: cambio en las frecuencias alélicas del reservorio poblacional. Mutación (fuente primaria de variabilidad azarosa). Deriva génica (cuello de botella y efecto fundador). Flujo génico (migración). Selección natural (único mecanismo que promueve adaptación): direccional, estabilizadora y disruptiva. Especiación: alopátrica, parapátrica y simpátrica. Macroevolución: radiación adaptativa, extinciones masivas y equilibrios puntuados.",
+        questions: [
+          { type: "mc", prompt: "La selección natural que favorece a un único fenotipo extremo desplazando la media poblacional, como ocurre en la resistencia bacteriana a antibióticos, se clasifica como:", options: ["Selección direccional", "Selección estabilizadora", "Selección disruptiva", "Selección neutralista"], correct: 0, feedback: "La selección direccional desplaza la curva fenotípica hacia el extremo ventajoso frente a una presión selectiva constante (como el antibiótico)." },
+          { type: "tf", prompt: "Según la teoría sintética de la evolución, el ambiente induce activamente en los individuos las mutaciones genéticas que resultan beneficiosas para su adaptación.", correct: false, feedback: "Falso. Las mutaciones son cambios azarosos y preadaptativos; el ambiente no crea mutaciones orientadas, sino que selecciona los fenotipos resultantes." },
+          { type: "cloze", prompt: "El cambio brusco y azaroso en las frecuencias alélicas debido a catástrofes ambientales no selectivas que reducen drásticamente la población se denomina cuello de ____________.", accepted: ["botella"], hint: "Metáfora del recipiente estrecho.", feedback: "El efecto de 'cuello de botella' es una forma de deriva génica donde el azar diezma la variabilidad del reservorio original." },
+          { type: "mc", prompt: "¿Cuál de los siguientes mecanismos de aislamiento reproductivo actúa de forma POST-cigótica impidiendo que el híbrido resultante sea fértil?", options: ["Esterilidad del híbrido", "Aislamiento etológico o conductual", "Aislamiento mecánico por incompatibilidad genital", "Aislamiento temporal o estacional"], correct: 0, feedback: "La esterilidad del híbrido (como la mula) es un mecanismo post-cigótico que impide la continuidad del flujo génico." },
+          { type: "cloze", prompt: "La modalidad de especiación que ocurre cuando una barrera geográfica física divide una población original en dos subpoblaciones aisladas se denomina especiación ____________.", accepted: ["alopatrica", "alopátrica"], hint: "Del griego 'alo' = otro, 'patria' = tierra.", feedback: "La especiación alopátrica es la más común y ocurre por aislamiento geográfico seguido de divergencia evolutiva." },
+          { type: "tf", prompt: "Las homologías anatómicas (como el brazo humano y el ala de murciélago) demuestran evolución convergente, no divergente.", correct: false, feedback: "Falso. Las homologías demuestran evolución DIVERGENTE a partir de un antecesor común. Las analogías (ala de insecto y ala de ave) demuestran evolución convergente." }
+        ]
+      },
+      // ================= UNIDAD 2 =================
+      {
+        id: 13, unit: 2,
+        title: "NIVEL 13: Célula Procariota, Eucariota y Agentes Acelulares",
+        subtitle: "Nucleoide vs carioteca, virus, viroides, priones y cultivos celulares",
+        badge: "🦠",
+        medal: { id: "m13", name: "Frontera Celular", icon: "🛡️", color: "from-teal-400 to-emerald-600", border: "border-teal-400", desc: "Diferenció procariotas/eucariotas y comprendió la patogénesis de virus, viroides y priones." },
+        summary: "Procariotas: sin carioteca, nucleoide con ADN circular desnudo, ribosomas 70S, fisión binaria, sin endomembranas ni citoesqueleto complejo. Eucariotas: núcleo con histonas, ribosomas 80S, organelas membranosas, citoesqueleto, división por mitosis/meiosis. Virus: ácido nucleico (ADN o ARN) + cápside proteica, carecen de metabolismo propio, parásitos intracelulares obligados. Viroides: ARN circular monocatenario sin cápside. Priones: proteína infecciosa mal plegada (PrP^Sc), sin ácidos nucleicos, causante de encefalopatías espongiformes. Cultivos celulares: primarios (finita) vs líneas celulares inmortalizadas (división indefinida).",
+        questions: [
+          { type: "mc", prompt: "¿Cuál de las siguientes entidades biológicas carece por completo de ácidos nucleicos y está formada exclusivamente por una isoforma patológica de una proteína celular?", options: ["Priones", "Virus", "Viroides", "Bacterias"], correct: 0, feedback: "Los priones son agentes infecciosos proteicos sin material genético, causantes de encefalopatías espongiformes transmisibles." },
+          { type: "cloze", prompt: "La región citoplasmática irregular carente de membrana donde reside el cromosoma circular bacteriano se denomina ____________.", accepted: ["nucleoide"], hint: "Equivalente procariota del núcleo.", feedback: "El nucleoide es la región donde se compacta el ADN circular bacteriano, sin membrana nuclear." },
+          { type: "tf", prompt: "Los viroides están compuestos por una molécula pequeña de ADN circular monocatenario cubierta por una densa cápside icosaédrica.", correct: false, feedback: "Falso. Los viroides son ARN circular monocatenario SIN cápside proteica, y afectan principalmente a plantas." },
+          { type: "mc", prompt: "¿Qué distingue a una línea celular inmortal frente a un cultivo celular primario?", options: ["Capacidad de multiplicarse indefinidamente in vitro superando la senescencia replicativa", "Capacidad de formar tejidos complejos tridimensionales in vivo", "Dependencia obligada de un huésped multicelular", "Presencia de pared celular de peptidoglicano"], correct: 0, feedback: "Las líneas inmortalizadas (ej. HeLa) superan el límite de Hayflick y se dividen indefinidamente en cultivo." },
+          { type: "cloze", prompt: "El coeficiente de sedimentación de los ribosomas citosólicos de las células eucariotas es de ____________.", accepted: ["80s", "80 s"], hint: "Subunidades 60S y 40S.", feedback: "Los ribosomas eucariotas son 80S (60S + 40S), a diferencia de los 70S procariotas." },
+          { type: "tf", prompt: "Las células vegetales superiores (angiospermas) presentan un par de centríolos centrales bien diferenciados que coordinan el huso mitótico.", correct: false, feedback: "Falso. Las células vegetales superiores carecen de centríolos; organizan el huso mitótico mediante centros organizadores acentriolares." }
+        ]
+      },
+      {
+        id: 14, unit: 2,
+        title: "NIVEL 14: Instrumental Celular, Fraccionamiento e Histoquímica",
+        subtitle: "MET, MEB, centrifugación, Feulgen, PAS, H&E e inmunofluorescencia",
+        badge: "🔬",
+        medal: { id: "m14", name: "Resolución Óptica", icon: "🔎", color: "from-cyan-400 to-blue-600", border: "border-cyan-400", desc: "Dominó el límite de resolución (0,2 μm vs 0,2 nm), centrifugación diferencial y técnicas histoquímicas." },
+        summary: "Microscopía: Óptico (MO) límite de resolución ~0,2 μm (200 nm); Electrónico de Transmisión (MET) ~0,2 nm, cortes ultrafinos, ultraestructura interna; Electrónico de Barrido (MEB) barrido de superficie 3D con metalización. Fraccionamiento subcelular: homogeneización + centrifugación diferencial (núcleos → mitocondrias/ lisosomas → microsomas → citosol) y centrifugación en gradiente de sacarosa. Histoquímica: Feulgen (ADN, hidrólisis ácida + reactivo de Schiff), PAS (glúcidos, oxidación con ácido peryódico), Hematoxilina (básica, tiñe ácidos/núcleos, basofilia) y Eosina (ácida, tiñe citoplasma, eosinofilia), Inmunofluorescencia (anticuerpos fluorescentes).",
+        questions: [
+          { type: "mc", prompt: "Para visualizar la ultraestructura tridimensional (3D) de la superficie externa de una célula eucariota metalizada con oro, se emplea:", options: ["Microscopio electrónico de barrido (MEB)", "Microscopio electrónico de transmisión (MET)", "Microscopio óptico de campo claro", "Microscopio de fluorescencia"], correct: 0, feedback: "El MEB barre la superficie de la muestra metalizada y produce imágenes 3D de la topografía externa celular." },
+          { type: "cloze", prompt: "La reacción histoquímica específica que detecta ADN mediante hidrólisis ácida con HCl y reactivo de Schiff decolorado es la reacción de ____________.", accepted: ["feulgen"], hint: "Nombre del científico que la desarrolló.", feedback: "La reacción de Feulgen tiñe específicamente ADN nuclear, permitiendo su cuantificación citofotométrica." },
+          { type: "tf", prompt: "La hematoxilina es un colorante básico con carga catiónica (+) que tiñe componentes ácidos con grupos fosfato como el ADN y el ARNr (basofilia).", correct: true, feedback: "Verdadero. La hematoxilina tiñe estructuras ácidas (núcleos ricos en ADN) de color azul-violeta." },
+          { type: "mc", prompt: "¿Cuál es el orden de sedimentación de menor a mayor fuerza de centrifugación diferencial a partir de un homogenizado tisular?", options: ["Núcleos → Mitocondrias/Lisosomas → Microsomas → Citosol", "Citosol → Microsomas → Mitocondrias/Lisosomas → Núcleos", "Microsomas → Núcleos → Citosol → Mitocondrias/Lisosomas", "Mitocondrias/Lisosomas → Núcleos → Citosol → Microsomas"], correct: 0, feedback: "La centrifugación diferencial sedimenta primero los orgánulos más grandes y densos (núcleos), luego mitocondrias, microsomas y finalmente el citosol soluble." },
+          { type: "cloze", prompt: "La distancia mínima que debe existir entre dos puntos contiguos para distinguirlos como entidades separadas es el límite de ____________.", accepted: ["resolucion", "resolución"], hint: "Concepto clave en microscopía.", feedback: "El límite de resolución depende de la longitud de onda y la apertura numérica del objetivo." },
+          { type: "tf", prompt: "La técnica del ácido peryódico de Schiff (PAS) oxida glicoles vecinos a dialdehídos para teñir específicamente los lípidos neutros de los adipocitos.", correct: false, feedback: "Falso. El PAS tiñe GLÚCIDOS (glucógeno, mucinas, glucolípidos), no lípidos neutros." }
+        ]
+      },
+      {
+        id: 15, unit: 2,
+        title: "NIVEL 15: Membrana Plasmática, Mosaico Fluido y Transporte",
+        subtitle: "Bicapa asimétrica, colesterol, Na+/K+-ATPasa, ósmosis y tonicidad",
+        badge: "🧫",
+        medal: { id: "m15", name: "Bomba Electrogénica", icon: "⚡", color: "from-blue-400 to-indigo-700", border: "border-blue-400", desc: "Mecánica del transporte Na+/K+-ATPasa, mosaico fluido de Singer y Nicolson, ósmosis y tonicidad celular." },
+        summary: "Membrana plasmática: modelo de mosaico fluido (Singer y Nicolson, 1972). Bicapa de fosfolípidos anfipáticos con proteínas integrales y periféricas, colesterol modulador de fluidez, glucocáliz externo. Transporte: Pasivo (difusión simple y facilitada, sin ATP), Activo (bomba Na+/K+-ATPasa: expulsa 3 Na+ e introduce 2 K+ por ATP, electrogénica), Endocitosis/Exocitosis. Ósmosis: difusión de agua a través de membrana semipermeable. Tonicidad: Hipotónico (célula se hincha/hemoliza), Hipertónico (célula se arruga/crena), Isotónico (equilibrio).",
+        questions: [
+          { type: "mc", prompt: "¿Cuál es el balance iónico y estequiométrico exacto de la bomba Na+/K+-ATPasa por cada molécula de ATP hidrolizada?", options: ["Expulsa 3 Na+ e introduce 2 K+ a la célula", "Expulsa 2 Na+ e introduce 3 K+ a la célula", "Expulsa 1 Na+ e introduce 1 K+ a la célula", "Expulsa 3 K+ e introduce 2 Na+ a la célula"], correct: 0, feedback: "La bomba Na+/K+-ATPasa intercambia 3 Na+ hacia el exterior por 2 K+ hacia el interior, contribuyendo al potencial de membrana." },
+          { type: "cloze", prompt: "Cuando una célula vegetal se expone a un medio hipertónico y pierde agua separando la membrana plasmática de la pared celular, experimenta ____________.", accepted: ["plasmolisis", "plasmólisis"], hint: "Fenómeno típico de células vegetales en medio hipertónico.", feedback: "La plasmólisis es la retracción del protoplasma por pérdida de agua en medio hipertónico." },
+          { type: "tf", prompt: "En una solución hipotónica, el eritrocito humano se deshidrata y arruga mediante el fenómeno de crenación.", correct: false, feedback: "Falso. En medio hipotónico el agua entra a la célula, causando hemólisis (estallido). La crenación ocurre en medio hipertónico." },
+          { type: "mc", prompt: "¿Qué papel cumple el colesterol en la membrana a temperaturas fisiológicas altas?", options: ["Restringe el movimiento de las colas de ácidos grasos disminuyendo la fluidez excesiva", "Aumenta la fluidez desorganizando el empaquetamiento de los fosfolípidos", "Actúa como canal iónico selectivo para el paso de Na+", "Es el principal receptor de señales hormonales hidrosolubles"], correct: 0, feedback: "El colesterol actúa como amortiguador de fluidez: a altas temperaturas restringe el movimiento; a bajas temperaturas impide el empaquetamiento rígido." },
+          { type: "cloze", prompt: "El proceso pasivo donde solutos atraviesan la membrana a favor de gradiente mediante proteínas transportadoras saturables sin gasto de ATP se denomina difusión ____________.", accepted: ["facilitada"], hint: "Utiliza transportadores o canales, pero no energía.", feedback: "La difusión facilitada usa proteínas integrales (permeasas o canales) a favor del gradiente de concentración." },
+          { type: "tf", prompt: "Las moléculas hidrofóbicas no polares pequeñas como el O₂ y el CO₂ atraviesan la membrana por transporte activo primario.", correct: false, feedback: "Falso. Difunden libremente a favor de gradiente por la bicapa lipídica, sin gasto de energía (difusión simple)." }
+        ]
+      },
+      {
+        id: 16, unit: 2,
+        title: "NIVEL 16: Paredes Celulares: Vegetal y Bacteriana",
+        subtitle: "Celulosa, peptidoglicano, Gram positivas vs Gram negativas y LPS",
+        badge: "🧱",
+        medal: { id: "m16", name: "Coraza de Mureína", icon: "🛡️", color: "from-emerald-400 to-green-700", border: "border-emerald-400", desc: "Diferenció la arquitectura molecular de la pared vegetal y la pared bacteriana Gram+ vs Gram-." },
+        summary: "Pared vegetal: celulosa (β-1,4), hemicelulosa, pectina, lignina; resiste presión osmótica y da forma. Pared bacteriana: peptidoglicano (mureína) de NAG y NAM. Gram positivas: gruesa capa de peptidoglicano, ácidos teicoicos y lipoteicoicos, sin membrana externa. Gram negativas: fina capa de peptidoglicano, membrana externa con lipopolisacárido (LPS), porinas; el LPS es endotoxina causante de shock séptico. La penicilina inhibe la transpeptidación del peptidoglicano.",
+        questions: [
+          { type: "mc", prompt: "¿Cuál de las siguientes características estructurales es exclusiva de las bacterias Gram negativas (G-)?", options: ["Presencia de una membrana externa con lipopolisacárido (LPS) y porinas", "Pared gruesa de peptidoglicano con ácidos teicoicos", "Membrana citoplasmática única sin membrana externa", "Ausencia total de peptidoglicano en la pared"], correct: 0, feedback: "Las Gram negativas poseen membrana externa con LPS (endotoxina) y porinas, además de una fina capa de peptidoglicano." },
+          { type: "cloze", prompt: "El polímero estructural formado por cadenas alternadas de N-acetilglucosamina (NAG) y ácido N-acetilmurámico (NAM) en bacterias es el ____________.", accepted: ["peptidoglicano", "mureina", "mureína"], hint: "También llamado mureína.", feedback: "El peptidoglicano (mureína) es el componente rígido de la pared bacteriana, diana de antibióticos betalactámicos." },
+          { type: "tf", prompt: "Los ácidos teicoicos y lipoteicoicos son polímeros aniónicos que atraviesan verticalmente la gruesa pared de las bacterias Gram positivas.", correct: true, feedback: "Verdadero. Los ácidos teicoicos son exclusivos de Gram positivas y contribuyen a la carga negativa de la pared." },
+          { type: "mc", prompt: "La función biofísica primordial de la pared de celulosa en la célula vegetal es:", options: ["Resistir mecánicamente la presión osmótica interna (turgencia) evitando la lisis", "Regular el paso de iones sodio y potasio", "Sintetizar proteínas de exportación", "Almacenar energía en forma de almidón"], correct: 0, feedback: "La pared celular vegetal resiste la turgencia y da forma, evitando que la célula estalle en medios hipotónicos." },
+          { type: "cloze", prompt: "El lipopolisacárido (LPS) de la membrana externa de bacterias Gram negativas es también conocido como ____________.", accepted: ["endotoxina"], hint: "Causante de shock séptico.", feedback: "El LPS es una endotoxina que desencadena respuesta inflamatoria sistémica." },
+          { type: "tf", prompt: "La penicilina actúa inhibiendo la síntesis de la pared celular bacteriana al bloquear la transpeptidación del peptidoglicano.", correct: true, feedback: "Verdadero. Los betalactámicos inhiben las transpeptidasas (PBP), impidiendo el entrecruzamiento del peptidoglicano." }
+        ]
+      },
+      {
+        id: 17, unit: 2,
+        title: "NIVEL 17: Retículo Endoplásmico y Peroxisomas",
+        subtitle: "Translocación Sec61, síntesis lipídica, citocromo P450, catalasa y Zellweger",
+        badge: "🏭",
+        medal: { id: "m17", name: "Factor de Translocación", icon: "🔬", color: "from-rose-400 to-amber-700", border: "border-rose-400", desc: "Comprendió la translocación cotraduccional, la destoxificación del REL y los peroxisomas." },
+        summary: "REL: síntesis de lípidos, destoxificación (citocromo P450), almacenamiento de Ca2+. RER: síntesis de proteínas de secreción y de membrana; translocación cotraduccional (Sec61, péptido señal N-terminal, SRP). Peroxisomas: oxidación de ácidos grasos de cadena muy larga, catalasa neutraliza H2O2, detoxificación de etanol. Enfermedad de Zellweger: peroxisomas vacíos por defecto de importación de proteínas.",
+        questions: [
+          { type: "mc", prompt: "Durante la translocación cotraduccional hacia el RE, ¿qué complejo molecular reconoce el péptido señal naciente y pausa la síntesis?", options: ["La partícula de reconocimiento de la señal (SRP)", "El complejo de poro nuclear", "El proteasoma 26S", "La dinamina"], correct: 0, feedback: "La SRP reconoce el péptido señal y detiene la traducción hasta que el ribosoma se une al translocón Sec61." },
+          { type: "cloze", prompt: "El canal acuoso transmembrana en la membrana del RER a través del cual ingresa la cadena polipeptídica naciente es el ____________.", accepted: ["translocon", "translocón", "sec61"], hint: "Complejo proteico de translocación.", feedback: "El translocón (complejo Sec61) permite el paso de la cadena polipeptídica al lumen del RE." },
+          { type: "tf", prompt: "El retículo endoplásmico liso (REL) contiene glucosa-6-fosfatasa y almacena activamente iones de calcio (Ca2+) en su lumen.", correct: true, feedback: "Verdadero. El REL almacena Ca2+ y participa en la glucogenólisis hepática." },
+          { type: "mc", prompt: "La enzima peroxisomal fundamental que descompone el peróxido de hidrógeno (H2O2) reactivo en agua y oxígeno gaseoso es la:", options: ["Catalasa", "Glucuronidasa", "Superóxido dismutasa", "Citocromo c oxidasa"], correct: 0, feedback: "La catalasa descompone H2O2 en H2O y O2, protegiendo a la célula del estrés oxidativo." },
+          { type: "cloze", prompt: "La patología neurológica letal provocada por mutaciones en las proteínas de importación de la matriz peroxisomal se conoce como síndrome de ____________.", accepted: ["zellweger"], hint: "Apellido del pediatra que lo describió.", feedback: "El síndrome de Zellweger cursa con peroxisomas vacíos y acumulación de ácidos grasos de cadena muy larga." },
+          { type: "tf", prompt: "El REL es abundante en hepatocitos y participa en la destoxificación de fármacos y alcohol mediante el sistema citocromo P450.", correct: true, feedback: "Verdadero. El REL hepático es rico en citocromo P450, esencial para el metabolismo de xenobióticos." }
+        ]
+      },
+      {
+        id: 18, unit: 2,
+        title: "NIVEL 18: Aparato de Golgi, Tráfico Vesicular y Lisosomas",
+        subtitle: "COPI/COPII, clatrina, SNAREs, Rab, manosa-6-fosfato y digestión ácida",
+        badge: "🚚",
+        medal: { id: "m18", name: "Logística Vesicular", icon: "📦", color: "from-amber-400 to-yellow-600", border: "border-amber-400", desc: "Direccionalidad vesicular, apareamiento SNARE (v/t), señal manosa-6-P para lisosomas y digestión ácida." },
+        summary: "Golgi: polarizado cis/medial/trans, recibe de RE, modifica (glucosilación), clasifica y envía. COPI: transporte retrógrado; COPII: anterógrado. Clatrina: endocitosis y transporte desde TGN. SNAREs (v-SNARE y t-SNARE) y Rab: fusión específica. Lisosomas: pH ácido (~5) mantenido por bomba de protones V-ATPasa; enzimas hidrolíticas (fosfatasas ácidas, glucosidasas, proteasas). Enfermedades por acumulación (Tay-Sachs, Gaucher). Señal manosa-6-fosfato dirige hidrolasas ácidas al lisosoma.",
+        questions: [
+          { type: "mc", prompt: "¿Qué cubierta proteica recubre las vesículas que median el transporte anterógrado desde el RE hacia el aparato de Golgi?", options: ["COPII", "COPI", "Clatrina", "Caveolina"], correct: 0, feedback: "COPII media el transporte anterógrado RE→Golgi; COPI media el retrógrado Golgi→RE." },
+          { type: "cloze", prompt: "La etiqueta química que se añade a las hidrolasas en el cis-Golgi para dirigirlas selectivamente a los lisosomas es la manosa-6-____________.", accepted: ["fosfato"], hint: "Grupo químico que actúa como señal de direccionamiento.", feedback: "La manosa-6-fosfato es la señal de reconocimiento para el receptor de M6P que dirige las enzimas al lisosoma." },
+          { type: "tf", prompt: "La fusión de membranas vesiculares ocurre por la interacción específica entre proteínas v-SNARE y t-SNARE en haz de cuatro hélices.", correct: true, feedback: "Verdadero. El apareamiento SNARE (v-SNARE en vesícula y t-SNARE en membrana diana) impulsa la fusión de membranas." },
+          { type: "mc", prompt: "El pH luminal ácido (≈5.0) indispensable para la actividad de las hidrolasas lisosomales se mantiene por:", options: ["Una bomba de protones V-ATPasa impulsada por ATP", "Un antiporte Na+/H+ dependiente de gradiente", "Canales de potasio activados por voltaje", "La fosfatasa ácida prostática"], correct: 0, feedback: "La V-ATPasa bombea protones al lumen lisosomal utilizando ATP, acidificando el interior." },
+          { type: "cloze", prompt: "La proteína GTPasa que escinde mecánicamente el cuello de las vesículas recubiertas de clatrina en la membrana es la ____________.", accepted: ["dinamina"], hint: "Enzima que constriñe el cuello vesicular.", feedback: "La dinamina es una GTPasa que forma un anillo y escinde la vesícula naciente de la membrana donadora." },
+          { type: "tf", prompt: "Las enzimas lisosomales se sintetizan en el RER y son transportadas directamente al lisosoma sin pasar por el aparato de Golgi.", correct: false, feedback: "Falso. Las hidrolasas pasan por el RER, luego al Golgi donde reciben la señal M6P, y desde el TGN son empaquetadas en vesículas hacia el lisosoma." }
+        ]
+      },
+      {
+        id: 19, unit: 2,
+        title: "NIVEL 19: Citosol, Chaperonas y Sistema Ubiquitina-Proteasoma",
+        subtitle: "Citosol vs citoplasma, hsp70, chaperoninas hsp60 y degradación por ubiquitina",
+        badge: "🧹",
+        medal: { id: "m19", name: "Guardián de Proteostasis", icon: "🧬", color: "from-teal-400 to-indigo-600", border: "border-teal-400", desc: "Mecanismos de plegamiento asistido (hsp70/hsp60) y degradación de proteínas ubiquitinadas en el proteasoma 26S." },
+        summary: "Citoplasma: todo entre membrana y carioteca (citosol + organelas + citoesqueleto). Citosol: fase líquida soluble (50% volumen celular), glucólisis, chaperonas. Chaperonas: hsp70 se unen a proteínas nacientes y evitan agregación; chaperoninas hsp60 (GroEL/GroES) proveen una cámara de plegamiento. Proteostasis: control de calidad. Proteínas mal plegadas se marcan con poliubiquitina y se degradan en el proteasoma 26S (ATP-dependiente). Enfermedades conformacionales: Alzheimer, Parkinson, priones.",
+        questions: [
+          { type: "mc", prompt: "Las chaperonas de la familia hsp60 facilitan el plegamiento proteico nativo mediante:", options: ["Un complejo macromolecular cilíndrico en 'barril' que aísla a la proteína del citosol", "La adición covalente de grupos fosfato a la proteína diana", "La degradación directa de la proteína mal plegada", "El transporte de la proteína al núcleo celular"], correct: 0, feedback: "Las chaperoninas (como GroEL/GroES) forman una cámara aislada donde la proteína puede plegarse sin interferencias." },
+          { type: "cloze", prompt: "La pequeña proteína marcadora que se une covalentemente a proteínas diana para enviarlas al proteasoma es la ____________.", accepted: ["ubiquitina"], hint: "Presente ubicuamente en todas las células eucariotas.", feedback: "La poliubiquitinación es la señal de degradación proteasómica." },
+          { type: "tf", prompt: "El fallo en los sistemas de chaperonas y la acumulación de agregados proteicos insolubles es la base de patologías como el Alzheimer y Parkinson.", correct: true, feedback: "Verdadero. Las enfermedades conformacionales se deben a agregación proteica y fallo de la proteostasis." },
+          { type: "mc", prompt: "El proteasoma 26S degrada proteínas marcadas con poliubiquitina mediante:", options: ["Un mecanismo ATP-dependiente que las transloca a una cámara proteolítica", "Digestión enzimática en el lisosoma a pH ácido", "Escisión por caspasas en residuos de aspartato", "Fosforilación y posterior hidrólisis espontánea"], correct: 0, feedback: "El proteasoma es un complejo proteolítico ATP-dependiente que degrada proteínas ubiquitinadas." },
+          { type: "cloze", prompt: "La familia de proteínas de choque térmico que se une a polipéptidos nacientes evitando su agregación prematura es la ____________.", accepted: ["hsp70", "hsp 70"], hint: "Proteína de choque térmico de 70 kDa.", feedback: "Hsp70 actúa como chaperona molecular, uniéndose a regiones hidrofóbicas expuestas de proteínas nacientes." },
+          { type: "tf", prompt: "El citosol y el citoplasma son términos sinónimos que designan exactamente el mismo compartimento celular.", correct: false, feedback: "Falso. Citoplasma = citosol + organelas + citoesqueleto; citosol es solo la fase líquida soluble." }
+        ]
+      },
+      {
+        id: 20, unit: 2,
+        title: "NIVEL 20: Citoesqueleto y Motilidad Celular",
+        subtitle: "Actina (7 nm), microtúbulos (25 nm), filamentos intermedios y axonema 9+2",
+        badge: "🕸️",
+        medal: { id: "m20", name: "Motor Molecular", icon: "⚙️", color: "from-orange-400 to-red-600", border: "border-orange-400", desc: "Microfilamentos, inestabilidad dinámica de tubulina, motores moleculares y ultraestructura 9+2." },
+        summary: "Microfilamentos: actina (7 nm), polimerización en 6 actina F con polaridad (+/-), asociados a miosina en contracción muscular, anillo contráctil, citocinesis, pseudópodos y microvellosidades. Microtúbulos: tubulina (25 nm), inestabilidad dinámica, forman huso mitótico, cilios y flagelos (axonema 9+2), centríolos (9 tripletes 9+0). Motores: dineína (retrógrado hacia -) y kinesina (anterógrado hacia +). Filamentos intermedios: queratina, vimentina, laminina; resistencia mecánica.",
+        questions: [
+          { type: "mc", prompt: "¿Cuál es la ultraestructura microtubular característica del axonema motriz de cilios y flagelos eucariotas?", options: ["9 dobletes de microtúbulos periféricos y 1 par central (9+2)", "9 tripletes de microtúbulos sin par central (9+0)", "Microfilamentos de actina y miosina II", "Filamentos intermedios de queratina"], correct: 0, feedback: "El axonema tiene 9 dobletes periféricos + 2 microtúbulos centrales (9+2)." },
+          { type: "cloze", prompt: "El motor molecular microtubular que transporta vesículas de manera anterógrada hacia el extremo positivo (+) es la ____________.", accepted: ["kinesina"], hint: "Se mueve hacia el extremo (+).", feedback: "La kinesina transporta carga hacia el extremo (+) del microtúbulo." },
+          { type: "tf", prompt: "Los filamentos intermedios como la queratina poseen una marcada polaridad dinámica y se desplazan mediante motores moleculares.", correct: false, feedback: "Falso. Los filamentos intermedios son apolares, no dinámicos y no tienen motores asociados; proveen resistencia mecánica." },
+          { type: "mc", prompt: "El anillo contráctil que estrangula el citoplasma durante la citocinesis de células animales está compuesto por:", options: ["Microfilamentos de actina y miosina II", "Microtúbulos de tubulina y dineína", "Filamentos intermedios de vimentina", "Lámina nuclear de laminina"], correct: 0, feedback: "El anillo contráctil de actina-miosina II es responsable de la citocinesis animal." },
+          { type: "cloze", prompt: "La estructura cilíndrica ubicada en la base de cilios y flagelos con patrón de 9 tripletes (9+0) es el ____________.", accepted: ["cuerpo basal", "centriolo", "centríolo"], hint: "Centro organizador de microtúbulos.", feedback: "El cuerpo basal (derivado del centríolo) organiza el axonema ciliar." },
+          { type: "tf", prompt: "La polimerización de los microtúbulos ocurre por adición de dímeros de alfa y beta tubulina en el extremo (+), mientras que la despolimerización predomina en el extremo (-).", correct: true, feedback: "Verdadero. Los microtúbulos crecen en el extremo (+) y se acortan en el extremo (-), fenómeno de inestabilidad dinámica." }
+        ]
+      },
+      {
+        id: 21, unit: 2,
+        title: "NIVEL 21: Matriz Extracelular e Interacciones Celulares",
+        subtitle: "Colágeno, proteoglicanos, integrinas, desmosomas, uniones estrechas y gap",
+        badge: "🔗",
+        medal: { id: "m21", name: "Conexión Tisular", icon: "🕸️", color: "from-indigo-400 to-purple-700", border: "border-indigo-400", desc: "Triple hélice de colágeno, hidratación por GAGs, oclusinas y acoplamiento de uniones comunicantes." },
+        summary: "Matriz extracelular (MEC): colágeno (triple hélice rígida estabilizada por enlaces cruzados de lisina, resistencia a tracción), elastina (elasticidad), gags y proteoglicanos (polímeros aniónicos que atraen agua, resistencia a compresión), fibronectina y laminina (adhesión). Integrinas: receptores transmembrana que conectan MEC con citoesqueleto. Uniones: estrechas (ocludinas, sellan espacio intercelular), desmosomas (cadherinas, anclaje a filamentos intermedios), gap (conexinas, comunicación iónica y metabólica).",
+        questions: [
+          { type: "mc", prompt: "Las uniones intercelulares que sellan herméticamente el espacio entre células epiteliales impidiendo el paso paracelular mediante claudinas y ocludinas son:", options: ["Uniones estrechas (zonula occludens)", "Desmosomas", "Uniones gap", "Hemidesmosomas"], correct: 0, feedback: "Las uniones estrechas (tight junctions) sellan el espacio paracelular y mantienen la polaridad celular." },
+          { type: "cloze", prompt: "Los canales intercelulares formados por anillos de seis subunidades de conexina en células animales son los ____________.", accepted: ["conexones", "conexon", "conexón"], hint: "Unidad estructural de las uniones gap.", feedback: "Los conexones forman las uniones gap, permitiendo el paso de iones y moléculas pequeñas." },
+          { type: "tf", prompt: "Los desmosomas conectan los filamentos de actina de dos células adyacentes mediante integrinas beta.", correct: false, feedback: "Falso. Los desmosomas conectan filamentos intermedios (queratina) mediante desmogleína/desmocolina (cadherinas)." },
+          { type: "mc", prompt: "¿Por qué los glucosaminoglicanos (GAGs) forman geles sumamente hidratados que resisten la compresión física?", options: ["Poseen una alta densidad de cargas negativas (grupos sulfato y carboxilo) que atraen agua", "Son proteínas fibrosas con enlaces cruzados de lisina", "Forman una bicapa lipídica impermeable al agua", "Se organizan en haces paralelos de colágeno tipo I"], correct: 0, feedback: "Los GAGs son polianiones que atraen cationes y agua, formando geles hidratados que resisten la compresión." },
+          { type: "cloze", prompt: "El receptor transmembrana heterodimérico (cadenas alfa y beta) que conecta la matriz extracelular con el citoesqueleto es la ____________.", accepted: ["integrina"], hint: "Proteína de adhesión celular.", feedback: "Las integrinas conectan la MEC con el citoesqueleto de actina, transduciendo señales." },
+          { type: "tf", prompt: "El colágeno tipo I es una proteína exclusivamente intracelular que forma parte del citoesqueleto de todas las células eucariotas.", correct: false, feedback: "Falso. El colágeno es la proteína más abundante de la MEC, secretada por fibroblastos y otras células." }
+        ]
+      },
+      {
+        id: 22, unit: 2,
+        title: "NIVEL 22: Mitocondrias: Bioenergética y Apoptosis",
+        subtitle: "Crestas, gradiente quimiosmótico, ATP sintasa, citocromo c y apoptosis",
+        badge: "⚡",
+        medal: { id: "m22", name: "Central Energética", icon: "🔋", color: "from-amber-400 to-rose-600", border: "border-amber-400", desc: "Fuerza protonmotriz, transporte de ATP/ADP y vía intrínseca de apoptosis." },
+        summary: "Mitocondria: doble membrana. Membrana externa lisa, membrana interna con crestas (aumentan superficie), matriz con ADN circular, ribosomas 70S y enzimas del ciclo de Krebs. Bioenergética: cadena respiratoria (complejos I-IV) bombea protones al espacio intermembrana creando gradiente electroquímico (fuerza protonmotriz). ATP sintasa (complejo V) usa el flujo de protones para sintetizar ATP (quimiosmosis). Apoptosis: vía intrínseca, el citocromo c escapa al citosol, se une a Apaf-1 formando el apoptosoma, activa caspasas 9 y 3/7.",
+        questions: [
+          { type: "mc", prompt: "Durante la vía intrínseca de apoptosis, ¿qué factor respiratorio escapa de la mitocondria para ensamblar el apoptosoma junto con Apaf-1?", options: ["Citocromo c", "Ubiquinona", "ATP sintasa", "NADH deshidrogenasa"], correct: 0, feedback: "La liberación de citocromo c al citosol desencadena la formación del apoptosoma y activación de caspasas." },
+          { type: "cloze", prompt: "La proporción del complejo ATP sintasa incrustada en la membrana interna que canaliza el flujo pasivo de protones es el canal F____________.", accepted: ["0", "o"], hint: "Letra que designa el canal de protones.", feedback: "El canal F0 permite el paso de protones, acoplado a la síntesis de ATP en F1." },
+          { type: "tf", prompt: "Las 13 proteínas respiratorias codificadas por el ADN mitocondrial humano se traducen en el RER del sistema de endomembranas.", correct: false, feedback: "Falso. Se traducen en los ribosomas 70S mitocondriales, no en el RER." },
+          { type: "mc", prompt: "¿Cuál es la función primordial del repliegue de la membrana interna mitocondrial en crestas?", options: ["Aumentar drásticamente la superficie de membrana para albergar más complejos de la cadena respiratoria", "Almacenar iones calcio en la matriz", "Sintetizar proteínas mitocondriales", "Degradar ácidos grasos por beta-oxidación"], correct: 0, feedback: "Las crestas aumentan la superficie de la membrana interna, optimizando la producción de ATP." },
+          { type: "cloze", prompt: "Las caspasas efectoras activadas por la caspasa-9 que destruyen sustratos nucleares y estructurales son caspasa-7 y caspasa-____________.", accepted: ["3", "tres"], hint: "Número de la caspasa ejecutora principal.", feedback: "La caspasa-3 es la principal caspasa ejecutora de la apoptosis." },
+          { type: "tf", prompt: "La membrana mitocondrial externa es impermeable a la mayoría de metabolitos y requiere translocasas específicas.", correct: false, feedback: "Falso. La membrana externa es permeable a moléculas pequeñas debido a las porinas (VDAC)." }
+        ]
+      },
+      {
+        id: 23, unit: 2,
+        title: "NIVEL 23: Cloroplastos, Estroma y Fotosíntesis",
+        subtitle: "Tilacoides, estroma, Rubisco, radiación RFA y fotosistemas",
+        badge: "🌱",
+        medal: { id: "m23", name: "Cosecha Solar", icon: "☀️", color: "from-lime-400 to-emerald-600", border: "border-lime-400", desc: "Arquitectura tilacoidal triple, ciclo de Calvin y fotosistemas." },
+        summary: "Cloroplasto: 3 membranas (externa, interna, tilacoide), 3 compartimentos (espacio intermembrana, estroma, lumen tilacoidal). Tilacoides: apilados en grana, contienen clorofila, fotosistemas I y II, cadena de transporte de electrones fotosintética, ATP sintasa. Estroma: matriz fluida con enzimas del ciclo de Calvin (fijación de CO2 por Rubisco). Fotosíntesis: fase luminosa (tilacoide, produce ATP y NADPH, fotólisis del agua) y fase oscura (estroma, ciclo de Calvin, fija CO2).",
+        questions: [
+          { type: "mc", prompt: "¿Cuál es el ion metálico coordinado en el centro del anillo de porfirina de las moléculas de clorofila?", options: ["Magnesio (Mg2+)", "Hierro (Fe2+)", "Calcio (Ca2+)", "Sodio (Na+)"], correct: 0, feedback: "La clorofila coordina un ion Mg2+ en el centro del anillo de porfirina." },
+          { type: "cloze", prompt: "La matriz líquida del cloroplasto donde se aloja la enzima Rubisco y ocurre el ciclo de fijación de carbono (Calvin) es el ____________.", accepted: ["estroma"], hint: "Homólogo a la matriz mitocondrial.", feedback: "El estroma es el compartimento donde se realiza el ciclo de Calvin." },
+          { type: "tf", prompt: "A diferencia de la mitocondria (dos membranas), el cloroplasto posee un tercer sistema membranoso cerrado llamado membrana tilacoide.", correct: true, feedback: "Verdadero. El tercer sistema (tilacoides) forma un compartimento cerrado (lumen) donde ocurre la fase luminosa." },
+          { type: "mc", prompt: "¿En qué región del espectro electromagnético opera la radiación fotosintéticamente activa (RFA)?", options: ["Luz visible entre 400 nm (azul/violeta) y 700 nm (rojo)", "Rayos gamma de alta energía", "Microondas de baja frecuencia", "Infrarrojo lejano"], correct: 0, feedback: "La RFA abarca la luz visible (400-700 nm), utilizada por los pigmentos fotosintéticos." },
+          { type: "cloze", prompt: "El dímero de clorofila especializada presente en el centro de reacción del fotosistema II (PSII) se conoce como P____________.", accepted: ["680"], hint: "Longitud de onda de máxima absorción.", feedback: "El P680 es el centro de reacción del PSII, que absorbe a 680 nm." },
+          { type: "tf", prompt: "El oxígeno liberado durante la fotosíntesis proviene de la fotólisis del agua en el fotosistema II.", correct: true, feedback: "Verdadero. La fotólisis del agua (H2O) en el PSII libera O2, protones y electrones." }
+        ]
+      }
+    ];
+
+    // ============================================
+    // LÓGICA DEL JUEGO
+    // ============================================
+    const STORAGE_KEY = 'biocore_progress_v2';
+    let game = {
+      score: 0, lives: 3, completedLevels: new Set(), unlockedBadges: new Set(),
+      currentLevelIdx: 0, currentQuestionIdx: 0, streak: 0, selectedUnitFilter: 'all',
+
+      init() { this.loadProgress(); this.updateStatsUI(); this.showHome(); },
+
+      saveProgress() {
+        try {
+          const payload = { score: this.score, lives: this.lives, completedLevels: Array.from(this.completedLevels), unlockedBadges: Array.from(this.unlockedBadges), updatedAt: new Date().toISOString() };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+          this.flashSaveIndicator('Progreso guardado');
+        } catch (e) { console.warn('No se pudo guardar en localStorage', e); }
+      },
+
+      loadProgress() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) {
+            const data = JSON.parse(raw);
+            this.score = data.score || 0;
+            this.lives = data.lives !== undefined ? data.lives : 3;
+            if (data.completedLevels && Array.isArray(data.completedLevels)) this.completedLevels = new Set(data.completedLevels);
+            if (data.unlockedBadges && Array.isArray(data.unlockedBadges)) this.unlockedBadges = new Set(data.unlockedBadges);
+            this.flashSaveIndicator('Progreso cargado');
+          }
+        } catch (e) { console.warn('No se pudo leer localStorage', e); }
+      },
+
+      flashSaveIndicator(msg) {
+        const indicator = document.getElementById('save-status-indicator');
+        const statusText = document.getElementById('save-status-text');
+        if (indicator && statusText) {
+          indicator.classList.remove('hidden'); statusText.innerText = msg;
+          setTimeout(() => { statusText.innerText = 'Guardado local activo'; }, 2000);
+        }
+      },
+
+      updateStatsUI() {
+        const heartsDisplay = document.getElementById('hearts-display');
+        let heartsStr = ''; for (let i = 0; i < 3; i++) heartsStr += i < this.lives ? '❤️' : '🖤';
+        heartsDisplay.innerText = heartsStr;
+        document.getElementById('medals-count-display').innerText = `${this.unlockedBadges.size}/${LEVELS.length}`;
+        document.getElementById('score-display').innerText = `${this.score} pts`;
+      },
+
+      showModal({ icon = 'ℹ️', title, message, onConfirm, showCancel = false, confirmText = 'Aceptar', cancelText = 'Cancelar' }) {
+        const modal = document.getElementById('custom-modal');
+        document.getElementById('modal-icon').innerText = icon;
+        document.getElementById('modal-title').innerText = title;
+        document.getElementById('modal-message').innerText = message;
+        const actions = document.getElementById('modal-actions'); actions.innerHTML = '';
+        if (showCancel) {
+          const cancelBtn = document.createElement('button');
+          cancelBtn.className = 'px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition';
+          cancelBtn.innerText = cancelText; cancelBtn.onclick = () => modal.classList.add('hidden'); actions.appendChild(cancelBtn);
+        }
+        const confirmBtn = document.createElement('button');
+        confirmBtn.className = 'px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition';
+        confirmBtn.innerText = confirmText;
+        confirmBtn.onclick = () => { modal.classList.add('hidden'); if (onConfirm) onConfirm(); };
+        actions.appendChild(confirmBtn); modal.classList.remove('hidden');
+      },
+
+      takeDamage() {
+        this.lives--; this.streak = 0; sound.wrong(); this.updateStatsUI(); this.saveProgress();
+        if (this.lives <= 0) { this.showGameOver(); return false; }
+        return true;
+      },
+
+      addPoints(base = 100) {
+        this.streak++; const multiplier = Math.min(this.streak, 4); const earned = base * multiplier;
+        this.score += earned; sound.correct(); this.updateStatsUI(); this.saveProgress(); return earned;
+      },
+
+      setFilter(filter) { this.selectedUnitFilter = filter; this.showHome(); },
+
+      showHome() {
+        const app = document.getElementById('app');
+        const filteredLevels = LEVELS.filter(lvl => this.selectedUnitFilter === 'all' || lvl.unit === parseInt(this.selectedUnitFilter));
+        const completedUnit1 = LEVELS.filter(l => l.unit === 1 && this.completedLevels.has(l.id)).length;
+        const completedUnit2 = LEVELS.filter(l => l.unit === 2 && this.completedLevels.has(l.id)).length;
+
+        let levelCards = filteredLevels.map((lvl) => {
+          const actualIndex = LEVELS.findIndex(l => l.id === lvl.id);
+          const isCompleted = this.completedLevels.has(lvl.id);
+          const hasMedal = this.unlockedBadges.has(lvl.medal.id);
+          const isUnlocked = actualIndex === 0 || this.completedLevels.has(LEVELS[actualIndex - 1].id);
+          return `
+            <div class="relative bg-slate-900 border ${isCompleted ? 'border-emerald-500/70 bg-emerald-950/20' : isUnlocked ? 'border-slate-700 hover:border-cyan-500' : 'border-slate-800 opacity-60'} p-4 rounded-xl transition">
+              <div class="flex items-start justify-between">
+                <div class="text-3xl p-2 rounded-lg bg-slate-800/80 border border-slate-700/50">${lvl.badge}</div>
+                <div class="flex flex-col items-end gap-1">
+                  ${hasMedal ? `<span class="text-[10px] bg-amber-500/20 text-amber-300 font-mono px-2 py-0.5 rounded border border-amber-500/40 flex items-center gap-1" title="${lvl.medal.name}">🏅</span>` : ''}
+                  ${isCompleted ? `<span class="text-[10px] bg-emerald-500/20 text-emerald-300 font-mono px-2 py-0.5 rounded border border-emerald-500/40">✓ Completado</span>` : ''}
+                </div>
+              </div>
+              <div class="mt-3">
+                <h3 class="font-bold text-sm text-white group-hover:text-cyan-400 transition">${lvl.title}</h3>
+                <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">${lvl.subtitle}</p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
+                <button onclick="game.showTheory(${actualIndex})" class="text-xs font-mono text-cyan-400 hover:underline flex items-center gap-1">📖 Repasar</button>
+                <button onclick="${isUnlocked ? `game.startLevel(${actualIndex})` : `game.notifyLocked(${actualIndex})`}" class="text-xs px-3 py-1.5 rounded-lg font-bold font-mono tracking-wide ${isUnlocked ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/50 shadow' : 'bg-slate-800 text-slate-500 cursor-not-allowed'}">${isCompleted ? 'Repetir' : 'Desafío'}</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        app.innerHTML = `
+          <div class="py-2">
+            <div class="text-center max-w-3xl mx-auto mb-5">
+              <span class="text-xs font-mono tracking-widest text-emerald-400 uppercase bg-emerald-950/80 border border-emerald-800/80 px-3 py-1 rounded-full">SIMULADOR ACADÉMICO INTEGRAL • MEDICINA Y CIENCIAS DE LA SALUD</span>
+              <h2 class="text-2xl sm:text-3xl font-black text-white mt-2 tracking-tight">Preparación para Parcial: Biología Celular y Molecular</h2>
+              <p class="text-xs text-slate-400 mt-1.5">Domina los 23 capítulos con autoguardado de progreso y recompensas de medallas de honor.</p>
+            </div>
+            <div class="max-w-5xl mx-auto mb-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 p-1 rounded-xl text-xs font-mono">
+                <button onclick="game.setFilter('all')" class="px-3 py-1.5 rounded-lg transition ${this.selectedUnitFilter === 'all' ? 'bg-emerald-600 text-white font-bold' : 'text-slate-400 hover:text-white'}">Todas (${this.completedLevels.size}/23)</button>
+                <button onclick="game.setFilter('1')" class="px-3 py-1.5 rounded-lg transition ${this.selectedUnitFilter === '1' ? 'bg-cyan-600 text-white font-bold' : 'text-slate-400 hover:text-white'}">Unidad 1 (${completedUnit1}/12)</button>
+                <button onclick="game.setFilter('2')" class="px-3 py-1.5 rounded-lg transition ${this.selectedUnitFilter === '2' ? 'bg-purple-600 text-white font-bold' : 'text-slate-400 hover:text-white'}">Unidad 2 (${completedUnit2}/11)</button>
+              </div>
+              <button onclick="game.showShowcase()" class="w-full sm:w-auto bg-gradient-to-r from-amber-500/10 to-amber-400/20 hover:from-amber-500/20 hover:to-amber-400/30 border border-amber-500/40 px-4 py-2 rounded-xl font-mono text-xs text-amber-300 flex items-center justify-center gap-2 transition group">
+                <span class="text-lg">🏅</span> Vitrina de Insignias (${this.unlockedBadges.size}/${LEVELS.length}) <span class="group-hover:translate-x-1 transition">→</span>
+              </button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 max-w-6xl mx-auto">
+              ${levelCards}
+            </div>
+            <div class="mt-8 p-3.5 rounded-xl bg-slate-900/70 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 max-w-6xl mx-auto text-xs font-mono">
+              <div class="flex items-center space-x-3">
+                <span class="text-2xl">💾</span>
+                <div>
+                  <span class="text-slate-200 font-bold block">Progreso guardado en este dispositivo</span>
+                  <span class="text-slate-400 text-[11px]">${this.completedLevels.size} de 23 niveles aprobados • ${this.score} pts acumulados</span>
+                </div>
+              </div>
+              <button onclick="game.confirmReset()" class="px-3 py-1.5 rounded border border-slate-700 text-slate-400 hover:text-red-400 hover:border-red-500/50 transition text-[11px]">Reiniciar progreso</button>
+            </div>
+          </div>
+        `;
+      },
+
+      notifyLocked(index) {
+        this.showModal({ icon: '🔒', title: 'Nivel bloqueado', message: `Debes completar primero las consignas del ${LEVELS[index - 1].title.split(':')[0]} para desbloquear este capítulo.` });
+      },
+
+      confirmReset() {
+        this.showModal({
+          icon: '⚠️', title: 'Reiniciar todo el progreso',
+          message: '¿Estás seguro de que deseas borrar los puntos, vidas restauradas y las medallas ganadas? Esta acción se guardará de inmediato.',
+          showCancel: true, confirmText: 'Sí, reiniciar todo', cancelText: 'Cancelar',
+          onConfirm: () => {
+            this.score = 0; this.lives = 3; this.completedLevels.clear(); this.unlockedBadges.clear();
+            this.saveProgress(); this.updateStatsUI(); this.showHome();
+          }
+        });
+      },
+
+      showShowcase() {
+        const app = document.getElementById('app');
+        let showcaseCards = LEVELS.map((lvl) => {
+          const isUnlocked = this.unlockedBadges.has(lvl.medal.id);
+          return `
+            <div class="p-3 rounded-xl border ${isUnlocked ? 'border-amber-500/60 bg-gradient-to-b from-slate-900 via-amber-950/10 to-slate-900 shadow-lg shadow-amber-950/20' : 'border-slate-800 bg-slate-900/50'} flex flex-col items-center text-center">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center text-xl mb-2 ${isUnlocked ? 'bg-gradient-to-tr ' + lvl.medal.color + ' ' + lvl.medal.border + ' border-white shadow-lg' : 'bg-slate-800 text-slate-600'}">${isUnlocked ? lvl.medal.icon : '🔒'}</div>
+              <h4 class="font-bold text-xs ${isUnlocked ? 'text-amber-300' : 'text-slate-400'} leading-tight">${lvl.medal.name}</h4>
+              <span class="text-[9px] font-mono text-slate-500 uppercase mt-0.5">${lvl.title.split(':')[0]}</span>
+              <p class="text-[10px] text-slate-400 mt-1.5 leading-tight">${isUnlocked ? lvl.medal.desc : 'Supera este capítulo para desbloquear.'}</p>
+              <div class="mt-auto pt-2 text-[9px] font-mono font-bold ${isUnlocked ? 'text-emerald-400' : 'text-slate-600'}">${isUnlocked ? '✓ Ganada' : 'Bloqueada'}</div>
+            </div>
+          `;
+        }).join('');
+
+        app.innerHTML = `
+          <div class="py-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between max-w-5xl mx-auto mb-4 gap-3">
+              <div>
+                <button onclick="game.showHome()" class="text-xs font-mono text-cyan-400 hover:underline mb-1 flex items-center gap-1">← Volver al panel de capítulos</button>
+                <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">🏛️ Gran Vitrina de Recompensas Académicas</h2>
+                <p class="text-xs text-slate-400 font-mono mt-0.5">23 medallas científicas de honor por dominar las unidades 1 y 2.</p>
+              </div>
+              <div class="bg-slate-900 border border-slate-800 p-2.5 rounded-xl flex items-center gap-3 self-start sm:self-auto">
+                <div class="text-right">
+                  <span class="text-lg font-black text-amber-400 font-mono">${this.unlockedBadges.size} / ${LEVELS.length}</span>
+                  <span class="text-[9px] block text-slate-400 uppercase font-mono tracking-widest">Insignias</span>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-lg">🏅</div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 max-w-5xl mx-auto">
+              ${showcaseCards}
+            </div>
+            <div class="text-center mt-6">
+              <button onclick="game.showHome()" class="px-6 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-mono text-xs font-bold transition">Continuar con los exámenes</button>
+            </div>
+          </div>
+        `;
+      },
+
+      showTheory(levelIdx) {
+        const lvl = LEVELS[levelIdx];
+        const app = document.getElementById('app');
+        app.innerHTML = `
+          <div class="max-w-2xl mx-auto bg-slate-900 border border-emerald-900/60 rounded-2xl p-5 sm:p-6 shadow-2xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="text-2xl">${lvl.badge}</span>
+                <span class="text-xs font-mono text-emerald-400 font-bold uppercase tracking-wider">MÓDULO DE REPASO • UNIDAD ${lvl.unit}</span>
+              </div>
+              <button onclick="game.showHome()" class="text-slate-400 hover:text-white text-sm font-mono">✕ Cerrar</button>
+            </div>
+            <h3 class="text-lg sm:text-xl font-black text-white mt-3">${lvl.title}</h3>
+            <p class="text-xs text-cyan-400 font-mono mt-0.5">${lvl.subtitle}</p>
+            <div class="mt-4 bg-slate-950/80 p-4 rounded-xl border border-slate-800 text-sm sm:text-sm leading-relaxed text-slate-300">
+              <h4 class="text-xs font-bold text-amber-400 font-mono mb-2 uppercase">📚 Conceptos clave para el parcial:</h4>
+              <p>${lvl.summary}</p>
+            </div>
+            <div class="mt-4 p-3 rounded-lg bg-amber-950/20 border border-amber-500/30 flex items-center space-x-3">
+              <span class="text-2xl">${lvl.medal.icon}</span>
+              <div>
+                <span class="text-[10px] font-mono text-amber-400 uppercase tracking-wider block">Medalla al superar este examen:</span>
+                <span class="text-xs font-bold text-white">${lvl.medal.name}</span>
+              </div>
+            </div>
+            <div class="mt-6 flex items-center justify-end space-x-3">
+              <button onclick="game.showHome()" class="px-4 py-2 rounded-lg text-sm font-mono text-slate-400 hover:text-white">Volver al menú</button>
+              <button onclick="game.startLevel(${levelIdx})" class="px-5 py-2 rounded-lg text-sm font-mono font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-900/40">Iniciar pruebas ⚡</button>
+            </div>
+          </div>
+        `;
+      },
+
+      startLevel(levelIdx) { this.currentLevelIdx = levelIdx; this.currentQuestionIdx = 0; this.streak = 0; this.showQuestion(); },
+
+      showQuestion() {
+        const lvl = LEVELS[this.currentLevelIdx];
+        const q = lvl.questions[this.currentQuestionIdx];
+        const app = document.getElementById('app');
+        const progressPct = ((this.currentQuestionIdx) / lvl.questions.length) * 100;
+
+        let questionBody = '';
+        if (q.type === 'mc') {
+          const optsHtml = q.options.map((opt, idx) => `
+            <button onclick="game.handleAnswer(${idx})" class="w-full text-left p-3 sm:p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800/90 border border-slate-800 hover:border-emerald-500/80 transition group flex items-center gap-3">
+              <span class="w-6 h-6 rounded-lg bg-slate-800 group-hover:bg-emerald-500/20 border border-slate-700 group-hover:border-emerald-500 flex items-center justify-center text-xs font-mono font-bold text-slate-400 group-hover:text-emerald-400 transition">${String.fromCharCode(65 + idx)}</span>
+              <span class="text-xs sm:text-sm text-slate-200 flex-1">${opt}</span>
+            </button>
+          `).join('');
+          questionBody = `<div class="space-y-2.5 mt-4">${optsHtml}</div>`;
+        } else if (q.type === 'tf') {
+          questionBody = `
+            <div class="grid grid-cols-2 gap-4 mt-6">
+              <button onclick="game.handleAnswer(true)" class="p-4 rounded-xl bg-slate-900 hover:bg-emerald-950/40 border border-slate-800 hover:border-emerald-500 text-center transition group">
+                <div class="text-2xl mb-1 group-hover:scale-110 transition">✅</div>
+                <div class="font-bold text-emerald-400 font-mono text-xs sm:text-sm">VERDADERO</div>
+              </button>
+              <button onclick="game.handleAnswer(false)" class="p-4 rounded-xl bg-slate-900 hover:bg-red-950/40 border border-slate-800 hover:border-red-500 text-center transition group">
+                <div class="text-2xl mb-1 group-hover:scale-110 transition">❌</div>
+                <div class="font-bold text-red-400 font-mono text-xs sm:text-sm">FALSO</div>
+              </button>
+            </div>
+          `;
+        } else if (q.type === 'cloze') {
+          questionBody = `
+            <div class="mt-5 bg-slate-950 p-4 rounded-xl border border-slate-800">
+              <label class="block text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">Escribe el concepto exacto:</label>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input type="text" id="cloze-input" autocomplete="off" placeholder="Escribe tu respuesta aquí..." class="flex-1 bg-slate-900 border border-slate-700 focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 px-3.5 py-2.5 rounded-lg text-sm text-white outline-none font-mono" onkeydown="if(event.key === 'Enter') game.handleClozeSubmit()" />
+                <button onclick="game.handleClozeSubmit()" class="px-4 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-mono font-bold text-sm tracking-wide transition shadow-md shadow-cyan-900/30">Comprobar</button>
+              </div>
+              <p class="text-[11px] text-slate-400 font-mono mt-2 flex items-center gap-1">💡 Pista: <span class="text-slate-300 italic">${q.hint}</span></p>
+            </div>
+          `;
+        }
+
+        app.innerHTML = `
+          <div class="max-w-2xl mx-auto w-full">
+            <div class="mb-3">
+              <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
+                <span class="truncate max-w-[200px] sm:max-w-none">${lvl.title}</span>
+                <span>Pregunta ${this.currentQuestionIdx + 1} de ${lvl.questions.length}</span>
+              </div>
+              <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full transition-all duration-300" style="width: ${progressPct}%"></div>
+              </div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-2xl relative">
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-cyan-300 font-bold uppercase">${q.type === 'mc' ? 'Selección múltiple' : q.type === 'tf' ? 'Verdadero o Falso' : 'Completar concepto'}</span>
+                ${this.streak > 1 ? `<span class="text-xs font-mono text-amber-400 font-bold">🔥 Racha x${this.streak}</span>` : ''}
+              </div>
+              <h3 class="text-sm sm:text-base font-bold text-white leading-relaxed">${q.prompt}</h3>
+              <div id="question-interaction">${questionBody}</div>
+              <div id="feedback-area" class="hidden mt-4 pt-4 border-t border-slate-800"></div>
+            </div>
+          </div>
+        `;
+
+        if (q.type === 'cloze') { setTimeout(() => { const input = document.getElementById('cloze-input'); if (input) input.focus(); }, 50); }
+      },
+
+      handleAnswer(userChoice) {
+        const lvl = LEVELS[this.currentLevelIdx]; const q = lvl.questions[this.currentQuestionIdx];
+        const isCorrect = userChoice === q.correct; this.renderResolution(isCorrect, q.feedback);
+      },
+
+      handleClozeSubmit() {
+        const input = document.getElementById('cloze-input'); if (!input) return;
+        const val = input.value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const lvl = LEVELS[this.currentLevelIdx]; const q = lvl.questions[this.currentQuestionIdx];
+        const isCorrect = q.accepted.some(acc => { const cleanAcc = acc.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); return cleanAcc === val; });
+        this.renderResolution(isCorrect, q.feedback);
+      },
+
+      renderResolution(isCorrect, rationale) {
+        let earned = 0; let survived = true;
+        if (isCorrect) { earned = this.addPoints(100); } else { survived = this.takeDamage(); }
+        if (!survived) return;
+        const interactionArea = document.getElementById('question-interaction');
+        const feedbackArea = document.getElementById('feedback-area');
+        if (interactionArea) { interactionArea.querySelectorAll('button, input').forEach(el => el.disabled = true); }
+        feedbackArea.classList.remove('hidden');
+        feedbackArea.innerHTML = `
+          <div class="p-3.5 rounded-xl ${isCorrect ? 'bg-emerald-950/50 border border-emerald-500/50' : 'bg-red-950/50 border border-red-500/50'} mb-3 animate-fade-in">
+            <div class="flex items-center space-x-2 mb-1">
+              <span class="text-base">${isCorrect ? '✅' : '❌'}</span>
+              <span class="font-bold text-xs sm:text-sm font-mono ${isCorrect ? 'text-emerald-400' : 'text-red-400'}">${isCorrect ? `¡Excelente! +${earned} pts` : 'Respuesta incorrecta (-1 vida)'}</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${rationale}</p>
+          </div>
+          <button onclick="game.nextQuestion()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-mono font-bold text-sm tracking-wide shadow-lg shadow-emerald-900/40">Continuar →</button>
+        `;
+      },
+
+      nextQuestion() {
+        const lvl = LEVELS[this.currentLevelIdx]; this.currentQuestionIdx++;
+        if (this.currentQuestionIdx < lvl.questions.length) { this.showQuestion(); }
+        else {
+          sound.fanfare(); this.completedLevels.add(lvl.id); this.unlockedBadges.add(lvl.medal.id);
+          this.saveProgress(); this.updateStatsUI(); this.showLevelSummary();
+        }
+      },
+
+      showLevelSummary() {
+        const lvl = LEVELS[this.currentLevelIdx];
+        const isAllDone = this.completedLevels.size === LEVELS.length;
+        const app = document.getElementById('app');
+        app.innerHTML = `
+          <div class="max-w-md mx-auto text-center bg-slate-900 border-2 border-amber-500/70 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl"></div>
+            <span class="text-[10px] font-mono tracking-widest text-amber-400 uppercase bg-amber-950/80 border border-amber-500/40 px-3 py-1 rounded-full">¡INSIGNIA ADQUIRIDA! • UNIDAD ${lvl.unit}</span>
+            <div class="my-4 flex flex-col items-center">
+              <div class="w-20 h-20 rounded-full bg-gradient-to-tr ${lvl.medal.color} ${lvl.medal.border} border-4 flex items-center justify-center text-4xl medal-award-anim shadow-xl">${lvl.medal.icon}</div>
+              <h3 class="text-xl font-black text-amber-300 mt-2.5">${lvl.medal.name}</h3>
+              <p class="text-xs text-emerald-400 font-mono mt-0.5">${lvl.title.split(':')[0]}</p>
+              <p class="text-xs text-slate-300 mt-2 px-2 leading-relaxed">${lvl.medal.desc}</p>
+            </div>
+            <div class="my-3 p-2.5 rounded-lg bg-slate-950 border border-slate-800 text-xs font-mono flex justify-around">
+              <div><span class="text-slate-400 block text-[10px]">PUNTAJE</span><span class="text-amber-400 font-bold text-sm">${this.score} pts</span></div>
+              <div><span class="text-slate-400 block text-[10px]">MEDALLAS</span><span class="text-amber-400 font-bold text-sm">${this.unlockedBadges.size}/${LEVELS.length}</span></div>
+            </div>
+            <div class="flex flex-col gap-2 mt-4">
+              ${(!isAllDone && this.currentLevelIdx + 1 < LEVELS.length) ? `<button onclick="game.startLevel(${this.currentLevelIdx + 1})" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs tracking-wide shadow-lg shadow-emerald-900/30">Siguiente nivel →</button>` : ''}
+              ${isAllDone ? `<button onclick="game.showVictory()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-emerald-500 text-slate-900 font-mono font-black text-sm tracking-wider shadow-lg">Ver diploma y colección completa 🏆</button>` : ''}
+              <button onclick="game.showShowcase()" class="w-full py-2 rounded-xl bg-amber-950/40 hover:bg-amber-900/50 text-amber-300 border border-amber-500/40 font-mono text-xs">Ver vitrina de insignias 🏛️</button>
+              <button onclick="game.showHome()" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-xs">Ir al panel principal</button>
+            </div>
+          </div>
+        `;
+      },
+
+      showGameOver() {
+        const app = document.getElementById('app');
+        app.innerHTML = `
+          <div class="max-w-md mx-auto text-center bg-slate-900 border border-red-600/50 rounded-2xl p-6 shadow-2xl">
+            <div class="w-14 h-14 rounded-full bg-red-500/20 border border-red-500/50 flex items-center justify-center text-3xl mx-auto mb-3">💔</div>
+            <h3 class="text-lg font-black text-white mt-2">¡Simulación interrumpida!</h3>
+            <p class="text-xs text-red-400 font-mono mt-1">Te has quedado sin vidas para este intento.</p>
+            <p class="text-sm text-slate-400 mt-2.5 leading-relaxed">No te preocupes: tu progreso acumulado y medallas están a salvo en la memoria. Repasa los conceptos clave y vuelve a intentarlo con las 3 vidas restauradas.</p>
+            <div class="mt-5 flex flex-col gap-2">
+              <button onclick="game.retryCurrentLevel()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs tracking-wide">Reintentar capítulo 🔄</button>
+              <button onclick="game.showTheory(${this.currentLevelIdx})" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 font-mono text-xs">Repasar síntesis teórica 📖</button>
+              <button onclick="game.showHome()" class="w-full py-2 rounded-xl bg-transparent hover:bg-slate-800 text-slate-400 font-mono text-xs">Menú de niveles</button>
+            </div>
+          </div>
+        `;
+      },
+
+      retryCurrentLevel() { this.lives = 3; this.updateStatsUI(); this.saveProgress(); this.startLevel(this.currentLevelIdx); },
+
+      showVictory() {
+        const app = document.getElementById('app');
+        let medalIcons = LEVELS.map(lvl => `
+          <div class="flex flex-col items-center">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-tr ${lvl.medal.color} ${lvl.medal.border} border-2 flex items-center justify-center text-base shadow-md">${lvl.medal.icon}</div>
+            <span class="text-[8px] font-mono text-amber-300 mt-0.5 text-center line-clamp-1">${lvl.medal.name}</span>
+          </div>
+        `).join('');
+
+        app.innerHTML = `
+          <div class="max-w-2xl mx-auto text-center bg-slate-900 border-2 border-emerald-400 rounded-2xl p-6 sm:p-7 shadow-2xl relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/20 rounded-full blur-2xl"></div>
+            <div class="text-5xl mb-1">🏆</div>
+            <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-3 py-0.5 rounded-full">CERTIFICACIÓN DE HONOR CATÉDRA BIOLOGÍA</span>
+            <h2 class="text-xl sm:text-2xl font-black text-white mt-2">¡Programa completo conquistado!</h2>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Has superado con éxito la totalidad de las <b>Unidades 1 y 2</b> (23 capítulos evaluados exhaustivamente con selección múltiple, V/F y términos clave).</p>
+            <div class="my-4 p-3.5 rounded-xl bg-slate-950 border border-amber-500/30">
+              <h4 class="text-[10px] font-mono text-amber-400 uppercase tracking-widest mb-2.5">🏅 Medallero oficial de honor (23 / 23)</h4>
+              <div class="grid grid-cols-4 sm:grid-cols-8 gap-2">${medalIcons}</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-emerald-900/60 font-mono text-left space-y-1.5 text-xs text-slate-300 mb-5">
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-500">Puntaje total acumulado:</span><span class="text-amber-400 font-bold">${this.score} pts</span></div>
+              <div class="flex justify-between border-b border-slate-800 pb-1"><span class="text-slate-500">Niveles aprobados:</span><span class="text-emerald-400 font-bold">23 / 23 (100%)</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Dictamen académico:</span><span class="text-cyan-300 font-bold">LISTO PARA RENDIR EL EXAMEN PARCIAL</span></div>
+            </div>
+            <div class="flex gap-3">
+              <button onclick="game.showHome()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs tracking-wide shadow-lg">Volver al panel</button>
+              <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-xs">🖨️ Imprimir diploma</button>
+            </div>
+          </div>
+        `;
+      }
+    };
+
+    window.game = game;
+    window.addEventListener('DOMContentLoaded', () => { game.init(); });
+  </script>
+</body>
+</html>
