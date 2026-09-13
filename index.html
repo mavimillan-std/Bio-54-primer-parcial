@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BioCore Academy: Operación Unidades 1 y 2</title>
+  <title>Bio 54 UBA XXI: Unidades 1 y 2</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -27,6 +27,8 @@
     .custom-scroll::-webkit-scrollbar { width: 6px; }
     .custom-scroll::-webkit-scrollbar-thumb { background-color: #059669; border-radius: 9999px; }
     .custom-scroll::-webkit-scrollbar-track { background: #0f172a; }
+    .animate-fade-in { animation: fadeIn 0.3s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-900 custom-scroll">
@@ -38,7 +40,7 @@
         <div>
           <h1 class="text-lg font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">BIOCORE // PRE-PARCIAL INTEGRAL</h1>
           <div class="flex items-center space-x-2">
-            <p class="text-xs text-slate-400 tracking-wider font-mono">UNIDADES 1 Y 2 • 23 NIVELES</p>
+            <p class="text-xs text-slate-400 tracking-wider font-mono">UNIDADES 1 Y 2 • 23 NIVELES ROTATIVOS</p>
             <span class="hidden sm:inline text-slate-600">•</span>
             <div id="save-status-indicator" class="hidden sm:flex items-center space-x-1.5 text-[10px] font-mono text-emerald-400">
               <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
@@ -75,22 +77,15 @@
     </div>
   </div>
 
-   <!-- Footer original -->
   <footer class="border-t border-slate-900 bg-slate-950 py-3 text-center text-xs text-slate-500 font-mono">
     Biología Celular & Molecular • Persistencia local automática
   </footer>
 
-  <!-- Sección de contacto y apoyo -->
   <section class="border-t border-slate-900 bg-slate-950/80 px-4 py-6">
     <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-      
-      <!-- Tarjeta Instagram -->
-      <a href="https://www.instagram.com/lourmv.mi/" target="_blank" rel="noopener noreferrer"
-         class="group flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-amber-500/10 border border-pink-500/30 hover:border-pink-400/60 hover:from-pink-500/20 hover:to-amber-500/20 transition shadow-lg">
+      <a href="https://www.instagram.com/lourmv.mi/" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-pink-500/10 via-purple-500/10 to-amber-500/10 border border-pink-500/30 hover:border-pink-400/60 hover:from-pink-500/20 hover:to-amber-500/20 transition shadow-lg">
         <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-pink-500 via-purple-500 to-amber-400 flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-110 transition">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.3-.6.7-.8 1.2-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.3.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.3.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.3-.4-.7-.6-1.2-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.1a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4zm5.3-2.9a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/>
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.3-.6.7-.8 1.2-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.3.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.3.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.3-.4-.7-.6-1.2-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1zm0 3.1a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 1.8a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4zm5.3-2.9a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
         </div>
         <div class="flex-1">
           <p class="text-xs font-mono text-pink-400 uppercase tracking-widest font-bold">Dudas, consultas, sugerencias</p>
@@ -98,20 +93,14 @@
           <p class="text-[11px] text-slate-400 font-mono mt-0.5">Seguime en Instagram →</p>
         </div>
       </a>
-
-      <!-- Tarjeta Cafecito -->
-      <a href="https://cafecito.app/lourmv_biotec" target="_blank" rel="noopener noreferrer"
-         class="group flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 border border-amber-500/30 hover:border-amber-400/60 hover:from-amber-500/20 hover:to-yellow-500/20 transition shadow-lg">
-        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-110 transition">
-          ☕
-        </div>
+      <a href="https://cafecito.app/lourmv_biotec" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 border border-amber-500/30 hover:border-amber-400/60 hover:from-amber-500/20 hover:to-yellow-500/20 transition shadow-lg">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl shadow-md group-hover:scale-110 transition">☕</div>
         <div class="flex-1">
           <p class="text-xs font-mono text-amber-400 uppercase tracking-widest font-bold">Apoyá el proyecto</p>
           <p class="text-sm font-bold text-white mt-0.5">Invitame un cafecito</p>
           <p class="text-[11px] text-slate-400 font-mono mt-0.5 leading-snug">Si te gustó / ayudó a estudiar o zafar del primer parcial, podés ayudarme a sostenerlo y seguir ampliando para el siguiente parcial / final o para crear otra materia →</p>
         </div>
       </a>
-
     </div>
     <p class="text-center text-[10px] text-slate-600 font-mono mt-4">Hecho con 💚 para estudiantes de medicina y ciencias de la salud</p>
   </section>
@@ -142,9 +131,8 @@
       fanfare() { [523.25, 659.25, 783.99, 1046.50].forEach((f, i) => this.playTone(f, 'triangle', 0.25, i * 0.12)); setTimeout(() => this.playTone(1046.50, 'square', 0.5, 0.48), 50); }
     };
     window.sound = sound;
-
     // ============================================
-    // BASE DE DATOS DE NIVELES (23 NIVELES)
+    // BASE DE DATOS DE NIVELES (23 NIVELES CON BANCO AMPLIADO)
     // ============================================
     const LEVELS = [
       // ================= UNIDAD 1 =================
@@ -161,7 +149,11 @@
           { type: "cloze", prompt: "Las gotas microscópicas delimitadas por una membrana rudimentaria formadas espontáneamente en solución coloidal propuestas por Oparin se denominan ____________.", accepted: ["coacervados", "coacervado"], hint: "Comienza con 'C' y describe agregados prebióticos de macromoléculas.", feedback: "Aleksandr Oparin las denominó coacervados, modelos clave para explicar los primeros protobiontes." },
           { type: "mc", prompt: "En medicina y ciencias de la salud, ¿cuál es el principio biológico que explica la acción terapéutica de los fármacos antibióticos y anestésicos?", options: ["La interacción fisicoquímica específica con dianas moleculares celulares (receptores, enzimas o lípidos)", "La mutación espontánea inducida en el genoma del hospedador eucariota", "La creación de nuevas barreras de aislamiento reproductivo en el paciente", "La transformación abiótica de aminoácidos en microesferas proteinoides"], correct: 0, feedback: "La farmacología molecular se sustenta en que los fármacos actúan uniéndose a dianas biológicas celulares precisas para restaurar la homeostasis." },
           { type: "tf", prompt: "Sidney Fox obtuvo coacervados calentando mezclas acuosas de lípidos y glucosa bajo radiación ultravioleta continua.", correct: false, feedback: "Falso. Sidney Fox obtuvo 'microesferas proteinoides' al calentar mezclas secas de aminoácidos y luego disolver los polímeros en agua templada." },
-          { type: "cloze", prompt: "Los monómeros orgánicos fundamentales que forman las proteínas y que fueron obtenidos espontáneamente en el experimento de Miller-Urey son los ____________.", accepted: ["aminoacidos", "aminoácidos", "aminoacido", "aminoácido"], hint: "Tienen un grupo amino y un carboxilo.", feedback: "Miller y Urey obtuvieron aminoácidos como glicina y alanina, probando la síntesis abiótica de los bloques esenciales." }
+          { type: "cloze", prompt: "Los monómeros orgánicos fundamentales que forman las proteínas y que fueron obtenidos espontáneamente en el experimento de Miller-Urey son los ____________.", accepted: ["aminoacidos", "aminoácidos", "aminoacido", "aminoácido"], hint: "Tienen un grupo amino y un carboxilo.", feedback: "Miller y Urey obtuvieron aminoácidos como glicina y alanina, probando la síntesis abiótica de los bloques esenciales." },
+          { type: "mc", prompt: "¿Qué evidencia experimental respalda la hipótesis del Mundo de ARN?", options: ["El ARN puede actuar como catalizador (ribozima) y almacenar información genética", "El ARN es más estable que el ADN a temperaturas elevadas", "El ARN contiene timina en lugar de uracilo", "El ARN se replica de forma semiconservativa con doble hélice"], correct: 0, feedback: "El ARN puede plegarse y catalizar reacciones, además de portar información, resolviendo el dilema del 'huevo o la gallina' molecular." },
+          { type: "tf", prompt: "La atmósfera primitiva era oxidante, con abundante O₂ libre producido por las primeras cianobacterias fotosintéticas.", correct: false, feedback: "Falso. La atmósfera primitiva era REDUCTORA y carecía de O₂ libre. El O₂ apareció después, con la fotosíntesis oxigénica de las cianobacterias." },
+          { type: "cloze", prompt: "La molécula de ARN con capacidad catalítica que puede cortar y empalmar otras moléculas de ARN se denomina ____________.", accepted: ["ribozima", "ribozimas"], hint: "Combina 'ribo' (ribosa) y 'zima' (enzima).", feedback: "Las ribozimas son ARN con actividad enzimática, evidencia clave del Mundo de ARN." },
+          { type: "mc", prompt: "¿Cuál fue el principal aporte del experimento de Miller y Urey a la teoría de la evolución química?", options: ["Demostró que moléculas orgánicas complejas pueden sintetizarse abióticamente a partir de gases simples y energía", "Probó que el ADN fue la primera molécula autorreplicante", "Demostró la generación espontánea de células completas", "Comprobó que el oxígeno era esencial para la síntesis de aminoácidos"], correct: 0, feedback: "Miller y Urey demostraron que la síntesis abiótica de monómeros orgánicos (aminoácidos) es químicamente posible en condiciones prebióticas." }
         ]
       },
       {
@@ -177,7 +169,11 @@
           { type: "cloze", prompt: "El tipo de ribosomas de coeficiente de sedimentación bacteriano que conservan tanto mitocondrias como cloroplastos es el ribosoma ____________.", accepted: ["70s", "70 s"], hint: "Valor numérico seguido de la letra S (en procariotas).", feedback: "Tienen ribosomas 70S, lo que les permite sintetizar parte de sus proteínas de forma independiente al núcleo." },
           { type: "mc", prompt: "Según la secuenciación filogenética del ARN ribosomal (ARNr), las mitocondrias descienden evolutivamente de:", options: ["Proteobacterias aeróbicas", "Cianobacterias fotosintéticas", "Levaduras unicelulares saprobias", "Arqueas termófilas metanógenas"], correct: 0, feedback: "Las mitocondrias descienden de proteobacterias aeróbicas, mientras que los cloroplastos provienen de cianobacterias." },
           { type: "cloze", prompt: "La investigadora bióloga que formuló y defendió la Teoría de la Endosimbiosis Seriada es Lynn ____________.", accepted: ["margulis"], hint: "Apellido de la científica estadounidense más influyente en biología celular.", feedback: "Lynn Margulis propuso y sustentó este modelo revolucionario para el origen de la célula eucariota." },
-          { type: "tf", prompt: "Las mitocondrias se replican en sincronía estricta y exclusiva únicamente durante la fase de mitosis nuclear de la célula eucariota.", correct: false, feedback: "Falso. Las mitocondrias se replican de forma autónoma por fisión binaria en el citosol según los requerimientos metabólicos celulares." }
+          { type: "tf", prompt: "Las mitocondrias se replican en sincronía estricta y exclusiva únicamente durante la fase de mitosis nuclear de la célula eucariota.", correct: false, feedback: "Falso. Las mitocondrias se replican de forma autónoma por fisión binaria en el citosol según los requerimientos metabólicos celulares." },
+          { type: "mc", prompt: "¿Cuál de los siguientes postulados de la Teoría Celular corresponde a Rudolf Virchow?", options: ["Toda célula proviene de otra célula preexistente (Omnis cellula e cellula)", "Todos los organismos están formados por células", "La célula es la unidad funcional de los seres vivos", "Las células contienen el material hereditario"], correct: 0, feedback: "Virchow formuló el postulado de origen: 'Omnis cellula e cellula', descartando la generación espontánea." },
+          { type: "cloze", prompt: "Los cloroplastos descienden evolutivamente de bacterias fotosintéticas del grupo de las ____________.", accepted: ["cianobacterias", "cianobacteria"], hint: "Bacterias verde-azuladas capaces de fotosíntesis oxigénica.", feedback: "Los cloroplastos provienen de cianobacterias endosimbiontes, según la teoría de Margulis." },
+          { type: "tf", prompt: "La membrana externa de mitocondrias y cloroplastos es homóloga a la membrana de la vesícula fagocítica de la célula hospedadora.", correct: true, feedback: "Verdadero. La membrana externa proviene de la célula hospedadora; la interna, del procariota endosimbionte." },
+          { type: "mc", prompt: "¿Cuál de los siguientes NO es un postulado de la Teoría Celular?", options: ["Las células se originan por generación espontánea a partir de materia inerte", "Todos los seres vivos están formados por una o más células", "La célula es la unidad estructural y funcional de la vida", "Toda célula proviene de otra célula preexistente"], correct: 0, feedback: "La generación espontánea fue refutada por Pasteur, Virchow y otros. La Teoría Celular la descarta explícitamente." }
         ]
       },
       {
@@ -193,7 +189,11 @@
           { type: "tf", prompt: "Una población se define como el conjunto de organismos de distintas especies que coexisten e interactúan en un mismo hábitat.", correct: false, feedback: "Falso. La población reúne a organismos de la MISMA especie. El conjunto de distintas especies interactuando conforma una 'comunidad'." },
           { type: "cloze", prompt: "La cualidad única de los seres vivos de fabricar y renovar continuamente sus propios componentes moleculares a partir de energía externa se llama ____________.", accepted: ["autopoyesis", "autopoiesis"], hint: "Término formulado por Maturana y Varela.", feedback: "La autopoyesis (auto-creación) define estructural y operacionalmente a un ser vivo según la biología contemporánea." },
           { type: "mc", prompt: "¿Cuál de los siguientes ejemplos corresponde estrictamente al nivel de organización SUB-CELULAR (organelas)?", options: ["Mitocondrias, ribosomas y aparato de Golgi", "Una neurona piramidal de la corteza cerebral", "Tejido epitelial estratificado queratinizado", "Una molécula de hemoglobina unida a oxígeno"], correct: 0, feedback: "Las organelas macromoleculares como mitocondrias y ribosomas integran el nivel subcelular, mientras que la neurona es celular y la hemoglobina es molecular." },
-          { type: "tf", prompt: "Un ecosistema engloba tanto a los factores bióticos (la comunidad biológica) como a los factores abióticos (el entorno físico inerte).", correct: true, feedback: "Verdadero. El ecosistema resulta de la interacción dinámica entre la biocenosis (comunidad) y el biotopo (medio abiótico)." }
+          { type: "tf", prompt: "Un ecosistema engloba tanto a los factores bióticos (la comunidad biológica) como a los factores abióticos (el entorno físico inerte).", correct: true, feedback: "Verdadero. El ecosistema resulta de la interacción dinámica entre la biocenosis (comunidad) y el biotopo (medio abiótico)." },
+          { type: "mc", prompt: "¿Cuál es el orden jerárquico correcto de menor a mayor complejidad?", options: ["Nivel molecular → subcelular (organela) → celular → tisular", "Nivel atómico → celular → tisular → macromolecular", "Nivel tisular → celular → orgánico → ecosistema", "Nivel subcelular → molecular → población → comunidad"], correct: 0, feedback: "Las moléculas componen las organelas (subcelular), las cuales estructuran a la célula viva, y las células cooperan en tejidos." },
+          { type: "cloze", prompt: "El conjunto de poblaciones de distintas especies que coexisten e interactúan en un mismo hábitat se denomina ____________.", accepted: ["comunidad", "biocenosis"], hint: "Nivel de organización entre población y ecosistema.", feedback: "La comunidad (o biocenosis) agrupa a todas las poblaciones que conviven en un área determinada." },
+          { type: "tf", prompt: "La irritabilidad es la capacidad de los seres vivos de percibir estímulos del medio y responder de forma adaptativa.", correct: true, feedback: "Verdadero. La irritabilidad (o sensibilidad) es una propiedad fundamental de los seres vivos." },
+          { type: "mc", prompt: "¿Cuál de las siguientes NO es una característica de los seres vivos?", options: ["Composición química invariable a lo largo del tiempo", "Metabolismo (anabolismo y catabolismo)", "Reproducción y herencia", "Homeostasis y autopoyesis"], correct: 0, feedback: "Los seres vivos tienen composición química dinámica, que se renueva constantemente. La invariabilidad química no es una característica de la vida." }
         ]
       },
       {
@@ -209,7 +209,11 @@
           { type: "cloze", prompt: "El dominio propuesto por Carl Woese que agrupa a procariotas adaptados a condiciones ambientales extremas (metanógenos, halófilos) es ____________.", accepted: ["archaea", "arqueas", "arquea"], hint: "Uno de los tres dominios, etimológicamente vinculado a lo 'antiguo'.", feedback: "El Dominio Archaea reúne a procariotas con lípidos de membrana y maquinaria transcripcional distintiva adaptados a hábitats extremos." },
           { type: "mc", prompt: "¿Cuál de los siguientes organismos pertenece al reino Protista?", options: ["Amoeba proteus y Paramecium caudatum", "Escherichia coli y Streptococcus pneumoniae", "Saccharomyces cerevisiae y Agaricus bisporus", "Homo sapiens y Canis lupus familiaris"], correct: 0, feedback: "Amebas y paramecios son organismos eucariotas unicelulares heterótrofos agrupados en el reino Protista." },
           { type: "cloze", prompt: "El principal polisacárido que integra la pared celular de los organismos del reino Plantae es la ____________.", accepted: ["celulosa"], hint: "Polímero insoluble de glucosa con enlaces beta(1-4).", feedback: "La celulosa forma microfibrillas rígidas que protegen y dan sostén a las células vegetales." },
-          { type: "tf", prompt: "Las células de los organismos del reino Animalia carecen por completo de pared celular rígida exterior.", correct: true, feedback: "Verdadero. Las células animales no tienen pared celular, lo que les permite mayor plasticidad y movilidad tisular." }
+          { type: "tf", prompt: "Las células de los organismos del reino Animalia carecen por completo de pared celular rígida exterior.", correct: true, feedback: "Verdadero. Las células animales no tienen pared celular, lo que les permite mayor plasticidad y movilidad tisular." },
+          { type: "mc", prompt: "¿Cuál es la principal diferencia entre el Dominio Bacteria y el Dominio Archaea?", options: ["Archaea posee lípidos de membrana y maquinaria transcripcional distintivos, y habita ambientes extremos", "Archaea posee núcleo verdadero y organelas membranosas", "Bacteria posee ADN circular y Archaea ADN lineal con histonas", "Bacteria carece de pared celular y Archaea posee peptidoglicano"], correct: 0, feedback: "Aunque ambos son procariotas, Archaea tiene lípidos de membrana con enlaces éter, ARN polimerasas y secuencias génicas distintivas." },
+          { type: "cloze", prompt: "El reino que agrupa a los organismos eucariotas heterótrofos por ingestión activa, sin pared celular, es el reino ____________.", accepted: ["animalia", "animal"], hint: "Incluye desde esponjas hasta mamíferos.", feedback: "El reino Animalia agrupa a organismos pluricelulares heterótrofos por ingestión, sin pared celular." },
+          { type: "tf", prompt: "Los dominios Bacteria y Archaea son procariotas, mientras que Eukarya agrupa a todos los organismos con células eucariotas.", correct: true, feedback: "Verdadero. Los tres dominios de Woese se dividen en dos procariotas (Bacteria y Archaea) y uno eucariota (Eukarya)." },
+          { type: "mc", prompt: "¿Cuál de los siguientes organismos NO pertenece al reino Monera?", options: ["Saccharomyces cerevisiae (levadura)", "Escherichia coli", "Streptococcus pneumoniae", "Cianobacteria"], correct: 0, feedback: "Saccharomyces cerevisiae es un hongo (reino Fungi), no una bacteria. Los demás son procariotas del reino Monera." }
         ]
       },
       {
@@ -225,7 +229,11 @@
           { type: "tf", prompt: "A 0 °C, el hielo es más denso que el agua líquida a 4 °C, por lo que se hunde al fondo de los lagos facilitando la congelación total del ecosistema.", correct: false, feedback: "Falso. El hielo es MENOS denso porque los puentes de H forman una red cristalina abierta; flota en la superficie y actúa como aislante térmico." },
           { type: "mc", prompt: "En la contracción del miocito cardíaco y en la exocitosis de neurotransmisores, ¿qué ion actúa como segundo mensajero clave?", options: ["Calcio (Ca²⁺)", "Sodio (Na⁺)", "Cloruro (Cl⁻)", "Potasio (K⁺)"], correct: 0, feedback: "El ion Ca²⁺ es el transductor y segundo mensajero intracelular por excelencia en la contracción muscular y secreción vesicular." },
           { type: "cloze", prompt: "Los sistemas químicos que estabilizan el pH intracelular y sanguíneo captando o liberando H⁺ (como el bicarbonato y fosfato) se denominan amortiguadores o ____________.", accepted: ["buffers", "tampones", "buffer", "tampon", "tampón"], hint: "Concepto químico de regulación ácidobase.", feedback: "Los buffers amortiguan cambios bruscos de pH que de otro modo desnaturalizarían las proteínas celulares." },
-          { type: "tf", prompt: "En las reacciones celulares de hidrólisis, el agua interviene de forma directa como reactivo para romper enlaces covalentes.", correct: true, feedback: "Verdadero. La hidrólisis rompe uniones macromoleculares mediante la incorporación de una molécula de agua (H y OH)." }
+          { type: "tf", prompt: "En las reacciones celulares de hidrólisis, el agua interviene de forma directa como reactivo para romper enlaces covalentes.", correct: true, feedback: "Verdadero. La hidrólisis rompe uniones macromoleculares mediante la incorporación de una molécula de agua (H y OH)." },
+          { type: "mc", prompt: "¿Cuál es la propiedad del agua que permite la transpiración como un mecanismo corporal de enfriamiento altamente eficiente?", options: ["Su elevado calor de vaporización", "Su baja tensión superficial", "Su reducida constante dieléctrica", "Su mínima fuerza de adhesión con la queratina"], correct: 0, feedback: "Al evaporarse, el agua absorbe gran cantidad de energía térmica para romper puentes de H, enfriando la superficie del cuerpo." },
+          { type: "cloze", prompt: "El ion que actúa como cofactor indispensable de polimerasas y estabiliza los ácidos nucleicos es el ____________.", accepted: ["magnesio", "mg2+", "mg"], hint: "Catión divalente con símbolo Mg²⁺.", feedback: "El Mg²⁺ es cofactor de polimerasas y estabiliza la estructura de los ácidos nucleicos." },
+          { type: "tf", prompt: "El agua es un dipolo porque el oxígeno atrae con más fuerza los electrones compartidos que los hidrógenos, generando cargas parciales negativas y positivas.", correct: true, feedback: "Verdadero. La electronegatividad del oxígeno genera un dipolo: carga parcial negativa (δ-) en O y positiva (δ+) en H." },
+          { type: "mc", prompt: "¿Qué propiedad del agua permite el ascenso de la savia en las plantas a través de conductos microscópicos contra la gravedad?", options: ["La combinación de cohesión y adhesión (capilaridad)", "Su baja constante dieléctrica", "Su densidad anómala a 4 °C", "Su carácter apolar"], correct: 0, feedback: "La cohesión (atracción entre moléculas de agua) y la adhesión (atracción con superficies polares) generan la capilaridad." }
         ]
       },
       {
@@ -241,7 +249,11 @@
           { type: "tf", prompt: "El par de bases Guanina-Citosina se une mediante dos puentes de hidrógeno, por lo que desnaturaliza a menor temperatura que el par Adenina-Timina.", correct: false, feedback: "Falso. G-C se une mediante TRES puentes de hidrógeno, lo que le otorga mayor estabilidad mecánica y termo-resistencia que A-T (que solo tiene dos)." },
           { type: "mc", prompt: "¿Cuál es la diferencia química estructural entre la pentosa del ARN y la del ADN?", options: ["El ARN posee ribosa con un grupo hidroxilo (-OH) en el carbono 2', mientras la desoxirribosa del ADN tiene un hidrógeno (-H)", "El ADN tiene una hexosa de 6 carbonos y el ARN una triosa lineal", "El ARN posee una base nitrogenada en el carbono 5' y el ADN en el carbono 3'", "La desoxirribosa posee dos grupos fosfatos unidos al carbono anomérico"], correct: 0, feedback: "La ribosa posee -OH en C2', haciéndola más reactiva y lábil; la desoxirribosa carece de ese oxígeno (-H), otorgando estabilidad química al genoma." },
           { type: "cloze", prompt: "La base nitrogenada pirimidínica exclusiva presente en el ARN que reemplaza a la timina del ADN es el ____________.", accepted: ["uracilo"], hint: "Comienza con la letra U.", feedback: "El uracilo es la pirimidina del ARN que se aparea de manera complementaria con la adenina." },
-          { type: "tf", prompt: "La síntesis y elongación enzimática de las cadenas de ácidos nucleicos ocurre indefectiblemente en dirección 5' a 3'.", correct: true, feedback: "Verdadero. Las polimerasas añaden nuevos nucleótidos exclusivamente sobre el extremo 3'-OH libre de la cadena en crecimiento." }
+          { type: "tf", prompt: "La síntesis y elongación enzimática de las cadenas de ácidos nucleicos ocurre indefectiblemente en dirección 5' a 3'.", correct: true, feedback: "Verdadero. Las polimerasas añaden nuevos nucleótidos exclusivamente sobre el extremo 3'-OH libre de la cadena en crecimiento." },
+          { type: "mc", prompt: "¿Cuál de las siguientes parejas de bases nitrogenadas requiere tres puentes de hidrógeno para su apareamiento complementario?", options: ["Guanina y Citosina", "Adenina y Timina", "Adenina y Uracilo", "Citosina y Timina"], correct: 0, feedback: "El apareamiento G-C cuenta con 3 puentes de hidrógeno, confiriéndole mayor estabilidad que el apareamiento A-T." },
+          { type: "cloze", prompt: "La unión de una base nitrogenada con una pentosa mediante enlace N-glicosídico se denomina ____________.", accepted: ["nucleosido", "nucleósido"], hint: "Carece de grupo fosfato.", feedback: "Un nucleósido es base + pentosa. Al añadirse uno o más fosfatos se convierte en nucleótido." },
+          { type: "tf", prompt: "Las purinas (Adenina y Guanina) poseen un anillo bicíclico, mientras que las pirimidinas (Citosina, Timina, Uracilo) tienen un anillo monocíclico.", correct: true, feedback: "Verdadero. Las purinas tienen dos anillos fusionados; las pirimidinas, uno solo." },
+          { type: "mc", prompt: "¿Cuál es la principal función biológica del ARN mensajero (ARNm)?", options: ["Transcribir y transportar la información genética del ADN hacia los ribosomas para la síntesis de proteínas", "Formar la estructura del ribosoma junto con proteínas", "Transportar aminoácidos específicos al ribosoma", "Almacenar la información genética a largo plazo"], correct: 0, feedback: "El ARNm copia la secuencia del ADN y la lleva a los ribosomas, donde se traduce en proteínas." }
         ]
       },
       {
@@ -257,7 +269,11 @@
           { type: "tf", prompt: "La fructosa es clasificada químicamente como una aldosa debido a que posee su grupo funcional carbonilo en el carbono 1.", correct: false, feedback: "Falso. La fructosa es una cetosa (presenta un grupo cetona en el carbono 2). La glucosa y galactosa sí son aldosas." },
           { type: "cloze", prompt: "El polisacárido de reserva altamente ramificado que acumula glucosa en hepatocitos y fibras musculares es el ____________.", accepted: ["glucogeno", "glucógeno"], hint: "Equivalente animal del almidón vegetal.", feedback: "El glucógeno permite almacenar miles de glucosas sin crear una hiperosmolaridad citoplasmática que lisaría a la célula." },
           { type: "mc", prompt: "Cuando una hexosa como la glucosa se cicla en disolución acuosa y su grupo -OH anomérico queda orientado hacia abajo del plano del anillo, se define el estereoisómero:", options: ["Anómero alfa (α)", "Anómero beta (β)", "Isómero levógiro forzado", "Enantiómero anfipático"], correct: 0, feedback: "En la conformación ciclada, si el hidroxilo del carbono anomérico (C1) apunta hacia abajo del plano del anillo es la forma α; hacia arriba es la forma β." },
-          { type: "tf", prompt: "La quitina es un polisacárido estructural constituido por monómeros de N-acetilglucosamina presente en la pared de hongos y exoesqueleto de artrópodos.", correct: true, feedback: "Verdadero. La quitina aporta resistencia mecánica mediante enlaces β(1→4) en el exoesqueleto animal de artrópodos y en hongos." }
+          { type: "tf", prompt: "La quitina es un polisacárido estructural constituido por monómeros de N-acetilglucosamina presente en la pared de hongos y exoesqueleto de artrópodos.", correct: true, feedback: "Verdadero. La quitina aporta resistencia mecánica mediante enlaces β(1→4) en el exoesqueleto animal de artrópodos y en hongos." },
+          { type: "mc", prompt: "¿Cuál es la principal diferencia entre la amilosa y la amilopectina?", options: ["La amilosa es lineal con enlaces α(1→4); la amilopectina es ramificada con enlaces α(1→6)", "La amilosa es un disacárido y la amilopectina un monosacárido", "La amilosa está en animales y la amilopectina en vegetales", "La amilosa es un polisacárido estructural y la amilopectina de reserva"], correct: 0, feedback: "La amilosa es un polímero lineal de glucosa; la amilopectina presenta ramificaciones cada 24-30 residuos." },
+          { type: "cloze", prompt: "El disacárido formado por glucosa y fructosa unidas por enlace α(1→2), abundante en la caña de azúcar, es la ____________.", accepted: ["sacarosa"], hint: "Azúcar de mesa.", feedback: "La sacarosa es el principal azúcar de transporte en plantas." },
+          { type: "tf", prompt: "La celulosa puede ser digerida por el ser humano gracias a la enzima celulasa presente en el intestino delgado.", correct: false, feedback: "Falso. El ser humano carece de celulasa, por lo que la celulosa no se digiere y actúa como fibra dietética." },
+          { type: "mc", prompt: "¿Cuál es la función principal de los carbohidratos en la célula?", options: ["Ser la principal fuente de energía de utilización inmediata (glucosa) y formar estructuras (celulosa, quitina)", "Almacenar información genética", "Formar la bicapa lipídica de las membranas", "Catalizar reacciones enzimáticas"], correct: 0, feedback: "Los carbohidratos cumplen funciones energéticas (glucosa, glucógeno) y estructurales (celulosa, quitina)." }
         ]
       },
       {
@@ -273,7 +289,11 @@
           { type: "tf", prompt: "El colesterol es un esteroide de cuatro anillos presente en células vegetales que actúa como principal fuente de ATP de degradación rápida.", correct: false, feedback: "Falso. El colesterol es exclusivo de células animales (los vegetales tienen fitoesteroles) y no rinde ATP rápido, sino que modula la fluidez de membrana." },
           { type: "mc", prompt: "¿Qué ocurre físicamente con las colas apolares de los fosfolípidos al organizarse espontáneamente en una bicapa en medio acuoso?", options: ["Se orientan hacia el interior de la membrana para excluirse mutuamente del contacto con el agua (efecto hidrofóbico)", "Forman puentes de hidrógeno directos con las moléculas de agua extracelulares", "Se condensan liberando iones calcio y sodio hacia el citoplasma", "Se polimerizan mediante enlaces glucosídicos insolubles"], correct: 0, feedback: "El efecto hidrofóbico minimiza el contacto desfavorable con el agua orientando las colas hidrocarbonadas hacia el núcleo interno de la bicapa." },
           { type: "cloze", prompt: "Los ácidos grasos que carecen de dobles enlaces carbono-carbono y poseen cadenas rectilíneas sólidas a temperatura ambiente se llaman ácidos grasos ____________.", accepted: ["saturados", "saturado"], hint: "Poseen la cantidad máxima posible de hidrógenos.", feedback: "Los ácidos grasos saturados se empaquetan rígidamente por fuerzas de Van der Waals, formando sebos sólidos a temperatura corporal." },
-          { type: "tf", prompt: "Los dobles enlaces en configuración geométrica 'cis' introducen acodamientos rígidos en los ácidos grasos insaturados impidiendo su empaquetamiento.", correct: true, feedback: "Verdadero. Los quiebres de la configuración cis aumentan el espacio entre lípidos, disminuyendo el punto de fusión (aceites fluidos)." }
+          { type: "tf", prompt: "Los dobles enlaces en configuración geométrica 'cis' introducen acodamientos rígidos en los ácidos grasos insaturados impidiendo su empaquetamiento.", correct: true, feedback: "Verdadero. Los quiebres de la configuración cis aumentan el espacio entre lípidos, disminuyendo el punto de fusión (aceites fluidos)." },
+          { type: "mc", prompt: "¿Cuál es la función principal de los fosfolípidos en la célula?", options: ["Formar la bicapa lipídica de las membranas biológicas", "Almacenar energía a largo plazo", "Transportar oxígeno en la sangre", "Catalizar reacciones enzimáticas"], correct: 0, feedback: "Los fosfolípidos son los componentes estructurales principales de las membranas celulares." },
+          { type: "cloze", prompt: "El lípido esteroideo de cuatro anillos fusionados que regula la fluidez y estabilidad térmica en las membranas de células animales es el ____________.", accepted: ["colesterol"], hint: "Molécula clave en medicina cardiovascular y membrana plasmática.", feedback: "El colesterol modula la fluidez al intercalarse entre los fosfolípidos." },
+          { type: "tf", prompt: "Los triglicéridos están formados por una molécula de glicerol unida a tres ácidos grasos mediante enlaces éster.", correct: true, feedback: "Verdadero. Los triglicéridos (triacilgliceroles) son ésteres de glicerol con tres ácidos grasos." },
+          { type: "mc", prompt: "¿Qué característica diferencia a los ácidos grasos insaturados de los saturados?", options: ["Los insaturados poseen uno o más dobles enlaces que generan acodamientos en la cadena", "Los insaturados son sólidos a temperatura ambiente", "Los saturados poseen dobles enlaces en configuración cis", "Los insaturados tienen menor cantidad de hidrógenos y son sólidos"], correct: 0, feedback: "Los dobles enlaces en configuración cis generan acodamientos que impiden el empaquetamiento compacto, manteniéndolos líquidos." }
         ]
       },
       {
@@ -289,7 +309,11 @@
           { type: "tf", prompt: "Los glucolípidos de membrana (cerebrósidos y gangliósidos) se localizan orientados preferentemente hacia la cara citoplasmática interna de la membrana plasmática.", correct: false, feedback: "Falso. Se localizan EXCLUSIVAMENTE orientados hacia la cara extracelular, participando en el reconocimiento celular y receptores del glicocáliz." },
           { type: "mc", prompt: "¿Cuál es la función biológica primordial de las ceras en vegetales (cutícula de hojas y frutos) y en animales (glándula uropígea de aves o cerumen)?", options: ["Formar cubiertas biológicas altamente insolubles que impiden la pérdida de agua por evaporación o la mojabilidad", "Actuar como catalizadores enzimáticos para la síntesis de glucógeno", "Almacenar nucleótidos trifosfatados para la división por mitosis", "Generar gradientes quimiosmóticos de protones transmembrana"], correct: 0, feedback: "Las ceras son ésteres apolares de cadena larga cuya extrema hidrofobicidad provee impermeabilización frente al agua y desecación." },
           { type: "cloze", prompt: "Los esfingolípidos que contienen cadenas de oligosacáridos con uno o más residuos de ácido siálico (ácido N-acetilneuramínico) se denominan ____________.", accepted: ["gangliosidos", "gangliósidos", "gangliosido", "gangliósido"], hint: "Abundantes en tejido nervioso y receptores de membrana.", feedback: "Los gangliósidos son glucolípidos complejos determinantes para el reconocimiento y transducción de señales en membranas celulares." },
-          { type: "tf", prompt: "La desmielinización en patologías humanas (como la esclerosis múltiple) es una alteración en la arquitectura de esfingolípidos que colapsa la transmisión del impulso nervioso.", correct: true, feedback: "Verdadero. La pérdida de esfingomielina en la vaina axonal destruye la resistencia de membrana e interrumpe la conducción del potencial de acción." }
+          { type: "tf", prompt: "La desmielinización en patologías humanas (como la esclerosis múltiple) es una alteración en la arquitectura de esfingolípidos que colapsa la transmisión del impulso nervioso.", correct: true, feedback: "Verdadero. La pérdida de esfingomielina en la vaina axonal destruye la resistencia de membrana e interrumpe la conducción del potencial de acción." },
+          { type: "mc", prompt: "¿Cuál es la principal diferencia estructural entre un fosfolípido y un esfingolípido?", options: ["El esfingolípido posee esfingosina en lugar de glicerol como esqueleto", "El fosfolípido posee esfingosina y el esfingolípido glicerol", "El esfingolípido carece de ácidos grasos", "El fosfolípido no posee grupo fosfato"], correct: 0, feedback: "Los esfingolípidos tienen esfingosina como esqueleto; los fosfolípidos, glicerol." },
+          { type: "cloze", prompt: "El aminoalcohol de cadena larga que forma el esqueleto de los esfingolípidos se denomina ____________.", accepted: ["esfingosina"], hint: "Base estructural de ceramidas y esfingomielina.", feedback: "La esfingosina es un aminoalcohol con una cadena hidrocarbonada larga y un grupo amino." },
+          { type: "tf", prompt: "Los cerebrósidos son glucolípidos formados por ceramida unida a un monosacárido como la galactosa o glucosa.", correct: true, feedback: "Verdadero. Los cerebrósidos son glucoesfingolípidos con un solo azúcar, abundantes en la mielina del sistema nervioso." },
+          { type: "mc", prompt: "¿Cuál es la función principal de los glucolípidos en la membrana plasmática?", options: ["Participar en el reconocimiento celular y la adhesión, formando parte del glicocáliz", "Formar la bicapa estructural de la membrana", "Almacenar energía a largo plazo", "Transportar iones a través de la membrana"], correct: 0, feedback: "Los glucolípidos se orientan hacia la cara externa y participan en el reconocimiento celular, antígenos de grupos sanguíneos y adhesión." }
         ]
       },
       {
@@ -305,7 +329,11 @@
           { type: "tf", prompt: "A un valor de pH exactamente igual a su punto isoeléctrico (pI), una proteína presenta carga neta cero y su solubilidad en solución acuosa alcanza su valor máximo.", correct: false, feedback: "Falso. Al tener carga neta cero, no existen repulsiones electrostáticas entre las moléculas, por lo que su solubilidad cae al mínimo y tiende a precipitar." },
           { type: "mc", prompt: "¿Qué característica fisicoquímica particular presenta el enlace peptídico (-CO-NH-)?", options: ["Posee carácter parcial de doble enlace por resonancia que impide la libre rotación", "Es un enlace electrostático débil que se rompe espontáneamente a temperatura ambiente", "Es un enlace de tipo éster formado por el azufre de la metionina", "Permite la rotación completa de 360 grados sobre el enlace carbono-nitrógeno"], correct: 0, feedback: "La resonancia electrónica entre el C carbonílico y el N amídico restringe la rotación, obligando a los 6 átomos a permanecer en un plano rígido." },
           { type: "cloze", prompt: "Las proteínas compuestas formadas por una cadena polipeptídica unida a una porción no proteica llamada grupo prostético se denominan proteínas ____________.", accepted: ["conjugadas", "conjugada"], hint: "Como la hemoglobina con su grupo hemo o las glicoproteínas.", feedback: "Las proteínas conjugadas (o heteroproteínas) requieren de su grupo prostético para cumplir su actividad biológica." },
-          { type: "tf", prompt: "La desnaturalización proteica por calor destruye los enlaces peptídicos de la estructura primaria, fragmentando la cadena en aminoácidos libres.", correct: false, feedback: "Falso. La desnaturalización rompe las interacciones no covalentes (puentes de H, iónicas, hidrofóbicas) y puentes disulfuro, pero los enlaces peptídicos de la estructura primaria se mantienen intactos." }
+          { type: "tf", prompt: "La desnaturalización proteica por calor destruye los enlaces peptídicos de la estructura primaria, fragmentando la cadena en aminoácidos libres.", correct: false, feedback: "Falso. La desnaturalización rompe las interacciones no covalentes (puentes de H, iónicas, hidrofóbicas) y puentes disulfuro, pero los enlaces peptídicos de la estructura primaria se mantienen intactos." },
+          { type: "mc", prompt: "A pH fisiológico (~7.4), los aminoácidos existen predominantemente como:", options: ["Zwitteriones (ion dipolar) con -COO⁻ y -NH₃⁺", "Moléculas no cargadas con -COOH y -NH₂", "Aniones con carga neta negativa", "Cationes con carga neta positiva"], correct: 0, feedback: "A pH fisiológico, el grupo carboxilo se desprotona (-COO⁻) y el amino se protona (-NH₃⁺), formando un zwitterión." },
+          { type: "cloze", prompt: "El número de aminoácidos distintos que se utilizan para construir proteínas en los seres vivos es de ____________.", accepted: ["20", "veinte"], hint: "Cantidad de aminoácidos proteinogénicos estándar.", feedback: "Existen 20 aminoácidos estándar que se incorporan en las proteínas durante la traducción." },
+          { type: "tf", prompt: "La glicina es el único aminoácido que carece de carbono alfa quiral, ya que posee dos hidrógenos unidos a él.", correct: true, feedback: "Verdadero. Al tener dos H en el carbono alfa, la glicina no es quiral y carece de estereoisómeros D/L." },
+          { type: "mc", prompt: "¿Cuál es el tipo de enlace que une dos aminoácidos en una proteína?", options: ["Enlace peptídico (amida)", "Enlace fosfodiéster", "Enlace glucosídico", "Enlace éster"], correct: 0, feedback: "El enlace peptídico es un enlace amida entre el -COOH de un aminoácido y el -NH₂ del siguiente, con liberación de agua." }
         ]
       },
       {
@@ -321,7 +349,11 @@
           { type: "tf", prompt: "La desnaturalización proteica provocada por temperaturas elevadas implica la ruptura de los enlaces peptídicos de la estructura primaria.", correct: false, feedback: "Falso. La desnaturalización rompe las interacciones no covalentes y puentes disulfuro (2ria, 3ria, 4ria), pero la estructura primaria unida por enlaces peptídicos se mantiene intacta." },
           { type: "mc", prompt: "¿Cuál de las siguientes fuerzas fisicoquímicas es el motor principal que impulsa el plegamiento tridimensional de una proteína globular soluble en agua?", options: ["Las interacciones hidrofóbicas (las cadenas R no polares se agrupan en el interior excluidas del agua)", "La formación de enlaces éster entre los fosfolípidos y las cadenas R", "La repulsión electrostática continua entre residuos de lisina y arginina", "El apareamiento antiparalelo por complementariedad de bases nitrogenadas"], correct: 0, feedback: "El efecto hidrofóbico es la fuerza impulsora: las cadenas apolares se ocultan del agua en el núcleo de la proteína y las polares se exponen en la superficie." },
           { type: "cloze", prompt: "Una proteína compuesta que requiere asociarse a una fracción no proteica (como el grupo hemo con hierro en la hemoglobina) se denomina proteína ____________.", accepted: ["conjugada", "conjugadas", "heteroproteina", "heteroproteína"], hint: "Opuesto a proteína simple u holoproteína.", feedback: "Las proteínas conjugadas requieren de su grupo prostético para ejercer su actividad biológica." },
-          { type: "tf", prompt: "La estructura cuaternaria de una proteína se estabiliza exclusivamente mediante enlaces peptídicos entre las subunidades que la componen.", correct: false, feedback: "Falso. La estructura cuaternaria se mantiene por interacciones no covalentes (hidrofóbicas, iónicas, puentes de H) entre las subunidades, no por enlaces peptídicos." }
+          { type: "tf", prompt: "La estructura cuaternaria de una proteína se estabiliza exclusivamente mediante enlaces peptídicos entre las subunidades que la componen.", correct: false, feedback: "Falso. La estructura cuaternaria se mantiene por interacciones no covalentes (hidrofóbicas, iónicas, puentes de H) entre las subunidades, no por enlaces peptídicos." },
+          { type: "mc", prompt: "¿Qué nivel de estructura proteica se ve alterado por una mutación puntual que cambia un aminoácido en la secuencia?", options: ["La estructura primaria", "Solo la estructura cuaternaria", "Únicamente la estructura secundaria", "Ninguna, las mutaciones no afectan la estructura"], correct: 0, feedback: "Una mutación cambia la secuencia de aminoácidos (estructura primaria) y, en cascada, puede alterar el plegamiento y la función." },
+          { type: "cloze", prompt: "El plegamiento local regular de la cadena polipeptídica en hélice α o hoja plegada β se estabiliza mediante puentes de ____________.", accepted: ["hidrogeno", "hidrógeno"], hint: "Interacción débil entre C=O y N-H del esqueleto peptídico.", feedback: "Los puentes de hidrógeno entre los grupos C=O y N-H del esqueleto estabilizan la estructura secundaria." },
+          { type: "tf", prompt: "La hemoglobina es un ejemplo clásico de proteína con estructura cuaternaria, formada por cuatro subunidades (dos alfa y dos beta).", correct: true, feedback: "Verdadero. La hemoglobina tiene estructura cuaternaria (α₂β₂) y presenta cooperatividad en la unión al oxígeno." },
+          { type: "mc", prompt: "¿Cuál de los siguientes agentes NO provoca desnaturalización proteica?", options: ["Soluciones isotónicas fisiológicas a pH 7.4", "Temperaturas elevadas", "pH extremos (ácidos o básicos)", "Detergentes y urea"], correct: 0, feedback: "Las soluciones isotónicas a pH fisiológico mantienen la estructura nativa de las proteínas. Los demás agentes la desnaturalizan." }
         ]
       },
       {
@@ -337,7 +369,11 @@
           { type: "cloze", prompt: "El cambio brusco y azaroso en las frecuencias alélicas debido a catástrofes ambientales no selectivas que reducen drásticamente la población se denomina cuello de ____________.", accepted: ["botella"], hint: "Metáfora del recipiente estrecho.", feedback: "El efecto de 'cuello de botella' es una forma de deriva génica donde el azar diezma la variabilidad del reservorio original." },
           { type: "mc", prompt: "¿Cuál de los siguientes mecanismos de aislamiento reproductivo actúa de forma POST-cigótica impidiendo que el híbrido resultante sea fértil?", options: ["Esterilidad del híbrido", "Aislamiento etológico o conductual", "Aislamiento mecánico por incompatibilidad genital", "Aislamiento temporal o estacional"], correct: 0, feedback: "La esterilidad del híbrido (como la mula) es un mecanismo post-cigótico que impide la continuidad del flujo génico." },
           { type: "cloze", prompt: "La modalidad de especiación que ocurre cuando una barrera geográfica física divide una población original en dos subpoblaciones aisladas se denomina especiación ____________.", accepted: ["alopatrica", "alopátrica"], hint: "Del griego 'alo' = otro, 'patria' = tierra.", feedback: "La especiación alopátrica es la más común y ocurre por aislamiento geográfico seguido de divergencia evolutiva." },
-          { type: "tf", prompt: "Las homologías anatómicas (como el brazo humano y el ala de murciélago) demuestran evolución convergente, no divergente.", correct: false, feedback: "Falso. Las homologías demuestran evolución DIVERGENTE a partir de un antecesor común. Las analogías (ala de insecto y ala de ave) demuestran evolución convergente." }
+          { type: "tf", prompt: "Las homologías anatómicas (como el brazo humano y el ala de murciélago) demuestran evolución convergente, no divergente.", correct: false, feedback: "Falso. Las homologías demuestran evolución DIVERGENTE a partir de un antecesor común. Las analogías (ala de insecto y ala de ave) demuestran evolución convergente." },
+          { type: "mc", prompt: "¿Cuál de las siguientes es una evidencia de la evolución basada en el registro fósil?", options: ["La sucesión temporal de formas biológicas y la existencia de formas de transición entre grupos", "La similitud del código genético en todos los seres vivos", "La presencia de órganos vestigiales", "La distribución geográfica de las especies"], correct: 0, feedback: "El registro fósil documenta la sucesión temporal de especies y formas de transición (ej. Archaeopteryx entre dinosaurios y aves)." },
+          { type: "cloze", prompt: "El mecanismo evolutivo que introduce nueva variabilidad genética en una población mediante cambios azarosos en la secuencia del ADN es la ____________.", accepted: ["mutacion", "mutación"], hint: "Fuente primaria de variabilidad.", feedback: "La mutación es la fuente primaria y obligada de toda variabilidad genética nueva." },
+          { type: "tf", prompt: "La selección estabilizadora favorece los fenotipos intermedios y elimina los extremos, reduciendo la variabilidad en ambientes estables.", correct: true, feedback: "Verdadero. La selección estabilizadora mantiene el fenotipo promedio (ej. peso natal en humanos)." },
+          { type: "mc", prompt: "¿Cuál es la diferencia entre microevolución y macroevolución?", options: ["La microevolución ocurre dentro de poblaciones (cambios en frecuencias alélicas); la macroevolución abarca cambios a nivel de especies y taxones superiores en tiempos geológicos", "La microevolución afecta a ecosistemas; la macroevolución a individuos", "La microevolución es más rápida que la macroevolución", "La microevolución ocurre en bacterias; la macroevolución en eucariotas"], correct: 0, feedback: "La microevolución se da a nivel intraespecífico; la macroevolución, por encima del nivel de especie (familias, órdenes, filos)." }
         ]
       },
       // ================= UNIDAD 2 =================
@@ -354,7 +390,11 @@
           { type: "tf", prompt: "Los viroides están compuestos por una molécula pequeña de ADN circular monocatenario cubierta por una densa cápside icosaédrica.", correct: false, feedback: "Falso. Los viroides son ARN circular monocatenario SIN cápside proteica, y afectan principalmente a plantas." },
           { type: "mc", prompt: "¿Qué distingue a una línea celular inmortal frente a un cultivo celular primario?", options: ["Capacidad de multiplicarse indefinidamente in vitro superando la senescencia replicativa", "Capacidad de formar tejidos complejos tridimensionales in vivo", "Dependencia obligada de un huésped multicelular", "Presencia de pared celular de peptidoglicano"], correct: 0, feedback: "Las líneas inmortalizadas (ej. HeLa) superan el límite de Hayflick y se dividen indefinidamente en cultivo." },
           { type: "cloze", prompt: "El coeficiente de sedimentación de los ribosomas citosólicos de las células eucariotas es de ____________.", accepted: ["80s", "80 s"], hint: "Subunidades 60S y 40S.", feedback: "Los ribosomas eucariotas son 80S (60S + 40S), a diferencia de los 70S procariotas." },
-          { type: "tf", prompt: "Las células vegetales superiores (angiospermas) presentan un par de centríolos centrales bien diferenciados que coordinan el huso mitótico.", correct: false, feedback: "Falso. Las células vegetales superiores carecen de centríolos; organizan el huso mitótico mediante centros organizadores acentriolares." }
+          { type: "tf", prompt: "Las células vegetales superiores (angiospermas) presentan un par de centríolos centrales bien diferenciados que coordinan el huso mitótico.", correct: false, feedback: "Falso. Las células vegetales superiores carecen de centríolos; organizan el huso mitótico mediante centros organizadores acentriolares." },
+          { type: "mc", prompt: "¿Qué tipo de ácido nucleico puede contener un virus?", options: ["ADN o ARN, pero nunca ambos simultáneamente", "Siempre ADN bicatenario", "Siempre ARN monocatenario", "ADN y ARN al mismo tiempo"], correct: 0, feedback: "Los virus contienen ADN o ARN (nunca ambos), y pueden ser monocatenarios o bicatenarios, lineales o circulares." },
+          { type: "cloze", prompt: "La teoría que postula el origen de mitocondrias y cloroplastos a partir de procariotas endosimbiontes se denomina teoría ____________.", accepted: ["endosimbiotica", "endosimbiótica", "endosimbiosis"], hint: "Formulada por Lynn Margulis.", feedback: "La teoría endosimbiótica explica el origen de estas organelas a partir de bacterias fagocitadas." },
+          { type: "tf", prompt: "Los priones son agentes infecciosos compuestos por ADN circular y proteínas, capaces de replicarse autónomamente.", correct: false, feedback: "Falso. Los priones son SOLO proteínas mal plegadas (PrP^Sc), sin ácidos nucleicos. Inducen el mal plegamiento de proteínas normales." },
+          { type: "mc", prompt: "¿Cuál es la principal diferencia estructural entre células procariotas y eucariotas?", options: ["Las eucariotas poseen núcleo verdadero delimitado por carioteca y organelas membranosas", "Las procariotas poseen ribosomas 80S y las eucariotas 70S", "Las eucariotas tienen ADN circular desnudo y las procariotas ADN lineal con histonas", "Las procariotas poseen mitocondrias y las eucariotas no"], correct: 0, feedback: "La presencia de núcleo verdadero (carioteca) y organelas membranosas es la diferencia clave de las eucariotas." }
         ]
       },
       {
@@ -370,7 +410,11 @@
           { type: "tf", prompt: "La hematoxilina es un colorante básico con carga catiónica (+) que tiñe componentes ácidos con grupos fosfato como el ADN y el ARNr (basofilia).", correct: true, feedback: "Verdadero. La hematoxilina tiñe estructuras ácidas (núcleos ricos en ADN) de color azul-violeta." },
           { type: "mc", prompt: "¿Cuál es el orden de sedimentación de menor a mayor fuerza de centrifugación diferencial a partir de un homogenizado tisular?", options: ["Núcleos → Mitocondrias/Lisosomas → Microsomas → Citosol", "Citosol → Microsomas → Mitocondrias/Lisosomas → Núcleos", "Microsomas → Núcleos → Citosol → Mitocondrias/Lisosomas", "Mitocondrias/Lisosomas → Núcleos → Citosol → Microsomas"], correct: 0, feedback: "La centrifugación diferencial sedimenta primero los orgánulos más grandes y densos (núcleos), luego mitocondrias, microsomas y finalmente el citosol soluble." },
           { type: "cloze", prompt: "La distancia mínima que debe existir entre dos puntos contiguos para distinguirlos como entidades separadas es el límite de ____________.", accepted: ["resolucion", "resolución"], hint: "Concepto clave en microscopía.", feedback: "El límite de resolución depende de la longitud de onda y la apertura numérica del objetivo." },
-          { type: "tf", prompt: "La técnica del ácido peryódico de Schiff (PAS) oxida glicoles vecinos a dialdehídos para teñir específicamente los lípidos neutros de los adipocitos.", correct: false, feedback: "Falso. El PAS tiñe GLÚCIDOS (glucógeno, mucinas, glucolípidos), no lípidos neutros." }
+          { type: "tf", prompt: "La técnica del ácido peryódico de Schiff (PAS) oxida glicoles vecinos a dialdehídos para teñir específicamente los lípidos neutros de los adipocitos.", correct: false, feedback: "Falso. El PAS tiñe GLÚCIDOS (glucógeno, mucinas, glucolípidos), no lípidos neutros." },
+          { type: "mc", prompt: "¿Qué tipo de microscopio permite observar células vivas en cultivo sin fijación previa?", options: ["Microscopio óptico de contraste de fases", "Microscopio electrónico de transmisión", "Microscopio electrónico de barrido", "Microscopio de fuerza atómica"], correct: 0, feedback: "El microscopio de contraste de fases permite observar células vivas sin teñir, aprovechando diferencias de índice de refracción." },
+          { type: "cloze", prompt: "La técnica inmunocitoquímica que utiliza anticuerpos acoplados a fluoróforos para localizar proteínas específicas se denomina ____________.", accepted: ["inmunofluorescencia"], hint: "Combina inmunología y fluorescencia.", feedback: "La inmunofluorescencia usa anticuerpos marcados con fluoróforos (FITC, rodamina) para detectar proteínas específicas." },
+          { type: "tf", prompt: "El microscopio óptico tiene un límite de resolución de aproximadamente 0,2 nm, mientras que el microscopio electrónico de transmisión alcanza 0,2 μm.", correct: false, feedback: "Falso. Es al revés: el óptico resuelve ~0,2 μm (200 nm) y el MET ~0,2 nm (1000 veces mejor)." },
+          { type: "mc", prompt: "¿Qué colorante se utiliza para teñir específicamente los núcleos celulares en la tinción de hematoxilina-eosina?", options: ["Hematoxilina (básico, tiñe ácidos)", "Eosina (ácido, tiñe básicos)", "Reactivo de Schiff", "Azul de metileno"], correct: 0, feedback: "La hematoxilina es básica y tiñe estructuras ácidas como el ADN nuclear, coloreándolos de azul-violeta." }
         ]
       },
       {
@@ -386,7 +430,11 @@
           { type: "tf", prompt: "En una solución hipotónica, el eritrocito humano se deshidrata y arruga mediante el fenómeno de crenación.", correct: false, feedback: "Falso. En medio hipotónico el agua entra a la célula, causando hemólisis (estallido). La crenación ocurre en medio hipertónico." },
           { type: "mc", prompt: "¿Qué papel cumple el colesterol en la membrana a temperaturas fisiológicas altas?", options: ["Restringe el movimiento de las colas de ácidos grasos disminuyendo la fluidez excesiva", "Aumenta la fluidez desorganizando el empaquetamiento de los fosfolípidos", "Actúa como canal iónico selectivo para el paso de Na+", "Es el principal receptor de señales hormonales hidrosolubles"], correct: 0, feedback: "El colesterol actúa como amortiguador de fluidez: a altas temperaturas restringe el movimiento; a bajas temperaturas impide el empaquetamiento rígido." },
           { type: "cloze", prompt: "El proceso pasivo donde solutos atraviesan la membrana a favor de gradiente mediante proteínas transportadoras saturables sin gasto de ATP se denomina difusión ____________.", accepted: ["facilitada"], hint: "Utiliza transportadores o canales, pero no energía.", feedback: "La difusión facilitada usa proteínas integrales (permeasas o canales) a favor del gradiente de concentración." },
-          { type: "tf", prompt: "Las moléculas hidrofóbicas no polares pequeñas como el O₂ y el CO₂ atraviesan la membrana por transporte activo primario.", correct: false, feedback: "Falso. Difunden libremente a favor de gradiente por la bicapa lipídica, sin gasto de energía (difusión simple)." }
+          { type: "tf", prompt: "Las moléculas hidrofóbicas no polares pequeñas como el O₂ y el CO₂ atraviesan la membrana por transporte activo primario.", correct: false, feedback: "Falso. Difunden libremente a favor de gradiente por la bicapa lipídica, sin gasto de energía (difusión simple)." },
+          { type: "mc", prompt: "¿Qué modelo describe la estructura de la membrana plasmática como un fluido bidimensional de lípidos y proteínas?", options: ["Modelo del mosaico fluido (Singer y Nicolson, 1972)", "Modelo de Davson-Danielli (sándwich proteína-lípido-proteína)", "Modelo de Robertson (unidad de membrana)", "Modelo de Overton (capa lipídica simple)"], correct: 0, feedback: "El modelo del mosaico fluido describe la membrana como un fluido dinámico con proteínas inmersas en la bicapa lipídica." },
+          { type: "cloze", prompt: "El movimiento de agua a través de una membrana semipermeable a favor de su gradiente de concentración se denomina ____________.", accepted: ["osmosis", "ósmosis"], hint: "Proceso pasivo fundamental en la fisiología celular.", feedback: "La ósmosis es la difusión de agua a través de una membrana semipermeable desde una zona de menor a mayor concentración de solutos." },
+          { type: "tf", prompt: "Las proteínas integrales de membrana atraviesan completamente la bicapa lipídica y pueden funcionar como canales, transportadores o receptores.", correct: true, feedback: "Verdadero. Las proteínas integrales (transmembrana) cumplen funciones de transporte, señalización y anclaje." },
+          { type: "mc", prompt: "¿Qué ocurre con una célula animal en un medio isotónico?", options: ["Mantiene su forma y volumen normal, con flujo neto de agua cero", "Se hincha y estalla por entrada masiva de agua", "Se arruga y deshidrata por salida de agua", "Aumenta su volumen sin estallar gracias a la pared celular"], correct: 0, feedback: "En medio isotónico, la concentración de solutos es igual dentro y fuera de la célula, por lo que el flujo neto de agua es cero." }
         ]
       },
       {
@@ -402,7 +450,11 @@
           { type: "tf", prompt: "Los ácidos teicoicos y lipoteicoicos son polímeros aniónicos que atraviesan verticalmente la gruesa pared de las bacterias Gram positivas.", correct: true, feedback: "Verdadero. Los ácidos teicoicos son exclusivos de Gram positivas y contribuyen a la carga negativa de la pared." },
           { type: "mc", prompt: "La función biofísica primordial de la pared de celulosa en la célula vegetal es:", options: ["Resistir mecánicamente la presión osmótica interna (turgencia) evitando la lisis", "Regular el paso de iones sodio y potasio", "Sintetizar proteínas de exportación", "Almacenar energía en forma de almidón"], correct: 0, feedback: "La pared celular vegetal resiste la turgencia y da forma, evitando que la célula estalle en medios hipotónicos." },
           { type: "cloze", prompt: "El lipopolisacárido (LPS) de la membrana externa de bacterias Gram negativas es también conocido como ____________.", accepted: ["endotoxina"], hint: "Causante de shock séptico.", feedback: "El LPS es una endotoxina que desencadena respuesta inflamatoria sistémica." },
-          { type: "tf", prompt: "La penicilina actúa inhibiendo la síntesis de la pared celular bacteriana al bloquear la transpeptidación del peptidoglicano.", correct: true, feedback: "Verdadero. Los betalactámicos inhiben las transpeptidasas (PBP), impidiendo el entrecruzamiento del peptidoglicano." }
+          { type: "tf", prompt: "La penicilina actúa inhibiendo la síntesis de la pared celular bacteriana al bloquear la transpeptidación del peptidoglicano.", correct: true, feedback: "Verdadero. Los betalactámicos inhiben las transpeptidasas (PBP), impidiendo el entrecruzamiento del peptidoglicano." },
+          { type: "mc", prompt: "¿Qué componente es exclusivo de la pared celular vegetal?", options: ["Celulosa", "Peptidoglicano", "Quitina", "LPS"], correct: 0, feedback: "La celulosa es el principal componente estructural de la pared vegetal, formada por β-D-glucosa con enlaces β(1→4)." },
+          { type: "cloze", prompt: "La tinción de Gram clasifica a las bacterias en dos grupos según la estructura de su ____________.", accepted: ["pared", "pared celular"], hint: "Estructura externa a la membrana plasmática.", feedback: "La tinción de Gram diferencia bacterias por la estructura de su pared celular (gruesa en Gram+ y delgada con membrana externa en Gram-)." },
+          { type: "tf", prompt: "Las bacterias Gram positivas se tiñen de color rosado/rojo con la tinción de Gram, mientras que las Gram negativas se tiñen de violeta oscuro.", correct: false, feedback: "Falso. Es al revés: las Gram positivas se tiñen de violeta oscuro (retienen el cristal violeta) y las Gram negativas de rosado/rojo (pierden el cristal violeta y captan safranina)." },
+          { type: "mc", prompt: "¿Cuál es la principal función de la pared celular bacteriana?", options: ["Proporcionar rigidez y resistencia osmótica, evitando la lisis en medios hipotónicos", "Regular el intercambio de gases", "Almacenar nutrientes", "Sintetizar proteínas"], correct: 0, feedback: "La pared bacteriana da forma y protege contra la presión osmótica interna, evitando que la bacteria estalle." }
         ]
       },
       {
@@ -418,7 +470,11 @@
           { type: "tf", prompt: "El retículo endoplásmico liso (REL) contiene glucosa-6-fosfatasa y almacena activamente iones de calcio (Ca2+) en su lumen.", correct: true, feedback: "Verdadero. El REL almacena Ca2+ y participa en la glucogenólisis hepática." },
           { type: "mc", prompt: "La enzima peroxisomal fundamental que descompone el peróxido de hidrógeno (H2O2) reactivo en agua y oxígeno gaseoso es la:", options: ["Catalasa", "Glucuronidasa", "Superóxido dismutasa", "Citocromo c oxidasa"], correct: 0, feedback: "La catalasa descompone H2O2 en H2O y O2, protegiendo a la célula del estrés oxidativo." },
           { type: "cloze", prompt: "La patología neurológica letal provocada por mutaciones en las proteínas de importación de la matriz peroxisomal se conoce como síndrome de ____________.", accepted: ["zellweger"], hint: "Apellido del pediatra que lo describió.", feedback: "El síndrome de Zellweger cursa con peroxisomas vacíos y acumulación de ácidos grasos de cadena muy larga." },
-          { type: "tf", prompt: "El REL es abundante en hepatocitos y participa en la destoxificación de fármacos y alcohol mediante el sistema citocromo P450.", correct: true, feedback: "Verdadero. El REL hepático es rico en citocromo P450, esencial para el metabolismo de xenobióticos." }
+          { type: "tf", prompt: "El REL es abundante en hepatocitos y participa en la destoxificación de fármacos y alcohol mediante el sistema citocromo P450.", correct: true, feedback: "Verdadero. El REL hepático es rico en citocromo P450, esencial para el metabolismo de xenobióticos." },
+          { type: "mc", prompt: "¿Cuál es la principal función del retículo endoplásmico rugoso (RER)?", options: ["Síntesis y plegamiento de proteínas de secreción y de membrana", "Síntesis de lípidos y destoxificación", "Almacenamiento de calcio", "Degradación de proteínas"], correct: 0, feedback: "El RER tiene ribosomas adheridos y sintetiza proteínas destinadas a secreción, membrana o lisosomas." },
+          { type: "cloze", prompt: "La señal de direccionamiento al RE presente en el extremo N-terminal de las proteínas que ingresan al RER se denomina péptido ____________.", accepted: ["señal", "senal"], hint: "Secuencia hidrofóbica de ~20 aminoácidos.", feedback: "El péptido señal dirige la proteína naciente al RER y es clivado por la peptidasa de la señal." },
+          { type: "tf", prompt: "Los peroxisomas se originan exclusivamente por gemación del retículo endoplásmico liso.", correct: false, feedback: "Falso. Los peroxisomas pueden originarse por gemación del REL, pero también por fisión de peroxisomas preexistentes y por importación de proteínas del citosol." },
+          { type: "mc", prompt: "¿Qué tipo de reacciones cataliza el citocromo P450 en el REL hepático?", options: ["Oxidación de xenobióticos y fármacos para facilitar su excreción", "Síntesis de proteínas de membrana", "Glucosilación de lípidos", "Degradación de glucógeno"], correct: 0, feedback: "El citocromo P450 oxida fármacos, alcohol y otras sustancias extrañas, facilitando su eliminación." }
         ]
       },
       {
@@ -434,7 +490,11 @@
           { type: "tf", prompt: "La fusión de membranas vesiculares ocurre por la interacción específica entre proteínas v-SNARE y t-SNARE en haz de cuatro hélices.", correct: true, feedback: "Verdadero. El apareamiento SNARE (v-SNARE en vesícula y t-SNARE en membrana diana) impulsa la fusión de membranas." },
           { type: "mc", prompt: "El pH luminal ácido (≈5.0) indispensable para la actividad de las hidrolasas lisosomales se mantiene por:", options: ["Una bomba de protones V-ATPasa impulsada por ATP", "Un antiporte Na+/H+ dependiente de gradiente", "Canales de potasio activados por voltaje", "La fosfatasa ácida prostática"], correct: 0, feedback: "La V-ATPasa bombea protones al lumen lisosomal utilizando ATP, acidificando el interior." },
           { type: "cloze", prompt: "La proteína GTPasa que escinde mecánicamente el cuello de las vesículas recubiertas de clatrina en la membrana es la ____________.", accepted: ["dinamina"], hint: "Enzima que constriñe el cuello vesicular.", feedback: "La dinamina es una GTPasa que forma un anillo y escinde la vesícula naciente de la membrana donadora." },
-          { type: "tf", prompt: "Las enzimas lisosomales se sintetizan en el RER y son transportadas directamente al lisosoma sin pasar por el aparato de Golgi.", correct: false, feedback: "Falso. Las hidrolasas pasan por el RER, luego al Golgi donde reciben la señal M6P, y desde el TGN son empaquetadas en vesículas hacia el lisosoma." }
+          { type: "tf", prompt: "Las enzimas lisosomales se sintetizan en el RER y son transportadas directamente al lisosoma sin pasar por el aparato de Golgi.", correct: false, feedback: "Falso. Las hidrolasas pasan por el RER, luego al Golgi donde reciben la señal M6P, y desde el TGN son empaquetadas en vesículas hacia el lisosoma." },
+          { type: "mc", prompt: "¿Cuál es la principal función del aparato de Golgi?", options: ["Modificar, clasificar y empaquetar proteínas y lípidos para su distribución", "Sintetizar proteínas de novo", "Producir ATP", "Almacenar calcio"], correct: 0, feedback: "El Golgi modifica (glucosila, fosforila) y clasifica proteínas y lípidos, enviándolos a sus destinos finales." },
+          { type: "cloze", prompt: "Los lisosomas son organelas con pH ácido (~5) que contienen ____________ ácidas capaces de degradar macromoléculas.", accepted: ["hidrolasas", "hidrolasa", "enzimas"], hint: "Enzimas que rompen enlaces con agua.", feedback: "Las hidrolasas ácidas lisosomales degradan proteínas, lípidos, glúcidos y ácidos nucleicos." },
+          { type: "tf", prompt: "La vía de secreción constitutiva opera en todas las células de forma continua, mientras que la vía regulada solo se activa con una señal específica (ej. Ca2+).", correct: true, feedback: "Verdadero. La vía constitutiva es continua; la regulada requiere un estímulo (como aumento de Ca2+ citosólico) para fusionar las vesículas." },
+          { type: "mc", prompt: "¿Qué proteína media la endocitosis mediada por receptor formando hoyos revestidos en la membrana plasmática?", options: ["Clatrina", "COPI", "COPII", "SNARE"], correct: 0, feedback: "La clatrina forma un entramado poliédrico que reviste las vesículas endocíticas en la membrana plasmática." }
         ]
       },
       {
@@ -450,7 +510,11 @@
           { type: "tf", prompt: "El fallo en los sistemas de chaperonas y la acumulación de agregados proteicos insolubles es la base de patologías como el Alzheimer y Parkinson.", correct: true, feedback: "Verdadero. Las enfermedades conformacionales se deben a agregación proteica y fallo de la proteostasis." },
           { type: "mc", prompt: "El proteasoma 26S degrada proteínas marcadas con poliubiquitina mediante:", options: ["Un mecanismo ATP-dependiente que las transloca a una cámara proteolítica", "Digestión enzimática en el lisosoma a pH ácido", "Escisión por caspasas en residuos de aspartato", "Fosforilación y posterior hidrólisis espontánea"], correct: 0, feedback: "El proteasoma es un complejo proteolítico ATP-dependiente que degrada proteínas ubiquitinadas." },
           { type: "cloze", prompt: "La familia de proteínas de choque térmico que se une a polipéptidos nacientes evitando su agregación prematura es la ____________.", accepted: ["hsp70", "hsp 70"], hint: "Proteína de choque térmico de 70 kDa.", feedback: "Hsp70 actúa como chaperona molecular, uniéndose a regiones hidrofóbicas expuestas de proteínas nacientes." },
-          { type: "tf", prompt: "El citosol y el citoplasma son términos sinónimos que designan exactamente el mismo compartimento celular.", correct: false, feedback: "Falso. Citoplasma = citosol + organelas + citoesqueleto; citosol es solo la fase líquida soluble." }
+          { type: "tf", prompt: "El citosol y el citoplasma son términos sinónimos que designan exactamente el mismo compartimento celular.", correct: false, feedback: "Falso. Citoplasma = citosol + organelas + citoesqueleto; citosol es solo la fase líquida soluble." },
+          { type: "mc", prompt: "¿Cuál de las siguientes funciones NO ocurre en el citosol?", options: ["Síntesis de proteínas en el retículo endoplásmico rugoso", "Glucólisis", "Síntesis de proteínas en ribosomas libres", "Degradación de proteínas por el proteasoma"], correct: 0, feedback: "La síntesis de proteínas de secreción en el RER ocurre en el retículo, no en el citosol. El citosol alberga ribosomas libres, glucólisis y proteasoma." },
+          { type: "cloze", prompt: "El proceso de control de calidad que mantiene el equilibrio entre síntesis, plegamiento y degradación de proteínas se denomina ____________.", accepted: ["proteostasis"], hint: "Homeostasis de las proteínas.", feedback: "La proteostasis es el control de calidad que asegura el correcto plegamiento y función de las proteínas." },
+          { type: "tf", prompt: "Las chaperonas hsp70 y hsp60 consumen ATP para asistir el plegamiento de proteínas.", correct: true, feedback: "Verdadero. Ambas familias de chaperonas utilizan la energía del ATP para unirse y liberar sustratos proteicos." },
+          { type: "mc", prompt: "¿Qué ocurre con una proteína que no logra plegarse correctamente y permanece exponiendo regiones hidrofóbicas?", options: ["Es marcada con ubiquitina y degradada por el proteasoma", "Es transportada al núcleo para su reparación", "Es almacenada en el lisosoma indefinidamente", "Es convertida en ARN por retrotranscripción"], correct: 0, feedback: "Las proteínas mal plegadas son reconocidas por el sistema de control de calidad, ubiquitinadas y degradadas en el proteasoma." }
         ]
       },
       {
@@ -459,14 +523,18 @@
         subtitle: "Actina (7 nm), microtúbulos (25 nm), filamentos intermedios y axonema 9+2",
         badge: "🕸️",
         medal: { id: "m20", name: "Motor Molecular", icon: "⚙️", color: "from-orange-400 to-red-600", border: "border-orange-400", desc: "Microfilamentos, inestabilidad dinámica de tubulina, motores moleculares y ultraestructura 9+2." },
-        summary: "Microfilamentos: actina (7 nm), polimerización en 6 actina F con polaridad (+/-), asociados a miosina en contracción muscular, anillo contráctil, citocinesis, pseudópodos y microvellosidades. Microtúbulos: tubulina (25 nm), inestabilidad dinámica, forman huso mitótico, cilios y flagelos (axonema 9+2), centríolos (9 tripletes 9+0). Motores: dineína (retrógrado hacia -) y kinesina (anterógrado hacia +). Filamentos intermedios: queratina, vimentina, laminina; resistencia mecánica.",
+        summary: "Microfilamentos: actina (7 nm), polimerización en actina F con polaridad (+/-), asociados a miosina en contracción muscular, anillo contráctil, citocinesis, pseudópodos y microvellosidades. Microtúbulos: tubulina (25 nm), inestabilidad dinámica, forman huso mitótico, cilios y flagelos (axonema 9+2), centríolos (9 tripletes 9+0). Motores: dineína (retrógrado hacia -) y kinesina (anterógrado hacia +). Filamentos intermedios: queratina, vimentina, laminina; resistencia mecánica.",
         questions: [
           { type: "mc", prompt: "¿Cuál es la ultraestructura microtubular característica del axonema motriz de cilios y flagelos eucariotas?", options: ["9 dobletes de microtúbulos periféricos y 1 par central (9+2)", "9 tripletes de microtúbulos sin par central (9+0)", "Microfilamentos de actina y miosina II", "Filamentos intermedios de queratina"], correct: 0, feedback: "El axonema tiene 9 dobletes periféricos + 2 microtúbulos centrales (9+2)." },
           { type: "cloze", prompt: "El motor molecular microtubular que transporta vesículas de manera anterógrada hacia el extremo positivo (+) es la ____________.", accepted: ["kinesina"], hint: "Se mueve hacia el extremo (+).", feedback: "La kinesina transporta carga hacia el extremo (+) del microtúbulo." },
           { type: "tf", prompt: "Los filamentos intermedios como la queratina poseen una marcada polaridad dinámica y se desplazan mediante motores moleculares.", correct: false, feedback: "Falso. Los filamentos intermedios son apolares, no dinámicos y no tienen motores asociados; proveen resistencia mecánica." },
           { type: "mc", prompt: "El anillo contráctil que estrangula el citoplasma durante la citocinesis de células animales está compuesto por:", options: ["Microfilamentos de actina y miosina II", "Microtúbulos de tubulina y dineína", "Filamentos intermedios de vimentina", "Lámina nuclear de laminina"], correct: 0, feedback: "El anillo contráctil de actina-miosina II es responsable de la citocinesis animal." },
           { type: "cloze", prompt: "La estructura cilíndrica ubicada en la base de cilios y flagelos con patrón de 9 tripletes (9+0) es el ____________.", accepted: ["cuerpo basal", "centriolo", "centríolo"], hint: "Centro organizador de microtúbulos.", feedback: "El cuerpo basal (derivado del centríolo) organiza el axonema ciliar." },
-          { type: "tf", prompt: "La polimerización de los microtúbulos ocurre por adición de dímeros de alfa y beta tubulina en el extremo (+), mientras que la despolimerización predomina en el extremo (-).", correct: true, feedback: "Verdadero. Los microtúbulos crecen en el extremo (+) y se acortan en el extremo (-), fenómeno de inestabilidad dinámica." }
+          { type: "tf", prompt: "La polimerización de los microtúbulos ocurre por adición de dímeros de alfa y beta tubulina en el extremo (+), mientras que la despolimerización predomina en el extremo (-).", correct: true, feedback: "Verdadero. Los microtúbulos crecen en el extremo (+) y se acortan en el extremo (-), fenómeno de inestabilidad dinámica." },
+          { type: "mc", prompt: "¿Qué proteína motora se asocia a los microfilamentos de actina para generar contracción muscular?", options: ["Miosina", "Dineína", "Kinesina", "Tubulina"], correct: 0, feedback: "La miosina es el motor molecular que se desplaza sobre los filamentos de actina, generando contracción muscular." },
+          { type: "cloze", prompt: "El motor molecular microtubular que transporta vesículas de manera retrógrada hacia el extremo negativo (-) es la ____________.", accepted: ["dineina", "dineína"], hint: "Se mueve hacia el extremo (-).", feedback: "La dineína transporta carga hacia el extremo (-) del microtúbulo, en dirección al centro celular." },
+          { type: "tf", prompt: "Los centríolos están formados por 9 tripletes de microtúbulos dispuestos en anillo, sin par central (estructura 9+0).", correct: true, feedback: "Verdadero. Los centríolos tienen 9 tripletes periféricos y carecen de microtúbulos centrales (9+0)." },
+          { type: "mc", prompt: "¿Cuál es la función principal de los filamentos intermedios?", options: ["Proporcionar resistencia mecánica y soporte estructural a la célula", "Generar movimiento celular", "Transportar vesículas", "Formar el huso mitótico"], correct: 0, feedback: "Los filamentos intermedios (queratina, vimentina, laminina) proveen resistencia mecánica frente a tensiones." }
         ]
       },
       {
@@ -475,14 +543,18 @@
         subtitle: "Colágeno, proteoglicanos, integrinas, desmosomas, uniones estrechas y gap",
         badge: "🔗",
         medal: { id: "m21", name: "Conexión Tisular", icon: "🕸️", color: "from-indigo-400 to-purple-700", border: "border-indigo-400", desc: "Triple hélice de colágeno, hidratación por GAGs, oclusinas y acoplamiento de uniones comunicantes." },
-        summary: "Matriz extracelular (MEC): colágeno (triple hélice rígida estabilizada por enlaces cruzados de lisina, resistencia a tracción), elastina (elasticidad), gags y proteoglicanos (polímeros aniónicos que atraen agua, resistencia a compresión), fibronectina y laminina (adhesión). Integrinas: receptores transmembrana que conectan MEC con citoesqueleto. Uniones: estrechas (ocludinas, sellan espacio intercelular), desmosomas (cadherinas, anclaje a filamentos intermedios), gap (conexinas, comunicación iónica y metabólica).",
+        summary: "Matriz extracelular (MEC): colágeno (triple hélice rígida estabilizada por enlaces cruzados de lisina, resistencia a tracción), elastina (elasticidad), GAGs y proteoglicanos (polímeros aniónicos que atraen agua, resistencia a compresión), fibronectina y laminina (adhesión). Integrinas: receptores transmembrana que conectan MEC con citoesqueleto. Uniones: estrechas (ocludinas, sellan espacio intercelular), desmosomas (cadherinas, anclaje a filamentos intermedios), gap (conexinas, comunicación iónica y metabólica).",
         questions: [
           { type: "mc", prompt: "Las uniones intercelulares que sellan herméticamente el espacio entre células epiteliales impidiendo el paso paracelular mediante claudinas y ocludinas son:", options: ["Uniones estrechas (zonula occludens)", "Desmosomas", "Uniones gap", "Hemidesmosomas"], correct: 0, feedback: "Las uniones estrechas (tight junctions) sellan el espacio paracelular y mantienen la polaridad celular." },
           { type: "cloze", prompt: "Los canales intercelulares formados por anillos de seis subunidades de conexina en células animales son los ____________.", accepted: ["conexones", "conexon", "conexón"], hint: "Unidad estructural de las uniones gap.", feedback: "Los conexones forman las uniones gap, permitiendo el paso de iones y moléculas pequeñas." },
           { type: "tf", prompt: "Los desmosomas conectan los filamentos de actina de dos células adyacentes mediante integrinas beta.", correct: false, feedback: "Falso. Los desmosomas conectan filamentos intermedios (queratina) mediante desmogleína/desmocolina (cadherinas)." },
           { type: "mc", prompt: "¿Por qué los glucosaminoglicanos (GAGs) forman geles sumamente hidratados que resisten la compresión física?", options: ["Poseen una alta densidad de cargas negativas (grupos sulfato y carboxilo) que atraen agua", "Son proteínas fibrosas con enlaces cruzados de lisina", "Forman una bicapa lipídica impermeable al agua", "Se organizan en haces paralelos de colágeno tipo I"], correct: 0, feedback: "Los GAGs son polianiones que atraen cationes y agua, formando geles hidratados que resisten la compresión." },
           { type: "cloze", prompt: "El receptor transmembrana heterodimérico (cadenas alfa y beta) que conecta la matriz extracelular con el citoesqueleto es la ____________.", accepted: ["integrina"], hint: "Proteína de adhesión celular.", feedback: "Las integrinas conectan la MEC con el citoesqueleto de actina, transduciendo señales." },
-          { type: "tf", prompt: "El colágeno tipo I es una proteína exclusivamente intracelular que forma parte del citoesqueleto de todas las células eucariotas.", correct: false, feedback: "Falso. El colágeno es la proteína más abundante de la MEC, secretada por fibroblastos y otras células." }
+          { type: "tf", prompt: "El colágeno tipo I es una proteína exclusivamente intracelular que forma parte del citoesqueleto de todas las células eucariotas.", correct: false, feedback: "Falso. El colágeno es la proteína más abundante de la MEC, secretada por fibroblastos y otras células." },
+          { type: "mc", prompt: "¿Qué tipo de unión celular permite el paso directo de iones y pequeñas moléculas entre células adyacentes?", options: ["Uniones gap (comunicantes)", "Desmosomas", "Uniones estrechas", "Hemidesmosomas"], correct: 0, feedback: "Las uniones gap formadas por conexones permiten el acoplamiento eléctrico y metabólico entre células." },
+          { type: "cloze", prompt: "La proteína fibrosa más abundante de la matriz extracelular, que forma triple hélice y resiste fuerzas de tracción, es el ____________.", accepted: ["colageno", "colágeno"], hint: "Proteína estructural clave en tendones y huesos.", feedback: "El colágeno es la proteína más abundante de la MEC y otorga resistencia a la tracción." },
+          { type: "tf", prompt: "Los plasmodesmos son canales que atraviesan la pared celular vegetal, conectando los citoplasmas de células adyacentes.", correct: true, feedback: "Verdadero. Los plasmodesmos permiten la comunicación directa entre células vegetales, formando el simplasto." },
+          { type: "mc", prompt: "¿Cuál es la principal función de la fibronectina en la matriz extracelular?", options: ["Servir como puente de anclaje entre el colágeno, los proteoglicanos y las integrinas celulares", "Formar la bicapa lipídica de la membrana", "Proporcionar elasticidad a los tejidos", "Almacenar factores de crecimiento"], correct: 0, feedback: "La fibronectina conecta los componentes de la MEC con las integrinas de la superficie celular, integrando la matriz con el citoesqueleto." }
         ]
       },
       {
@@ -494,11 +566,15 @@
         summary: "Mitocondria: doble membrana. Membrana externa lisa, membrana interna con crestas (aumentan superficie), matriz con ADN circular, ribosomas 70S y enzimas del ciclo de Krebs. Bioenergética: cadena respiratoria (complejos I-IV) bombea protones al espacio intermembrana creando gradiente electroquímico (fuerza protonmotriz). ATP sintasa (complejo V) usa el flujo de protones para sintetizar ATP (quimiosmosis). Apoptosis: vía intrínseca, el citocromo c escapa al citosol, se une a Apaf-1 formando el apoptosoma, activa caspasas 9 y 3/7.",
         questions: [
           { type: "mc", prompt: "Durante la vía intrínseca de apoptosis, ¿qué factor respiratorio escapa de la mitocondria para ensamblar el apoptosoma junto con Apaf-1?", options: ["Citocromo c", "Ubiquinona", "ATP sintasa", "NADH deshidrogenasa"], correct: 0, feedback: "La liberación de citocromo c al citosol desencadena la formación del apoptosoma y activación de caspasas." },
-          { type: "cloze", prompt: "La proporción del complejo ATP sintasa incrustada en la membrana interna que canaliza el flujo pasivo de protones es el canal F____________.", accepted: ["0", "o"], hint: "Letra que designa el canal de protones.", feedback: "El canal F0 permite el paso de protones, acoplado a la síntesis de ATP en F1." },
+          { type: "cloze", prompt: "La porción del complejo ATP sintasa incrustada en la membrana interna que canaliza el flujo pasivo de protones es el canal F____________.", accepted: ["0", "o"], hint: "Letra que designa el canal de protones.", feedback: "El canal F0 permite el paso de protones, acoplado a la síntesis de ATP en F1." },
           { type: "tf", prompt: "Las 13 proteínas respiratorias codificadas por el ADN mitocondrial humano se traducen en el RER del sistema de endomembranas.", correct: false, feedback: "Falso. Se traducen en los ribosomas 70S mitocondriales, no en el RER." },
           { type: "mc", prompt: "¿Cuál es la función primordial del repliegue de la membrana interna mitocondrial en crestas?", options: ["Aumentar drásticamente la superficie de membrana para albergar más complejos de la cadena respiratoria", "Almacenar iones calcio en la matriz", "Sintetizar proteínas mitocondriales", "Degradar ácidos grasos por beta-oxidación"], correct: 0, feedback: "Las crestas aumentan la superficie de la membrana interna, optimizando la producción de ATP." },
           { type: "cloze", prompt: "Las caspasas efectoras activadas por la caspasa-9 que destruyen sustratos nucleares y estructurales son caspasa-7 y caspasa-____________.", accepted: ["3", "tres"], hint: "Número de la caspasa ejecutora principal.", feedback: "La caspasa-3 es la principal caspasa ejecutora de la apoptosis." },
-          { type: "tf", prompt: "La membrana mitocondrial externa es impermeable a la mayoría de metabolitos y requiere translocasas específicas.", correct: false, feedback: "Falso. La membrana externa es permeable a moléculas pequeñas debido a las porinas (VDAC)." }
+          { type: "tf", prompt: "La membrana mitocondrial externa es impermeable a la mayoría de metabolitos y requiere translocasas específicas.", correct: false, feedback: "Falso. La membrana externa es permeable a moléculas pequeñas debido a las porinas (VDAC)." },
+          { type: "mc", prompt: "¿Qué tipo de metabolismo ocurre en la matriz mitocondrial?", options: ["Ciclo de Krebs y beta-oxidación de ácidos grasos", "Glucólisis", "Síntesis de proteínas de secreción", "Fotosíntesis"], correct: 0, feedback: "En la matriz mitocondrial ocurren el ciclo de Krebs, la beta-oxidación y la fosforilación oxidativa." },
+          { type: "cloze", prompt: "El gradiente electroquímico de protones a través de la membrana interna mitocondrial se denomina fuerza ____________.", accepted: ["protonmotriz", "proton motriz"], hint: "Impulsa la síntesis de ATP.", feedback: "La fuerza protonmotriz (o gradiente de protones) impulsa la ATP sintasa para producir ATP." },
+          { type: "tf", prompt: "La mitocondria posee su propio ADN circular, ribosomas 70S y se divide por fisión binaria, evidencias de su origen endosimbiótico.", correct: true, feedback: "Verdadero. Estas características respaldan la teoría endosimbiótica de Lynn Margulis." },
+          { type: "mc", prompt: "¿Qué complejo de la cadena respiratoria es la ATP sintasa?", options: ["Complejo V", "Complejo I", "Complejo II", "Complejo IV"], correct: 0, feedback: "La ATP sintasa es el complejo V, que acopla el flujo de protones a la síntesis de ATP." }
         ]
       },
       {
@@ -514,24 +590,38 @@
           { type: "tf", prompt: "A diferencia de la mitocondria (dos membranas), el cloroplasto posee un tercer sistema membranoso cerrado llamado membrana tilacoide.", correct: true, feedback: "Verdadero. El tercer sistema (tilacoides) forma un compartimento cerrado (lumen) donde ocurre la fase luminosa." },
           { type: "mc", prompt: "¿En qué región del espectro electromagnético opera la radiación fotosintéticamente activa (RFA)?", options: ["Luz visible entre 400 nm (azul/violeta) y 700 nm (rojo)", "Rayos gamma de alta energía", "Microondas de baja frecuencia", "Infrarrojo lejano"], correct: 0, feedback: "La RFA abarca la luz visible (400-700 nm), utilizada por los pigmentos fotosintéticos." },
           { type: "cloze", prompt: "El dímero de clorofila especializada presente en el centro de reacción del fotosistema II (PSII) se conoce como P____________.", accepted: ["680"], hint: "Longitud de onda de máxima absorción.", feedback: "El P680 es el centro de reacción del PSII, que absorbe a 680 nm." },
-          { type: "tf", prompt: "El oxígeno liberado durante la fotosíntesis proviene de la fotólisis del agua en el fotosistema II.", correct: true, feedback: "Verdadero. La fotólisis del agua (H2O) en el PSII libera O2, protones y electrones." }
+          { type: "tf", prompt: "El oxígeno liberado durante la fotosíntesis proviene de la fotólisis del agua en el fotosistema II.", correct: true, feedback: "Verdadero. La fotólisis del agua (H2O) en el PSII libera O2, protones y electrones." },
+          { type: "mc", prompt: "¿Cuál es la enzima clave del ciclo de Calvin que fija el CO2?", options: ["Rubisco", "ATP sintasa", "Catalasa", "Citocromo c oxidasa"], correct: 0, feedback: "La Rubisco (ribulosa-1,5-bisfosfato carboxilasa/oxigenasa) fija el CO2 en el ciclo de Calvin." },
+          { type: "cloze", prompt: "Los pigmentos accesorios que absorben luz en la región azul-verdosa y protegen contra el estrés oxidativo se denominan ____________.", accepted: ["carotenoides", "carotenoides"], hint: "Pigmentos amarillos y naranjas.", feedback: "Los carotenoides (carotenos y xantofilas) son pigmentos accesorios que transfieren energía a la clorofila y actúan como fotoprotectores." },
+          { type: "tf", prompt: "La fase luminosa de la fotosíntesis ocurre en el estroma, mientras que el ciclo de Calvin ocurre en los tilacoides.", correct: false, feedback: "Falso. Es al revés: la fase luminosa ocurre en los tilacoides y el ciclo de Calvin en el estroma." },
+          { type: "mc", prompt: "¿Qué productos de la fase luminosa se utilizan en el ciclo de Calvin?", options: ["ATP y NADPH", "ADP y NADP+", "Glucosa y O2", "CO2 y H2O"], correct: 0, feedback: "El ATP y el NADPH producidos en la fase luminosa se consumen en el ciclo de Calvin para fijar CO2." }
         ]
       }
     ];
 
     // ============================================
-    // LÓGICA DEL JUEGO
+    // LÓGICA DEL JUEGO CON ROTACIÓN DE PREGUNTAS
     // ============================================
     const STORAGE_KEY = 'biocore_progress_v2';
     let game = {
       score: 0, lives: 3, completedLevels: new Set(), unlockedBadges: new Set(),
       currentLevelIdx: 0, currentQuestionIdx: 0, streak: 0, selectedUnitFilter: 'all',
+      failedQuestions: {},
+      currentQuestions: [],
+      currentQuestionIndexes: [],
 
       init() { this.loadProgress(); this.updateStatsUI(); this.showHome(); },
 
       saveProgress() {
         try {
-          const payload = { score: this.score, lives: this.lives, completedLevels: Array.from(this.completedLevels), unlockedBadges: Array.from(this.unlockedBadges), updatedAt: new Date().toISOString() };
+          const payload = {
+            score: this.score,
+            lives: this.lives,
+            completedLevels: Array.from(this.completedLevels),
+            unlockedBadges: Array.from(this.unlockedBadges),
+            failedQuestions: this.failedQuestions,
+            updatedAt: new Date().toISOString()
+          };
           localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
           this.flashSaveIndicator('Progreso guardado');
         } catch (e) { console.warn('No se pudo guardar en localStorage', e); }
@@ -546,6 +636,7 @@
             this.lives = data.lives !== undefined ? data.lives : 3;
             if (data.completedLevels && Array.isArray(data.completedLevels)) this.completedLevels = new Set(data.completedLevels);
             if (data.unlockedBadges && Array.isArray(data.unlockedBadges)) this.unlockedBadges = new Set(data.unlockedBadges);
+            if (data.failedQuestions && typeof data.failedQuestions === 'object') this.failedQuestions = data.failedQuestions;
             this.flashSaveIndicator('Progreso cargado');
           }
         } catch (e) { console.warn('No se pudo leer localStorage', e); }
@@ -599,6 +690,29 @@
 
       setFilter(filter) { this.selectedUnitFilter = filter; this.showHome(); },
 
+      pickQuestionsForLevel(levelIdx) {
+        const lvl = LEVELS[levelIdx];
+        const total = lvl.questions.length;
+        const howMany = Math.min(6, total);
+        const failed = (this.failedQuestions[lvl.id] || []).filter(i => i < total);
+        const picked = [...failed].slice(0, howMany);
+        const remaining = [];
+        for (let i = 0; i < total; i++) { if (!picked.includes(i)) remaining.push(i); }
+        for (let i = remaining.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [remaining[i], remaining[j]] = [remaining[j], remaining[i]]; }
+        while (picked.length < howMany && remaining.length > 0) { picked.push(remaining.pop()); }
+        for (let i = picked.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [picked[i], picked[j]] = [picked[j], picked[i]]; }
+        this.currentQuestions = picked.map(i => lvl.questions[i]);
+        this.currentQuestionIndexes = picked;
+      },
+
+      registerFailure() {
+        const lvl = LEVELS[this.currentLevelIdx];
+        const originalIdx = this.currentQuestionIndexes[this.currentQuestionIdx];
+        if (!this.failedQuestions[lvl.id]) this.failedQuestions[lvl.id] = [];
+        if (!this.failedQuestions[lvl.id].includes(originalIdx)) this.failedQuestions[lvl.id].push(originalIdx);
+        this.saveProgress();
+      },
+
       showHome() {
         const app = document.getElementById('app');
         const filteredLevels = LEVELS.filter(lvl => this.selectedUnitFilter === 'all' || lvl.unit === parseInt(this.selectedUnitFilter));
@@ -610,6 +724,7 @@
           const isCompleted = this.completedLevels.has(lvl.id);
           const hasMedal = this.unlockedBadges.has(lvl.medal.id);
           const isUnlocked = actualIndex === 0 || this.completedLevels.has(LEVELS[actualIndex - 1].id);
+          const pendingFails = this.failedQuestions[lvl.id] ? this.failedQuestions[lvl.id].length : 0;
           return `
             <div class="relative bg-slate-900 border ${isCompleted ? 'border-emerald-500/70 bg-emerald-950/20' : isUnlocked ? 'border-slate-700 hover:border-cyan-500' : 'border-slate-800 opacity-60'} p-4 rounded-xl transition">
               <div class="flex items-start justify-between">
@@ -617,11 +732,13 @@
                 <div class="flex flex-col items-end gap-1">
                   ${hasMedal ? `<span class="text-[10px] bg-amber-500/20 text-amber-300 font-mono px-2 py-0.5 rounded border border-amber-500/40 flex items-center gap-1" title="${lvl.medal.name}">🏅</span>` : ''}
                   ${isCompleted ? `<span class="text-[10px] bg-emerald-500/20 text-emerald-300 font-mono px-2 py-0.5 rounded border border-emerald-500/40">✓ Completado</span>` : ''}
+                  ${pendingFails > 0 ? `<span class="text-[10px] bg-amber-500/20 text-amber-300 font-mono px-2 py-0.5 rounded border border-amber-500/40" title="Preguntas falladas pendientes">⚠️ ${pendingFails}</span>` : ''}
                 </div>
               </div>
               <div class="mt-3">
                 <h3 class="font-bold text-sm text-white group-hover:text-cyan-400 transition">${lvl.title}</h3>
                 <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">${lvl.subtitle}</p>
+                <p class="text-[10px] text-slate-500 font-mono mt-1">📚 ${lvl.questions.length} preguntas en el banco</p>
               </div>
               <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between">
                 <button onclick="game.showTheory(${actualIndex})" class="text-xs font-mono text-cyan-400 hover:underline flex items-center gap-1">📖 Repasar</button>
@@ -636,7 +753,7 @@
             <div class="text-center max-w-3xl mx-auto mb-5">
               <span class="text-xs font-mono tracking-widest text-emerald-400 uppercase bg-emerald-950/80 border border-emerald-800/80 px-3 py-1 rounded-full">SIMULADOR ACADÉMICO INTEGRAL • MEDICINA Y CIENCIAS DE LA SALUD</span>
               <h2 class="text-2xl sm:text-3xl font-black text-white mt-2 tracking-tight">Preparación para Parcial: Biología Celular y Molecular</h2>
-              <p class="text-xs text-slate-400 mt-1.5">Domina los 23 capítulos con autoguardado de progreso y recompensas de medallas de honor.</p>
+              <p class="text-xs text-slate-400 mt-1.5">23 niveles con banco rotativo de preguntas. Cada intento mezcla 6 preguntas al azar, priorizando las que fallaste antes.</p>
             </div>
             <div class="max-w-5xl mx-auto mb-4 flex flex-col sm:flex-row items-center justify-between gap-3">
               <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 p-1 rounded-xl text-xs font-mono">
@@ -676,6 +793,7 @@
           showCancel: true, confirmText: 'Sí, reiniciar todo', cancelText: 'Cancelar',
           onConfirm: () => {
             this.score = 0; this.lives = 3; this.completedLevels.clear(); this.unlockedBadges.clear();
+            this.failedQuestions = {};
             this.saveProgress(); this.updateStatsUI(); this.showHome();
           }
         });
@@ -747,6 +865,9 @@
                 <span class="text-xs font-bold text-white">${lvl.medal.name}</span>
               </div>
             </div>
+            <div class="mt-4 p-3 rounded-lg bg-cyan-950/20 border border-cyan-500/30">
+              <p class="text-[11px] font-mono text-cyan-300">📚 Este nivel tiene <b>${lvl.questions.length} preguntas</b> en el banco. En cada intento se muestran 6 al azar, priorizando las que fallaste antes.</p>
+            </div>
             <div class="mt-6 flex items-center justify-end space-x-3">
               <button onclick="game.showHome()" class="px-4 py-2 rounded-lg text-sm font-mono text-slate-400 hover:text-white">Volver al menú</button>
               <button onclick="game.startLevel(${levelIdx})" class="px-5 py-2 rounded-lg text-sm font-mono font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-900/40">Iniciar pruebas ⚡</button>
@@ -755,13 +876,19 @@
         `;
       },
 
-      startLevel(levelIdx) { this.currentLevelIdx = levelIdx; this.currentQuestionIdx = 0; this.streak = 0; this.showQuestion(); },
+      startLevel(levelIdx) {
+        this.currentLevelIdx = levelIdx;
+        this.currentQuestionIdx = 0;
+        this.streak = 0;
+        this.pickQuestionsForLevel(levelIdx);
+        this.showQuestion();
+      },
 
       showQuestion() {
         const lvl = LEVELS[this.currentLevelIdx];
-        const q = lvl.questions[this.currentQuestionIdx];
+        const q = this.currentQuestions[this.currentQuestionIdx];
         const app = document.getElementById('app');
-        const progressPct = ((this.currentQuestionIdx) / lvl.questions.length) * 100;
+        const progressPct = ((this.currentQuestionIdx) / this.currentQuestions.length) * 100;
 
         let questionBody = '';
         if (q.type === 'mc') {
@@ -803,7 +930,7 @@
             <div class="mb-3">
               <div class="flex items-center justify-between text-xs font-mono text-slate-400 mb-1">
                 <span class="truncate max-w-[200px] sm:max-w-none">${lvl.title}</span>
-                <span>Pregunta ${this.currentQuestionIdx + 1} de ${lvl.questions.length}</span>
+                <span>Pregunta ${this.currentQuestionIdx + 1} de ${this.currentQuestions.length}</span>
               </div>
               <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
                 <div class="bg-gradient-to-r from-emerald-500 to-cyan-400 h-full transition-all duration-300" style="width: ${progressPct}%"></div>
@@ -825,15 +952,18 @@
       },
 
       handleAnswer(userChoice) {
-        const lvl = LEVELS[this.currentLevelIdx]; const q = lvl.questions[this.currentQuestionIdx];
-        const isCorrect = userChoice === q.correct; this.renderResolution(isCorrect, q.feedback);
+        const q = this.currentQuestions[this.currentQuestionIdx];
+        const isCorrect = userChoice === q.correct;
+        if (!isCorrect) this.registerFailure();
+        this.renderResolution(isCorrect, q.feedback);
       },
 
       handleClozeSubmit() {
         const input = document.getElementById('cloze-input'); if (!input) return;
         const val = input.value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-        const lvl = LEVELS[this.currentLevelIdx]; const q = lvl.questions[this.currentQuestionIdx];
+        const q = this.currentQuestions[this.currentQuestionIdx];
         const isCorrect = q.accepted.some(acc => { const cleanAcc = acc.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); return cleanAcc === val; });
+        if (!isCorrect) this.registerFailure();
         this.renderResolution(isCorrect, q.feedback);
       },
 
@@ -859,9 +989,10 @@
 
       nextQuestion() {
         const lvl = LEVELS[this.currentLevelIdx]; this.currentQuestionIdx++;
-        if (this.currentQuestionIdx < lvl.questions.length) { this.showQuestion(); }
+        if (this.currentQuestionIdx < this.currentQuestions.length) { this.showQuestion(); }
         else {
           sound.fanfare(); this.completedLevels.add(lvl.id); this.unlockedBadges.add(lvl.medal.id);
+          if (this.failedQuestions[lvl.id]) delete this.failedQuestions[lvl.id];
           this.saveProgress(); this.updateStatsUI(); this.showLevelSummary();
         }
       },
@@ -901,7 +1032,7 @@
             <div class="w-14 h-14 rounded-full bg-red-500/20 border border-red-500/50 flex items-center justify-center text-3xl mx-auto mb-3">💔</div>
             <h3 class="text-lg font-black text-white mt-2">¡Simulación interrumpida!</h3>
             <p class="text-xs text-red-400 font-mono mt-1">Te has quedado sin vidas para este intento.</p>
-            <p class="text-sm text-slate-400 mt-2.5 leading-relaxed">No te preocupes: tu progreso acumulado y medallas están a salvo en la memoria. Repasa los conceptos clave y vuelve a intentarlo con las 3 vidas restauradas.</p>
+            <p class="text-sm text-slate-400 mt-2.5 leading-relaxed">No te preocupes: tu progreso acumulado y medallas están a salvo en la memoria. Las preguntas que fallaste volverán a aparecer en tu próximo intento.</p>
             <div class="mt-5 flex flex-col gap-2">
               <button onclick="game.retryCurrentLevel()" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs tracking-wide">Reintentar capítulo 🔄</button>
               <button onclick="game.showTheory(${this.currentLevelIdx})" class="w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-cyan-400 font-mono text-xs">Repasar síntesis teórica 📖</button>
@@ -928,7 +1059,7 @@
             <div class="text-5xl mb-1">🏆</div>
             <span class="text-[10px] font-mono uppercase tracking-widest text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-3 py-0.5 rounded-full">CERTIFICACIÓN DE HONOR CATÉDRA BIOLOGÍA</span>
             <h2 class="text-xl sm:text-2xl font-black text-white mt-2">¡Programa completo conquistado!</h2>
-            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Has superado con éxito la totalidad de las <b>Unidades 1 y 2</b> (23 capítulos evaluados exhaustivamente con selección múltiple, V/F y términos clave).</p>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed">Has superado con éxito la totalidad de las <b>Unidades 1 y 2</b> (23 capítulos evaluados exhaustivamente con banco rotativo de preguntas).</p>
             <div class="my-4 p-3.5 rounded-xl bg-slate-950 border border-amber-500/30">
               <h4 class="text-[10px] font-mono text-amber-400 uppercase tracking-widest mb-2.5">🏅 Medallero oficial de honor (23 / 23)</h4>
               <div class="grid grid-cols-4 sm:grid-cols-8 gap-2">${medalIcons}</div>
